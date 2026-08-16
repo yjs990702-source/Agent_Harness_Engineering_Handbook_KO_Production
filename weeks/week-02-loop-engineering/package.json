@@ -1,0 +1,15 @@
+{
+  "name": "@handbook/week-02-loop-engineering",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.build.json",
+    "hook:allow": "node --import tsx hooks/pre-tool-use.ts fixtures/hooks/allow-write.json allow",
+    "hook:block": "node --import tsx hooks/pre-tool-use.ts fixtures/hooks/block-secret.json block",
+    "verify": "npm run lint && npm run test && npm run build && npm run hook:allow && npm run hook:block"
+  }
+}

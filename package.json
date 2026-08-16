@@ -23,9 +23,13 @@
     "node": ">=20.9.0",
     "npm": ">=10"
   },
+  "overrides": {
+    "esbuild": "0.28.1"
+  },
   "devDependencies": {
     "@types/node": "24.10.4",
     "prettier": "3.7.4",
+    "tsx": "4.21.0",
     "typescript": "5.9.3",
     "vitest": "4.1.10"
   }
