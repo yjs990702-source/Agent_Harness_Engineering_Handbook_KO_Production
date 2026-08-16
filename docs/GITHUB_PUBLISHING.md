@@ -8,7 +8,7 @@
 
 ## 2026-08-16 권한 감사
 
-최초 감사에서 `viewerPermission`은 `READ`였으나, 저장소 소유자가 collaborator를 추가한 뒤 `WRITE`로 재확인했습니다. `agent/weekly-labs`와 `baseline-no-harness`, 1·2·3주차 start/solution tag, `reference-solution` push가 성공했습니다. `main` 대상 Draft PR은 [#1](https://github.com/yjs990702-source/Agent_Harness_Engineering_Handbook_KO_Production/pull/1)입니다.
+최초 감사에서 `viewerPermission`은 `READ`였으나, 저장소 소유자가 collaborator를 추가한 뒤 `WRITE`로 재확인했습니다. `agent/weekly-labs`, `baseline-no-harness`, 1·2주차 start/solution tag와 기존 웹 서비스 실습 이력 tag의 push가 성공했습니다. 하네스 중심 재편판은 `week3-multi-agent-solution`과 `reference-harness-first-v4`를 사용하며, `main` 대상 Draft PR은 [#1](https://github.com/yjs990702-source/Agent_Harness_Engineering_Handbook_KO_Production/pull/1)입니다.
 
 게시 전 다음 명령으로 현재 계정과 권한을 다시 확인합니다.
 

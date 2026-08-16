@@ -4,12 +4,12 @@
     {
       "taskId": "ui-form",
       "branch": "agent/ui-form",
-      "ownedPaths": ["weeks/week-03-production-service/src/components"]
+      "ownedPaths": ["weeks/week-03-multi-agent/src/ui"]
     },
     {
       "taskId": "api-route",
       "branch": "agent/api-route",
-      "ownedPaths": ["weeks/week-03-production-service/src/app/api"]
+      "ownedPaths": ["weeks/week-03-multi-agent/src/logic"]
     }
   ]
 }

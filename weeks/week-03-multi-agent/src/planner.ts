@@ -2,7 +2,7 @@ import type { CollaborationPlan, Planner } from "./contracts.js";
 
 export function createTeachingPlan(
   request: string,
-  baseRevision = "week3-start",
+  baseRevision = "week3-multi-agent-solution",
 ): CollaborationPlan {
   const requestId = `lab-${
     request

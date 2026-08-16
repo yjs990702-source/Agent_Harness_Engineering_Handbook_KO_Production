@@ -67,12 +67,15 @@ desktop·mobile 원본과 재현 명령은 [UI 캡처 문서](optional/web-servi
 
 ## 브랜치·태그 계약
 
-교육용 기준점은 다음 태그로 고정합니다.
+교육용 기준점은 다음 태그와 검증 브랜치로 고정합니다.
 
 - `baseline-no-harness`: 공통 계약만 있는 최초 기준선
-- `week1-start`, `week2-start`, `week3-start`: 각 주차 시작점
-- `week1-solution`, `week2-solution`, `week3-solution`: 검증된 주차별 완성점
-- `reference-solution`: 전체 검증을 통과한 강사용 기준점
+- `week1-start`, `week2-start`: 1·2주차 시작점
+- `week1-solution`, `week2-solution`: 1·2주차 검증 완성점
+- `week3-multi-agent-solution`: 하네스 중심 3주차 멀티 에이전트 완성점
+- `reference-harness-first-v4`: 현재 공개 교재와 일치하는 전체 검증 기준점
+
+기존 `week3-start`, `week3-solution`, `reference-solution`은 교육 과정을 하네스 중심으로 재편하기 전 선택형 웹 서비스 실습의 이력 보존 태그입니다. 현재 3주차 시작은 `agent/weekly-labs`의 `weeks/week-03-multi-agent` README와 과제 명세를 사용합니다.
 
 태그와 실제 commit SHA는 게시 시 [릴리스 매니페스트](docs/RELEASE_MANIFEST.md)에 기록합니다.
 

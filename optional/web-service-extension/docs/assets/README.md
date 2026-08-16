@@ -3,7 +3,7 @@
 검증된 local memory mode에서 Playwright Chromium으로 캡처합니다.
 
 ```powershell
-npm run capture:ui --workspace=@handbook/week-03-production-service
+npm run capture:ui --workspace=@handbook/optional-web-service-extension
 ```
 
 - `week-03-dashboard-desktop.png`: 1280px 기본 desktop viewport의 생성·목록 화면
