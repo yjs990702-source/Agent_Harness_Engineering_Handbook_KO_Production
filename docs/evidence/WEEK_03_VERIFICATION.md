@@ -6,57 +6,45 @@
 
 - Windows PowerShell
 - Node.js `v24.12.0`, npm `11.6.2`
-- Next.js `16.3.1`, React `19.2.8`, Playwright `1.62.1`
 - branch `agent/weekly-labs`
-- start tag `week3-start`
-- npm audit: 0 vulnerabilities
+- source tag `week3-multi-agent-solution`
+- 외부 모델·클라우드 계정·운영 데이터 사용 없음
 
-## Red
+## 학습 목표
 
-`week3-start`에서 API·Form이 공유하는 제목 schema를 의도적으로 2자로 두고 focused test를 실행했습니다.
+3주차는 웹 서비스 구현이 아니라 하네스 중심 멀티 에이전트 협업을 검증합니다.
 
-```powershell
-npm run test --workspace=@handbook/week-03-production-service -- --run src/lib/contracts.test.ts
+```text
+Request → Planner → UI Worker ┐
+                  Logic Worker ┴→ Test Worker → read-only Reviewer → Verifier
 ```
 
-- 7 tests 중 5개 통과, 2개 실패
-- 실패 사례: `"ab"`, `"  ab  "`이 잘못 validation을 통과
+- Planner: 역할·dependency·owned path가 있는 결정적 DAG 생성
+- UI/Logic Worker: 충돌하지 않는 범위에서 같은 wave로 병렬 실행
+- Test Worker: 두 구현 결과가 준비된 뒤 통합 증거 생성
+- Reviewer: 읽기 전용 finding만 반환
+- Verifier: 코드·테스트·정책 증거를 독립 규칙으로 최종 판정
 
-## Green
-
-공유 schema를 trim 후 3~100자로 수정했습니다.
+## 실행 결과
 
 ```powershell
 npm run verify:week3
 ```
 
-- ESLint: 0 warnings/errors
-- strict TypeScript: 통과
-- Vitest: 5 files, 18 tests 통과
-- Next.js production build: `/`, requests API, detail API, CSRF API와 Proxy 생성 성공
-- Chromium scenario 1: 초기 목록→짧은 제목 거부·focus→정상 등록 성공
-- Chromium scenario 2: 저장형 XSS payload를 text로 표시, DOM image 0개, script side effect 없음
+- strict TypeScript lint/typecheck: 통과
+- Vitest: 4 files, 22 tests 통과
+- TypeScript build: 통과
+- 종료 코드: 0
 
-## SQL Injection·권한 방어 증거
+## 핵심 계약 증거
 
-- UUID schema가 `"' OR 1=1 --"`를 repository 호출 전에 거부
-- sort는 `created_desc | due_asc` allowlist만 허용
-- Supabase adapter는 raw SQL 없이 `.eq("tenant_id", ...)`, `.eq("created_by", ...)`, `.eq("id", ...)` 사용
-- tenant와 owner가 모두 다른 상세·목록은 동일하게 비공개 처리
-- migration은 RLS에서 `auth.uid()`와 JWT `app_metadata.tenant_id`를 함께 확인
+- 중복 node ID, 없는 dependency, cycle이 있는 DAG는 실행 전 거부됩니다.
+- `src/ui`와 `src/logic`은 같은 wave에서 실행할 수 있지만 상하위 경로 충돌은 거부됩니다.
+- Test Worker는 UI·Logic 결과를 모두 요구하며, Reviewer는 파일 변경을 반환할 수 없습니다.
+- handoff는 base revision, 변경 경로, evidence ID, 결정, 미해결 위험을 보존합니다.
+- Verifier는 node 결과·owned path·Reviewer 읽기 전용·handoff·review evidence를 모두 확인한 뒤에만 `passed=true`를 반환합니다.
+- 합성 fixture와 결정적 로컬 규칙만 사용하므로 모델 provider나 secret 없이 재현됩니다.
 
-## XSS·CSRF 방어 증거
+## 선택 웹 부록과의 경계
 
-- 사용자 title은 React child text로만 렌더링
-- repository scanner가 HTML sink·`eval` 계열 source를 거부
-- nonce CSP, `object-src 'none'`, `base-uri 'none'`, `frame-ancestors 'none'`
-- POST는 JSON content type, 16 KiB body, same-origin, Fetch Metadata, double-submit token 검증
-- `javascript:`·`data:`·비 TLS 외부 URL 거부 unit test
-
-## 디버깅 기록
-
-Windows에서 test runner가 `npm run dev` 하위 프로세스를 종료하지 못하는 현상을 재현했습니다. 최종 실행기는 Next CLI를 직접 자식 프로세스로 시작하고 Playwright API 시나리오를 실행한 뒤 정확한 child PID만 종료합니다. 최종 명령은 약 13초에 종료 코드 0으로 끝났습니다.
-
-## 외부 미검증
-
-Supabase 실제 개발 project, 두 사용자 token/RLS, Vercel Preview·Production, 조직 Deployment Protection은 계정·승인이 필요한 수동 단계입니다. 절차와 증거 형식은 `weeks/week-03-production-service/docs/MANUAL_DEPLOYMENT.md`에 분리했습니다.
+기존 Next.js·Supabase·Vercel 실습은 `optional/web-service-extension`으로 이동했습니다. SQL Injection·XSS·CSRF·브라우저 회귀 검증은 유지하지만 3주차 핵심 점수와 외부 계정 없는 재현을 막지 않습니다. 과거 `week3-start`, `week3-solution`, `reference-solution` tag는 이 선택 부록의 이력 보존 기준점입니다.

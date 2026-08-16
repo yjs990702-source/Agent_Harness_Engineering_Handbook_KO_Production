@@ -73,9 +73,9 @@ desktop·mobile 원본과 재현 명령은 [UI 캡처 문서](optional/web-servi
 - `week1-start`, `week2-start`: 1·2주차 시작점
 - `week1-solution`, `week2-solution`: 1·2주차 검증 완성점
 - `week3-multi-agent-solution`: 하네스 중심 3주차 멀티 에이전트 완성점
-- `reference-harness-first-v4`: 현재 공개 교재와 일치하는 전체 검증 기준점
+- `reference-harness-first`: 현재 공개 교재와 일치하고 새 clone 검증까지 통과한 전체 기준점
 
-기존 `week3-start`, `week3-solution`, `reference-solution`은 교육 과정을 하네스 중심으로 재편하기 전 선택형 웹 서비스 실습의 이력 보존 태그입니다. 현재 3주차 시작은 `agent/weekly-labs`의 `weeks/week-03-multi-agent` README와 과제 명세를 사용합니다.
+기존 `week3-start`, `week3-solution`, `reference-solution`은 교육 과정을 하네스 중심으로 재편하기 전 선택형 웹 서비스 실습의 이력 보존 태그입니다. `reference-harness-first-v4`는 최초 v4 기준 기록이며, 재현에는 줄바꿈 정규화까지 검증한 `reference-harness-first`를 사용합니다. 현재 3주차 시작은 `agent/weekly-labs`의 `weeks/week-03-multi-agent` README와 과제 명세를 사용합니다.
 
 태그와 실제 commit SHA는 게시 시 [릴리스 매니페스트](docs/RELEASE_MANIFEST.md)에 기록합니다.
 
