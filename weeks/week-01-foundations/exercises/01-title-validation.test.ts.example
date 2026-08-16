@@ -1,0 +1,7 @@
+// 이 파일을 tests/로 복사하지 말고, 기존 request.test.ts에 새 실패 사례를 추가하십시오.
+// 목표: trim 후 2자인 제목은 거부되고 3자는 허용돼야 합니다.
+//
+// it("trim 후 길이 경계를 검증한다", () => {
+//   expect(() => normalizeRequestTitle("  ab  ")).toThrow(/3자/);
+//   expect(normalizeRequestTitle("  abc  ")).toBe("abc");
+// });
