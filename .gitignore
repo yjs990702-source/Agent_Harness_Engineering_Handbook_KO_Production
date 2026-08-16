@@ -8,6 +8,7 @@ playwright-report/
 test-results/
 .env
 .env.*
+!.env.example
 *.log
 *.tsbuildinfo
 .DS_Store
