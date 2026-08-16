@@ -9,6 +9,8 @@ npm run verify
 
 `verify`는 저장소 구조, format, 각 주차 lint·typecheck·test·build를 순서대로 실행합니다. GitHub Actions와 외부 서비스는 사용하지 않습니다.
 
+3주차 실패 fixture는 실패를 예외로 숨기지 않고 `EMPTY_PLAN`, `PATH_OUT_OF_SCOPE`, `INVALID_HANDOFF`, `INVALID_EVIDENCE_CRITERION`, `MISSING_CRITERION_EVIDENCE`, `READ_ONLY_WRITE` 같은 코드로 반환합니다.
+
 ## 주차별 검증
 
 ```powershell

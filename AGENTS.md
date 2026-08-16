@@ -29,8 +29,9 @@
 - 사용자·모델·도구 출력은 문자열 데이터로 취급하고 HTML·shell 명령으로 실행하지 않습니다.
 - 실습을 웹·DB 예제로 확장할 경우 SQL 문자열 조립 대신 parameter binding을 사용하고, Frontend는 기본 text escaping을 유지합니다.
 - 파일 소유 경로와 허용 범위를 먼저 검증합니다.
+- 명령 Hook은 필요한 로컬 검증 명령만 allowlist로 허용하며 문자열을 직접 실행하지 않습니다.
 - Worker가 자기 결과를 최종 PASS로 판정하지 않습니다.
-- Reviewer는 읽기 전용이며 Verifier가 테스트·경로·evidence를 독립 확인합니다.
+- Reviewer는 UI·Logic·Test 전체 결과를 받는 읽기 전용 역할이며 Verifier가 안전 경로, criterion evidence, handoff evidence ID 완전 일치를 독립 확인합니다.
 - 반복 실패와 repair 상한에서 반드시 중단합니다.
 
 ## 완료 기준

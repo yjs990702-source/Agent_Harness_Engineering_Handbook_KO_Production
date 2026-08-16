@@ -23,6 +23,15 @@ describe("교육용 Planner", () => {
       (node) => node.role === "reviewer",
     );
     expect(reviewer).toMatchObject({ readOnly: true, ownedPaths: [] });
+    expect(reviewer?.dependsOn).toEqual(["ui", "logic", "tests"]);
+  });
+
+  it("RequestSpec에 고유 criterion을 만든다", () => {
+    const request = createTeachingPlan("업무요청 패널 구현").request;
+    expect(request.criteria).toHaveLength(4);
+    expect(
+      new Set(request.criteria.map((criterion) => criterion.id)).size,
+    ).toBe(4);
   });
 
   it("지나치게 짧은 요청을 거부한다", async () => {

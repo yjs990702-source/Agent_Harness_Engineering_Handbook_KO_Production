@@ -18,6 +18,7 @@ const required = [
   "docs/INSTRUCTOR_GUIDE.md",
   "docs/LAB_ACCEPTANCE_CRITERIA.md",
   "docs/VERIFICATION.md",
+  "docs/VERIFICATION_REPORT.md",
   "package-lock.json",
   "package.json",
   "scripts/validate-repository.mjs",
@@ -83,7 +84,10 @@ const sourceFiles = repositoryFiles.filter(
   (file) => file.startsWith("weeks/") && /\.(?:ts|js|mjs)$/i.test(file),
 );
 const banned = [
-  ["HTML sink", /dangerouslySetInnerHTML|\.(?:innerHTML|outerHTML)\s*=/],
+  [
+    "HTML sink",
+    /dangerouslySetInnerHTML|\.(?:innerHTML|outerHTML)\s*=|\binsertAdjacentHTML\s*\(|\bdocument\.write\s*\(/,
+  ],
   ["동적 코드 실행", /\beval\s*\(|\bnew\s+Function\s*\(/],
   ["private key", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
 ];

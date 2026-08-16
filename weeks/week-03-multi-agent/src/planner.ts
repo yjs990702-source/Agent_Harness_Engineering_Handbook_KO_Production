@@ -12,8 +12,16 @@ export function createTeachingPlan(
       .replace(/^-|-$/g, "") || "request"
   }`;
   return {
-    requestId,
-    goal: request.trim(),
+    request: {
+      id: requestId,
+      goal: request.trim(),
+      criteria: [
+        { id: "AC-UI", description: "UI 변경 증거가 있다." },
+        { id: "AC-LOGIC", description: "Logic 변경 증거가 있다." },
+        { id: "AC-TEST", description: "통합 테스트가 통과한다." },
+        { id: "AC-REVIEW", description: "읽기 전용 검토가 통과한다." },
+      ],
+    },
     baseRevision,
     nodes: [
       {
@@ -40,7 +48,7 @@ export function createTeachingPlan(
       {
         id: "review",
         role: "reviewer",
-        dependsOn: ["tests"],
+        dependsOn: ["ui", "logic", "tests"],
         ownedPaths: [],
         readOnly: true,
       },

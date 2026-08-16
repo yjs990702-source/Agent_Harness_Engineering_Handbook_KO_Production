@@ -24,6 +24,12 @@ const nextNodes: Readonly<Record<AgentRole, readonly string[]>> = {
 
 export function successfulResult(context: AgentContext): AgentResult {
   const evidenceId = `${context.node.id}-evidence`;
+  const criterionId: Readonly<Record<AgentRole, string>> = {
+    ui_worker: "AC-UI",
+    logic_worker: "AC-LOGIC",
+    test_worker: "AC-TEST",
+    reviewer: "AC-REVIEW",
+  };
   return {
     nodeId: context.node.id,
     role: context.node.role,
@@ -39,6 +45,7 @@ export function successfulResult(context: AgentContext): AgentResult {
               ? "test"
               : "diff",
         passed: true,
+        criterionIds: [criterionId[context.node.role]],
         detail: "합성 fixture 검증 통과",
       },
     ],

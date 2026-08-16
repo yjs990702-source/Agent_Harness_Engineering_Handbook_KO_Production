@@ -2,25 +2,21 @@ import path from "node:path";
 import type { CollaborationNode, PlanFailure } from "./contracts.js";
 
 export function normalizeRelativePath(input: string): string | null {
-  const candidate = input.trim().replaceAll("\\", "/");
+  let candidate = input.trim().replaceAll("\\", "/");
+  if (candidate.startsWith("./")) candidate = candidate.slice(2);
   if (
     !candidate ||
+    candidate.includes("\0") ||
     path.posix.isAbsolute(candidate) ||
     /^[A-Za-z]:\//.test(candidate)
   )
     return null;
-  const normalized = path.posix
-    .normalize(candidate)
-    .replace(/^\.\//, "")
-    .replace(/\/$/, "");
+  const segments = candidate.split("/");
   if (
-    !normalized ||
-    normalized === "." ||
-    normalized === ".." ||
-    normalized.startsWith("../")
+    segments.some((segment) => !segment || segment === "." || segment === "..")
   )
     return null;
-  return normalized;
+  return segments.join("/");
 }
 
 export function pathIsOwned(changedFile: string, ownedPath: string): boolean {
@@ -37,6 +33,11 @@ export function validateOwnership(
   const writers = nodes.filter((node) => !node.readOnly);
 
   for (const node of nodes) {
+    if (!node.readOnly && node.ownedPaths.length === 0)
+      failures.push({
+        code: "INVALID_PATH",
+        detail: `${node.id}: writer는 owned path가 필요합니다.`,
+      });
     for (const ownedPath of node.ownedPaths) {
       if (!normalizeRelativePath(ownedPath))
         failures.push({

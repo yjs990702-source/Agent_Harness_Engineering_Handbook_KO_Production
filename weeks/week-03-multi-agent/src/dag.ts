@@ -1,4 +1,8 @@
-import type { CollaborationNode, PlanFailure } from "./contracts.js";
+import type {
+  CollaborationNode,
+  PlanFailure,
+  RequestSpec,
+} from "./contracts.js";
 import { validateOwnership } from "./ownership.js";
 
 function roleCount(
@@ -35,6 +39,8 @@ export function validatePlan(
   nodes: readonly CollaborationNode[],
 ): PlanFailure[] {
   const failures: PlanFailure[] = [];
+  if (nodes.length === 0)
+    failures.push({ code: "EMPTY_PLAN", detail: "계획에 node가 없습니다." });
   const ids = new Set<string>();
   for (const node of nodes) {
     if (ids.has(node.id))
@@ -42,6 +48,11 @@ export function validatePlan(
     ids.add(node.id);
   }
   for (const node of nodes) {
+    if (new Set(node.dependsOn).size !== node.dependsOn.length)
+      failures.push({
+        code: "DUPLICATE_DEPENDENCY",
+        detail: node.id,
+      });
     for (const dependency of node.dependsOn) {
       if (!ids.has(dependency))
         failures.push({
@@ -74,18 +85,22 @@ export function validatePlan(
     reviewer &&
     (!test.dependsOn.includes(ui.id) ||
       !test.dependsOn.includes(logic.id) ||
+      !reviewer.dependsOn.includes(ui.id) ||
+      !reviewer.dependsOn.includes(logic.id) ||
       !reviewer.dependsOn.includes(test.id) ||
       !reviewer.readOnly)
   )
     failures.push({
       code: "INVALID_ROLE_GRAPH",
-      detail: "UI·Logic → Test → read-only Reviewer 순서가 필요합니다.",
+      detail:
+        "UI·Logic → Test, UI·Logic·Test → read-only Reviewer 순서가 필요합니다.",
     });
 
   if (
     !failures.some(
       (failure) =>
         failure.code === "DUPLICATE_NODE" ||
+        failure.code === "DUPLICATE_DEPENDENCY" ||
         failure.code === "MISSING_DEPENDENCY",
     )
   ) {
@@ -95,5 +110,31 @@ export function validatePlan(
       failures.push({ code: "CYCLE", detail: "dependency cycle" });
     }
   }
+  return failures;
+}
+
+export function validateRequestSpec(request: RequestSpec): PlanFailure[] {
+  const failures: PlanFailure[] = [];
+  if (!request.id.trim() || !request.goal.trim())
+    failures.push({
+      code: "INVALID_REQUEST",
+      detail: "request id와 goal이 필요합니다.",
+    });
+  if (request.criteria.length === 0)
+    failures.push({
+      code: "INVALID_REQUEST",
+      detail: "수용 기준이 하나 이상 필요합니다.",
+    });
+  const ids = request.criteria.map((criterion) => criterion.id.trim());
+  if (ids.some((id) => !id) || new Set(ids).size !== ids.length)
+    failures.push({
+      code: "INVALID_REQUEST",
+      detail: "수용 기준 ID는 비어 있거나 중복될 수 없습니다.",
+    });
+  if (request.criteria.some((criterion) => !criterion.description.trim()))
+    failures.push({
+      code: "INVALID_REQUEST",
+      detail: "수용 기준 설명이 필요합니다.",
+    });
   return failures;
 }

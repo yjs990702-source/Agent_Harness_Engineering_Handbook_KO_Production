@@ -36,12 +36,12 @@ Request → Planner → UI Worker ┐
                   Logic Worker ┴→ Test Worker → Reviewer → Verifier
 ```
 
-- DAG의 dependency·누락·cycle을 실행 전에 확인합니다.
+- 빈 DAG·중복 dependency·누락·cycle을 실행 전에 확인합니다.
 - Worker별 owned path를 분리합니다.
 - 충돌하지 않는 작업만 같은 wave에서 병렬 실행합니다.
 - Test Worker가 구현 결과를 모아 통합 증거를 만듭니다.
-- Reviewer는 읽기 전용으로 finding만 반환합니다.
-- Verifier가 handoff·evidence·변경 경로를 최종 판정합니다.
+- Reviewer는 UI·Logic·Test 전체 결과를 받은 뒤 읽기 전용으로 finding만 반환합니다.
+- Verifier가 handoff ID 완전 일치·criterion evidence·안전한 변경 경로를 최종 판정합니다.
 
 실행 폴더: `weeks/week-03-multi-agent`
 

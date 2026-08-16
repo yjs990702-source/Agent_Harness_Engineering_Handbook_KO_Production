@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { buildExecutionWaves, validatePlan } from "../src/dag.js";
+import {
+  buildExecutionWaves,
+  validatePlan,
+  validateRequestSpec,
+} from "../src/dag.js";
 import { normalizeRelativePath, pathIsOwned } from "../src/ownership.js";
 import { createTeachingPlan } from "../src/planner.js";
 
@@ -18,6 +22,21 @@ describe("DAG와 ownership", () => {
     expect(
       validatePlan(nodes).some((failure) => failure.code === "DUPLICATE_NODE"),
     ).toBe(true);
+  });
+
+  it("빈 계획과 중복 dependency를 거부한다", () => {
+    expect(validatePlan([]).map((failure) => failure.code)).toContain(
+      "EMPTY_PLAN",
+    );
+    const plan = createTeachingPlan("합성 요청");
+    const nodes = plan.nodes.map((node) =>
+      node.id === "tests"
+        ? { ...node, dependsOn: ["ui", "logic", "logic"] }
+        : node,
+    );
+    expect(validatePlan(nodes).map((failure) => failure.code)).toContain(
+      "DUPLICATE_DEPENDENCY",
+    );
   });
 
   it("없는 dependency를 거부한다", () => {
@@ -59,10 +78,22 @@ describe("DAG와 ownership", () => {
   it("절대 경로와 상위 이동을 거부한다", () => {
     expect(normalizeRelativePath("C:/secret.txt")).toBeNull();
     expect(normalizeRelativePath("../secret.txt")).toBeNull();
+    expect(normalizeRelativePath("src/ui/../logic/leak.ts")).toBeNull();
+    expect(normalizeRelativePath("src//ui/panel.tsx")).toBeNull();
   });
 
   it("파일이 owned directory 아래인지 판정한다", () => {
     expect(pathIsOwned("src/ui/panel.tsx", "src/ui")).toBe(true);
     expect(pathIsOwned("src/logic/policy.ts", "src/ui")).toBe(false);
+  });
+
+  it("중복 criterion ID가 있는 RequestSpec을 거부한다", () => {
+    const request = createTeachingPlan("합성 요청").request;
+    expect(
+      validateRequestSpec({
+        ...request,
+        criteria: [request.criteria[0]!, request.criteria[0]!],
+      }).map((failure) => failure.code),
+    ).toContain("INVALID_REQUEST");
   });
 });

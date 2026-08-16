@@ -5,7 +5,11 @@ import type {
   CollaborationOutcome,
   Planner,
 } from "./contracts.js";
-import { buildExecutionWaves, validatePlan } from "./dag.js";
+import {
+  buildExecutionWaves,
+  validatePlan,
+  validateRequestSpec,
+} from "./dag.js";
 import { verifyCollaboration } from "./verifier.js";
 
 const emptyVerification = { passed: false, failures: [] } as const;
@@ -33,7 +37,10 @@ export async function runCollaboration(input: {
     };
   }
 
-  const planFailures = validatePlan(plan.nodes);
+  const planFailures = [
+    ...validateRequestSpec(plan.request),
+    ...validatePlan(plan.nodes),
+  ];
   if (planFailures.length > 0)
     return {
       status: "planning_failed",
@@ -59,7 +66,7 @@ export async function runCollaboration(input: {
             return result;
           });
           const result = await input.agents[node.role].execute({
-            request: input.request,
+            request: plan.request,
             plan,
             node,
             dependencyResults,

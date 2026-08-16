@@ -10,7 +10,7 @@
 | 2주차 | Planner–Worker–Verifier   | 역할 분리·repair 상한·독립 판정·인계       | `npm run verify:week2` |
 | 3주차 | Multi-Agent Collaboration | DAG·owned path·병렬 wave·Reviewer·Verifier | `npm run verify:week3` |
 
-과정 설명은 [커리큘럼](docs/CURRICULUM.md), 실습 완료 조건은 [수용 기준](docs/LAB_ACCEPTANCE_CRITERIA.md), 실행 오류 해결은 [검증 가이드](docs/VERIFICATION.md)를 따릅니다. 수업을 운영한다면 [강사용 가이드](docs/INSTRUCTOR_GUIDE.md)를 함께 사용하십시오.
+과정 설명은 [커리큘럼](docs/CURRICULUM.md), 실습 완료 조건은 [수용 기준](docs/LAB_ACCEPTANCE_CRITERIA.md), 실행 오류 해결은 [검증 가이드](docs/VERIFICATION.md)를 따릅니다. 최신 실행 결과는 [검증 보고서](docs/VERIFICATION_REPORT.md)에서 확인할 수 있습니다. 수업을 운영한다면 [강사용 가이드](docs/INSTRUCTOR_GUIDE.md)를 함께 사용하십시오.
 
 ## 실행
 
@@ -22,6 +22,8 @@ npm run verify
 ```
 
 외부 모델 API key와 클라우드 계정은 필요하지 않습니다. 예제 결과는 결정적 fixture와 규칙으로 검증합니다.
+
+Hook allowlist, 안전한 상대 경로, 빈 DAG, Reviewer 전체 fan-in, criterion 기반 Evidence, handoff ID 완전 일치를 포함한 실패 fixture도 함께 실행됩니다.
 
 ## 폴더 구조
 

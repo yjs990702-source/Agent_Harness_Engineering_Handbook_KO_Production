@@ -15,11 +15,11 @@ Request → Planner → UI Worker ───┐
 - `W3-AC-01`: Planner는 UI·Logic·Test·Reviewer 노드와 의존성을 가진 DAG를 반환합니다.
 - `W3-AC-02`: UI·Logic Worker는 첫 wave에서 병렬 실행됩니다.
 - `W3-AC-03`: owned path가 같거나 상하위로 겹치면 실행 전에 실패합니다.
-- `W3-AC-04`: dependency 누락·중복 ID·cycle을 실행 전에 실패시킵니다.
+- `W3-AC-04`: 빈 DAG·dependency 누락·중복 dependency·중복 ID·cycle을 실행 전에 실패시킵니다.
 - `W3-AC-05`: Test Worker는 두 구현 Worker 결과를 받은 뒤 실행됩니다.
-- `W3-AC-06`: Reviewer는 읽기 전용이고 파일을 변경하면 최종 검증에 실패합니다.
-- `W3-AC-07`: 모든 Agent는 base revision·evidence ID·다음 수신자를 handoff에 기록합니다.
-- `W3-AC-08`: Verifier는 변경 경로, evidence, handoff, review 결과를 독립 판정합니다.
+- `W3-AC-06`: Reviewer는 UI·Logic·Test 전체 결과를 받은 읽기 전용 역할이며 파일을 변경하면 최종 검증에 실패합니다.
+- `W3-AC-07`: 모든 Agent는 base revision·실제 결과와 완전히 같은 evidence ID 집합·다음 수신자를 handoff에 기록합니다.
+- `W3-AC-08`: Verifier는 안전한 상대 경로, RequestSpec criterion evidence, handoff, review 결과를 독립 판정합니다.
 
 ## 실행
 
@@ -43,6 +43,8 @@ npm run verify:week3
 - `ui-worker`가 `src/logic/**`도 소유하도록 바꾸고 ownership 실패를 확인합니다.
 - Reviewer fixture에 변경 파일을 추가해 `READ_ONLY_WRITE`를 확인합니다.
 - Logic Worker의 evidence를 실패로 바꿔 최종 verdict가 `failed`인지 확인합니다.
+- handoff의 evidence ID 하나를 삭제하고 `INVALID_HANDOFF`를 확인합니다.
+- Evidence의 criterion ID를 알 수 없는 값으로 바꾸고 criterion 누락 실패를 확인합니다.
 - 새로운 `docs-worker`를 추가하기 전에 dependency와 owned path를 표로 설계합니다.
 
 인계 양식은 루트 `.agents/tasks/week-03-lab.md`와 `.agents/handoffs/week-03-example.md`를 사용합니다.

@@ -4,14 +4,30 @@ import type {
   VerificationFailure,
   VerificationVerdict,
 } from "./contracts.js";
-import { pathIsOwned } from "./ownership.js";
+import { normalizeRelativePath, pathIsOwned } from "./ownership.js";
 
 export function verifyCollaboration(
   plan: CollaborationPlan,
   results: readonly AgentResult[],
 ): VerificationVerdict {
   const failures: VerificationFailure[] = [];
-  const byNode = new Map(results.map((result) => [result.nodeId, result]));
+  const planNodeIds = new Set(plan.nodes.map((node) => node.id));
+  const byNode = new Map<string, AgentResult>();
+  for (const result of results) {
+    if (!planNodeIds.has(result.nodeId)) {
+      failures.push({ code: "UNEXPECTED_RESULT", detail: result.nodeId });
+      continue;
+    }
+    if (byNode.has(result.nodeId)) {
+      failures.push({ code: "DUPLICATE_RESULT", detail: result.nodeId });
+      continue;
+    }
+    byNode.set(result.nodeId, result);
+  }
+  const validCriterionIds = new Set(
+    plan.request.criteria.map((criterion) => criterion.id),
+  );
+  const passedCriterionIds = new Set<string>();
 
   for (const node of plan.nodes) {
     const result = byNode.get(node.id);
@@ -26,9 +42,11 @@ export function verifyCollaboration(
       });
     if (!node.readOnly) {
       for (const changedFile of result.changedFiles) {
+        const normalized = normalizeRelativePath(changedFile);
         if (
+          !normalized ||
           !node.ownedPaths.some((ownedPath) =>
-            pathIsOwned(changedFile, ownedPath),
+            pathIsOwned(normalized, ownedPath),
           )
         )
           failures.push({
@@ -45,15 +63,40 @@ export function verifyCollaboration(
           code: "FAILED_EVIDENCE",
           detail: `${node.id}: ${evidence.id}`,
         });
+      if (
+        evidence.criterionIds.length === 0 ||
+        new Set(evidence.criterionIds).size !== evidence.criterionIds.length ||
+        evidence.criterionIds.some((id) => !validCriterionIds.has(id))
+      )
+        failures.push({
+          code: "INVALID_EVIDENCE_CRITERION",
+          detail: `${node.id}: ${evidence.id}`,
+        });
+      else if (evidence.passed)
+        for (const id of evidence.criterionIds) passedCriterionIds.add(id);
     }
-    const evidenceIds = new Set(result.evidence.map((evidence) => evidence.id));
+    const evidenceIdList = result.evidence.map((evidence) => evidence.id);
+    const evidenceIds = new Set(evidenceIdList);
+    const handoffIds = new Set(result.handoff.evidenceIds);
     if (
       result.handoff.from !== node.id ||
       result.handoff.baseRevision !== plan.baseRevision ||
       result.handoff.to.length === 0 ||
-      result.handoff.evidenceIds.some((id) => !evidenceIds.has(id))
+      evidenceIds.size !== evidenceIdList.length ||
+      handoffIds.size !== result.handoff.evidenceIds.length ||
+      handoffIds.size !== evidenceIds.size ||
+      [...handoffIds].some((id) => !evidenceIds.has(id)) ||
+      [...evidenceIds].some((id) => !handoffIds.has(id))
     )
       failures.push({ code: "INVALID_HANDOFF", detail: node.id });
+  }
+
+  for (const criterion of plan.request.criteria) {
+    if (!passedCriterionIds.has(criterion.id))
+      failures.push({
+        code: "MISSING_CRITERION_EVIDENCE",
+        detail: criterion.id,
+      });
   }
 
   const review = results.find((result) => result.role === "reviewer");

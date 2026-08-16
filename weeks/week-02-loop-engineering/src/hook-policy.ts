@@ -34,15 +34,32 @@ export function parseHookInput(value: unknown): HookInput {
   };
 }
 
-function normalizePath(value: string): string {
-  return value.replaceAll("\\", "/").replace(/^\.\//, "").toLowerCase();
+export function normalizeSafeRelativePath(value: string): string | null {
+  let candidate = value.trim().replaceAll("\\", "/");
+  if (candidate.startsWith("./")) candidate = candidate.slice(2);
+  if (
+    !candidate ||
+    candidate.includes("\0") ||
+    candidate.startsWith("/") ||
+    /^[A-Za-z]:\//.test(candidate)
+  )
+    return null;
+  const segments = candidate.split("/");
+  if (
+    segments.some((segment) => !segment || segment === "." || segment === "..")
+  )
+    return null;
+  return segments.join("/").toLowerCase();
 }
 
 function sensitivePathReason(filePath: string): string | null {
-  const normalized = normalizePath(filePath);
-  if (/(^|\/)\.env(?:\.|$)/.test(normalized)) return "환경변수 파일 변경 금지";
-  if (normalized.startsWith(".git/")) return "Git 내부 데이터 변경 금지";
-  if (normalized.startsWith(".github/workflows/"))
+  const normalized = normalizeSafeRelativePath(filePath);
+  if (!normalized) return "안전한 프로젝트 상대 경로만 허용";
+  if (/(^|\/)\.env[^/]*(?:\/|$)/.test(normalized))
+    return "환경변수 파일 변경 금지";
+  if (/(^|\/)\.git(?:\/|$)/.test(normalized))
+    return "Git 내부 데이터 변경 금지";
+  if (/(^|\/)\.github\/workflows(?:\/|$)/.test(normalized))
     return "GitHub Actions workflow 변경 금지";
   if (
     /(?:^|\/)(?:id_rsa|credentials\.json|service-account\.json)$/.test(
@@ -54,15 +71,13 @@ function sensitivePathReason(filePath: string): string | null {
   return null;
 }
 
-function dangerousCommandReason(command: string): string | null {
-  const normalized = command.trim().toLowerCase();
-  const rules: readonly [RegExp, string][] = [
-    [/\brm\s+-rf\b/, "재귀 강제 삭제 명령 금지"],
-    [/\bgit\s+reset\s+--hard\b/, "파괴적 Git reset 금지"],
-    [/\bgit\s+push\b.*(?:--force|-f\b)/, "강제 push 금지"],
-    [/\bremove-item\b.*\b-recurse\b/, "재귀 삭제 명령 금지"],
-  ];
-  return rules.find(([pattern]) => pattern.test(normalized))?.[1] ?? null;
+function commandPolicyReason(command: string): string | null {
+  const normalized = command.trim();
+  const localVerification =
+    /^npm(?:\.cmd)?\s+run\s+(?:verify(?::week[123])?|format:check|lint|typecheck|test|build)(?:\s+--workspace=@handbook\/week-0[123]-[a-z0-9-]+)?(?:\s+--\s+[a-z0-9@_./:=+-]+(?:\s+[a-z0-9@_./:=+-]+)*)?$/i;
+  return localVerification.test(normalized)
+    ? null
+    : "허용 목록에 없는 명령은 fail-closed로 차단";
 }
 
 export function evaluatePreToolUse(input: HookInput): HookDecision {
@@ -71,7 +86,7 @@ export function evaluatePreToolUse(input: HookInput): HookDecision {
     if (reason) return { decision: "block", reason };
   }
   if (input.command) {
-    const reason = dangerousCommandReason(input.command);
+    const reason = commandPolicyReason(input.command);
     if (reason) return { decision: "block", reason };
   }
   return { decision: "allow", reason: "정책상 허용된 도구 요청" };

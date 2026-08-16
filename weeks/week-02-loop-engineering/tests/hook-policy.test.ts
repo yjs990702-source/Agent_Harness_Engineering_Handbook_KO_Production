@@ -14,26 +14,52 @@ describe("PreToolUse hook policy", () => {
     ).toBe("allow");
   });
 
-  it.each([".env", ".env.production", "config/.env.local"])(
-    "민감 파일 %s을 차단한다",
-    (file) => {
-      expect(decision(file)).toMatchObject({ decision: "block" });
+  it.each([
+    {
+      label: "환경 파일",
+      values: [".env", ".env.production", "config/.env.local"],
     },
-  );
-
-  it("GitHub Actions workflow 생성을 차단한다", () => {
-    expect(decision(".github/workflows/ci.yml").reason).toMatch(/workflow/);
+    {
+      label: "Git 내부 파일",
+      values: [".git/config", "nested/.git/config", "../.git/config"],
+    },
+    {
+      label: "workflow",
+      values: [".github/workflows/ci.yml", "nested/.github/workflows/ci.yml"],
+    },
+  ])("민감 경로 그룹 $label을 차단한다", ({ values }) => {
+    for (const file of values) {
+      expect(decision(file)).toMatchObject({ decision: "block" });
+    }
   });
 
   it.each([
-    "rm -rf ./build",
-    "git reset --hard HEAD~1",
-    "git push origin main --force",
-  ])("위험 명령 %s을 차단한다", (command) => {
+    { label: "Git·Unix", values: ["git clean -fdx", "rm -rf ./build"] },
+    {
+      label: "PowerShell",
+      values: ["Remove-Item ./build -Recurse", "git reset --hard HEAD~1"],
+    },
+    {
+      label: "연결·강제 push",
+      values: ["npm run verify && rm -rf .", "git push origin main --force"],
+    },
+  ])("위험 명령 그룹 $label을 차단한다", ({ values }) => {
+    for (const command of values) {
+      const result = evaluatePreToolUse(
+        parseHookInput({ tool_name: "Bash", tool_input: { command } }),
+      );
+      expect(result.decision).toBe("block");
+    }
+  });
+
+  it("필요한 로컬 검증 명령은 허용한다", () => {
     const result = evaluatePreToolUse(
-      parseHookInput({ tool_name: "Bash", tool_input: { command } }),
+      parseHookInput({
+        tool_name: "Bash",
+        tool_input: { command: "npm run verify:week2" },
+      }),
     );
-    expect(result.decision).toBe("block");
+    expect(result.decision).toBe("allow");
   });
 
   it("잘못된 Hook 입력은 허용으로 우회하지 않는다", () => {

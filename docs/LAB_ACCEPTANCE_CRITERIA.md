@@ -16,16 +16,17 @@
 ## 2주차
 
 - Planner·Worker·Verifier·Evaluator 책임이 코드 계약에서 구분된다.
+- Hook은 로컬 검증 명령만 allowlist로 허용하고 위험·연결 명령과 비정상·민감 경로를 fail-closed로 거부한다.
 - 동일 실패 signature 또는 repair 상한에서 루프가 끝난다.
 - owned path 충돌을 실행 전에 거부한다.
 
 ## 3주차
 
 - UI·Logic Worker가 같은 wave에서 병렬 실행될 수 있다.
-- dependency와 cycle을 검증한다.
+- 빈 DAG, 중복 dependency, dependency 누락과 cycle을 검증한다.
 - Test Worker는 두 구현 Worker의 handoff 이후에만 실행된다.
-- Reviewer는 변경 파일을 만들 수 없다.
-- Verifier는 ownership·evidence·review를 모두 통과해야 `passed`를 반환한다.
+- Reviewer는 UI·Logic·Test 전체 결과를 받은 뒤 실행되며 변경 파일을 만들 수 없다.
+- Verifier는 안전한 ownership·criterion evidence·handoff ID 완전 일치·review를 모두 통과해야 `passed`를 반환한다.
 
 ## 안전 확장 규칙
 

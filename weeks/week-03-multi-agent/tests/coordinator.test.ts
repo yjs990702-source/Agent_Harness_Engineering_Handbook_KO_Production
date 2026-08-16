@@ -56,6 +56,39 @@ describe("멀티 에이전트 Coordinator", () => {
     expect(testDependencies).toBe(2);
   });
 
+  it("Reviewer에게 UI·Logic·Test 전체 결과를 전달한다", async () => {
+    let reviewerDependencies: string[] = [];
+    const agents = successfulAgents((context) => {
+      if (context.node.role === "reviewer")
+        reviewerDependencies = context.dependencyResults.map(
+          (result) => result.nodeId,
+        );
+    });
+    await runCollaboration({
+      request: "Reviewer fan-in 확인",
+      planner: new StaticPlanner(),
+      agents,
+    });
+    expect(reviewerDependencies).toEqual(["ui", "logic", "tests"]);
+  });
+
+  it("빈 계획이면 Agent를 실행하지 않는다", async () => {
+    const invalidPlan = { ...createTeachingPlan("빈 계획"), nodes: [] };
+    let calls = 0;
+    const outcome = await runCollaboration({
+      request: "빈 계획",
+      planner: new StaticPlanner(invalidPlan),
+      agents: successfulAgents(() => {
+        calls += 1;
+      }),
+    });
+    expect(outcome.status).toBe("planning_failed");
+    expect(outcome.planFailures.map((failure) => failure.code)).toContain(
+      "EMPTY_PLAN",
+    );
+    expect(calls).toBe(0);
+  });
+
   it("ownership 충돌이 있으면 Agent를 실행하지 않는다", async () => {
     const plan = createTeachingPlan("충돌 확인");
     const invalidPlan = {

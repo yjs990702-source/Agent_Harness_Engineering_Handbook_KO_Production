@@ -17,6 +17,9 @@
 - 학습자가 모델 답변을 Evidence로 착각하면 독립 테스트와 diff를 요구합니다.
 - Worker 역할이 겹치면 구현보다 ownership map을 먼저 수정합니다.
 - Reviewer가 파일을 고치려 하면 finding만 남기고 Worker에게 돌려보냅니다.
+- Reviewer가 Test 결과만 받았다면 UI·Logic·Test 전체 fan-in 계약을 다시 그리게 합니다.
+- Hook denylist가 충분하다고 판단하면 `git clean`, PowerShell 삭제, 명령 연결 부정 fixture를 실행합니다.
+- 행복 경로만 확인했다면 빈 DAG, 상위 경로, handoff ID 누락, 알 수 없는 criterion ID를 재현합니다.
 - 같은 실패가 반복되면 prompt를 늘리지 말고 중단 조건과 TaskSpec을 점검합니다.
 - 외부 DB·모델·배포 설정을 추가하지 말고 핵심 로컬 실습에 집중합니다.
 

@@ -8,7 +8,7 @@ function contextFor(nodeId: string): AgentContext {
   const plan = createTeachingPlan("검증 fixture");
   const node = plan.nodes.find((candidate) => candidate.id === nodeId);
   if (!node) throw new Error(nodeId);
-  return { request: "검증 fixture", plan, node, dependencyResults: [] };
+  return { request: plan.request, plan, node, dependencyResults: [] };
 }
 
 function completeResults(): AgentResult[] {
@@ -86,5 +86,52 @@ describe("독립 Verifier", () => {
         (failure) => failure.code === "INVALID_HANDOFF",
       ),
     ).toBe(true);
+  });
+
+  it("handoff evidence ID가 실제 evidence와 완전히 같아야 한다", () => {
+    const plan = createTeachingPlan("검증 fixture");
+    const results = completeResults().map((result) =>
+      result.nodeId === "ui"
+        ? { ...result, handoff: { ...result.handoff, evidenceIds: [] } }
+        : result,
+    );
+    expect(
+      verifyCollaboration(plan, results).failures.some(
+        (failure) => failure.code === "INVALID_HANDOFF",
+      ),
+    ).toBe(true);
+  });
+
+  it("알 수 없는 criterion과 criterion evidence 누락을 탐지한다", () => {
+    const plan = createTeachingPlan("검증 fixture");
+    const results = completeResults().map((result) =>
+      result.nodeId === "logic"
+        ? {
+            ...result,
+            evidence: result.evidence.map((evidence) => ({
+              ...evidence,
+              criterionIds: ["AC-UNKNOWN"],
+            })),
+          }
+        : result,
+    );
+    const codes = verifyCollaboration(plan, results).failures.map(
+      (failure) => failure.code,
+    );
+    expect(codes).toContain("INVALID_EVIDENCE_CRITERION");
+    expect(codes).toContain("MISSING_CRITERION_EVIDENCE");
+  });
+
+  it("중복 결과와 계획 밖 결과를 탐지한다", () => {
+    const plan = createTeachingPlan("검증 fixture");
+    const results = completeResults();
+    const verdict = verifyCollaboration(plan, [
+      ...results,
+      results[0]!,
+      { ...results[0]!, nodeId: "unexpected" },
+    ]);
+    expect(verdict.failures.map((failure) => failure.code)).toEqual(
+      expect.arrayContaining(["DUPLICATE_RESULT", "UNEXPECTED_RESULT"]),
+    );
   });
 });
