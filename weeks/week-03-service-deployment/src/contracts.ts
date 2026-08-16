@@ -38,6 +38,7 @@ export type DeploymentEnvironment = "local" | "preview" | "production";
 
 export type DeploymentManifest = Readonly<{
   service: "request-tracker-lab";
+  specId: ServiceSpec["id"];
   commitSha: string;
   environment: DeploymentEnvironment;
   requiredVariableNames: readonly string[];

@@ -40,6 +40,7 @@ export type Handoff = Readonly<{
   baseRevision: string;
   summary: string;
   evidenceIds: readonly string[];
+  inputEvidenceIds: readonly string[];
   unresolvedRisks: readonly string[];
 }>;
 

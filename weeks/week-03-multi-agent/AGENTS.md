@@ -9,5 +9,5 @@
 - Agent의 자기 보고만으로 통과시키지 않고 결정적 Verifier가 안전한 상대 경로, RequestSpec criterion evidence, handoff evidence ID 완전 일치를 확인합니다.
 - 같은 역할 이름을 비공개 시스템의 모듈·prompt·라우팅 정보와 연결하지 않습니다.
 - fixture는 합성 식별자와 합성 경로만 사용합니다.
-- 변경 후 `npm run verify:week3`와 루트 `npm run verify`를 실행합니다.
+- 변경 후 `npm run verify:multi-agent`와 루트 `npm run verify`를 실행합니다.
 - 불필요한 GitHub Actions workflow를 만들지 않습니다.

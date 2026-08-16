@@ -18,15 +18,16 @@ npm run verify:week3
 npm run verify:multi-agent
 ```
 
-`verify:week1`은 입력·tenant·오프라인 최소 루프의 schema·policy·step budget을 검사합니다. `verify:week2`는 Hook·독립 검증·repair와 승인 pause/resume·4축 기준선 평가를 검사합니다. `verify:week3`는 명세, service·API, SQL parameter binding, text-only UI, URL·CSP, 4종 출고 산출물, 배포 manifest, Production 승인, Contest Gate를 검사합니다. `verify:multi-agent`는 기본 과정 뒤의 DAG·토폴로지 선택 심화입니다.
+`verify:week1`은 입력·tenant·오프라인 최소 루프와 PR Skill·tool contract의 schema·권한·승인을 검사합니다. `verify:week2`는 Hook·독립 검증·repair, 승인 event replay, Worktree dry-run, 하네스 다이어트와 4축 기준선을 검사합니다. `verify:week3`는 Deep Interview, service·API, SQL parameter binding·식별자 allowlist, text-only UI, URL·CSP·공개 오류, 4종 출고 산출물과 release identity, 배포 manifest, Production 승인, Contest Gate를 검사합니다. `verify:multi-agent`는 기본 과정 뒤의 DAG·토폴로지·부분 실패·fan-in 선택 심화입니다.
 
 ## 보강 실습 focused test
 
 ```powershell
 npm run test --workspace=@handbook/week-01-foundations -- --run tests/minimal-loop.test.ts
-npm run test --workspace=@handbook/week-02-loop-engineering -- --run tests/approval-loop.test.ts tests/evaluation-portfolio.test.ts
-npm run test --workspace=@handbook/week-03-service-deployment -- --run tests/delivery-artifacts.test.ts tests/security.test.ts
-npm run test --workspace=@handbook/extension-multi-agent -- --run tests/topology.test.ts
+npm run test --workspace=@handbook/week-01-foundations -- --run tests/tool-contract.test.ts
+npm run test --workspace=@handbook/week-02-loop-engineering -- --run tests/approval-loop.test.ts tests/worktree-plan.test.ts tests/harness-inventory.test.ts
+npm run test --workspace=@handbook/week-03-service-deployment -- --run tests/interview.test.ts tests/delivery-artifacts.test.ts tests/security.test.ts
+npm run test --workspace=@handbook/extension-multi-agent -- --run tests/topology.test.ts tests/coordinator.test.ts tests/verifier.test.ts
 ```
 
 ## 기대 결과 기록
@@ -49,6 +50,8 @@ npm run test --workspace=@handbook/extension-multi-agent -- --run tests/topology
 5. 해당 과정 verify 뒤 루트 `npm run verify`로 회귀를 확인합니다.
 
 생성된 `dist`만 정리할 수 있으며 저장소 전체나 다른 사용자의 파일을 재귀 삭제하지 않습니다. 테스트 skip, assertion 약화, Secret 추가, 승인 없는 외부 배포로 문제를 우회하지 않습니다.
+
+강의 순서별 시연은 [강사용 Runbook](INSTRUCTOR_DEMO_RUNBOOK.md), 실패 code의 의미는 [예상 실패 지도](EXPECTED_FAILURES.md), 수용 기준 제출은 [학습자 Evidence 양식](LEARNER_EVIDENCE_TEMPLATE.md)을 사용합니다.
 
 ## 클라우드 선택 경로
 

@@ -16,6 +16,8 @@
 - PR 초안에 변경 이유, 범위, 테스트, 위험이 있다.
 - 최소 루프는 모델 결정을 `unknown`에서 검증하고 등록되지 않은·부작용 도구를 실행하지 않는다.
 - 최대 step과 event trace로 종료·실행 근거를 남긴다.
+- PR Skill은 초안 생성만 수행하고 문제·범위·AC·검증·위험·rollback을 포함한다.
+- Tool descriptor는 입력 validator·최소 권한·부작용·출력 schema를 가지며 consequential 도구는 승인 전 실패한다.
 
 ## 2주차
 
@@ -27,6 +29,9 @@
 - `.agents` handoff가 base revision, Evidence ID, 남은 위험, 다음 명령을 포함한다.
 - 위험 도구는 run·call·만료 시각에 묶인 승인 전에는 실행되지 않고 event replay에서도 중복 실행되지 않는다.
 - 후보 하네스는 단순 기준선과 같은 과제·자원 조건에서 결과·과정·안전·비용으로 비교된다.
+- event replay에서 승인 없는 실행, run·call·tool 불일치, 만료, 중복, terminal 이후 이벤트가 실패한다.
+- Worktree 계획은 Git을 실행하지 않고 확정 base SHA, branch, 대상 상대 경로, 비충돌 owned path를 반환한다.
+- 하네스 인벤토리는 Keep·Move·Merge·Narrow·Enforce·Delete와 전후 검증 누락률을 기록한다.
 
 ## 3주차
 
@@ -40,6 +45,10 @@
 - 외부 계정이 없으면 로컬 manifest와 테스트 로그로 같은 수료 기준을 증명한다.
 - DelegationBrief·AutonomyPolicy·EvidencePack·ContinuationPack이 명세·권한·증거·인계를 연결한다.
 - 외부 URL은 `https:`만 허용하며 nonce 기반 CSP에 `unsafe-inline`과 `unsafe-eval`이 없다.
+- 불완전한 Deep Interview는 명세를 추측하지 않고 열린 질문을 반환한다.
+- SQL 정렬 식별자는 allowlist만 사용하고 저장형·반사형·DOM XSS payload는 text-only 데이터로 남는다.
+- Evidence ID·criterion ID는 중복되지 않으며 통과 Evidence는 실제 reference를 가진다.
+- `ready_to_ship`은 pending 0개·ship readiness PASS·일치하는 release identity를 요구한다.
 
 ## 선택 심화
 
@@ -49,6 +58,7 @@
 - Verifier는 criterion Evidence와 handoff ID 완전 일치를 확인한다.
 - 멀티에이전트 도입 전에 단일 worker 기준선을 확인하고 첫 fan-out은 2~4개로 제한한다.
 - shared/isolated context와 central/peer 조정 선택 근거를 기록한다.
+- Worker 부분 실패·timeout 뒤 dependent node는 실행되지 않고 Reviewer 입력 Evidence ID가 실제 fan-in과 완전히 일치한다.
 
 ## 공개 범위
 

@@ -55,6 +55,9 @@ export function successfulResult(context: AgentContext): AgentResult {
       baseRevision: context.plan.baseRevision,
       summary: "다음 역할이 재현할 수 있는 인계",
       evidenceIds: [evidenceId],
+      inputEvidenceIds: context.dependencyResults.flatMap((result) =>
+        result.evidence.map((evidence) => evidence.id),
+      ),
       unresolvedRisks: [],
     },
   };

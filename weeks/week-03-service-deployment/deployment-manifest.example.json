@@ -1,5 +1,6 @@
 {
   "service": "request-tracker-lab",
+  "specId": "SPEC-W3",
   "commitSha": "0123456",
   "environment": "preview",
   "requiredVariableNames": ["APP_ENV", "PUBLIC_BASE_URL"],

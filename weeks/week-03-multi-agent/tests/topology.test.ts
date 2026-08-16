@@ -37,5 +37,23 @@ describe("multi-agent topology gate", () => {
         { id: "b", ownedPaths: ["src/shared/"] },
       ]),
     ).toContain("OWNED_PATH_CONFLICT:src/shared:a:b");
+    expect(
+      validateFanOut([
+        { id: "ui", ownedPaths: ["src/ui"] },
+        { id: "components", ownedPaths: ["src/ui/components"] },
+      ]),
+    ).toContain("OWNED_PATH_CONFLICT:src/ui:ui:components");
+  });
+
+  it("멀티 에이전트 후보가 단일 worker 기준선을 넘지 못하면 승격하지 않는다", () => {
+    expect(
+      chooseTopology({
+        independentSubtasks: 3,
+        requiresIndependentEvaluation: true,
+        contextsConflict: true,
+        remoteOrganizationBoundary: false,
+        baseline: { singleWorkerScore: 84, candidateScore: 82 },
+      }),
+    ).toMatchObject({ useMultipleAgents: false, topology: null });
   });
 });

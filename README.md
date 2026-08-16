@@ -10,7 +10,7 @@
 | 2주차 |   4H | 루프 엔지니어링과 하네스 리팩토링 | Hook·역할 계약·Evaluator·handoff           | `npm run verify:week2` |
 | 3주차 |   5H | 서비스 배포와 Contest Day         | 명세·서비스·보안 Gate·배포 Evidence·점수표 | `npm run verify:week3` |
 
-상세 과정은 [커리큘럼](docs/CURRICULUM.md), 완료 조건은 [실습 수용 기준](docs/LAB_ACCEPTANCE_CRITERIA.md), 강의 운영은 [강사용 가이드](docs/INSTRUCTOR_GUIDE.md)를 따릅니다.
+상세 과정은 [커리큘럼](docs/CURRICULUM.md), 완료 조건은 [실습 수용 기준](docs/LAB_ACCEPTANCE_CRITERIA.md), 강의 운영은 [강사용 가이드](docs/INSTRUCTOR_GUIDE.md)와 [시연 Runbook](docs/INSTRUCTOR_DEMO_RUNBOOK.md)을 따릅니다. 원고 주제와 공개 코드의 대응은 [추적성 매트릭스](docs/BOOK_TO_LAB_TRACEABILITY.md), 제출은 [학습자 Evidence 양식](docs/LEARNER_EVIDENCE_TEMPLATE.md)을 사용합니다.
 
 ## 실행
 
@@ -27,10 +27,10 @@ npm run verify
 
 공개 논문·프로토콜·오픈소스·실무 가이드를 대조해 다음 실습을 추가했습니다. 제3자 원문·도식·코드를 복제하지 않고 교육 목적의 작은 TypeScript 구현으로 새로 작성했습니다.
 
-- 1주차: model–harness–environment 경계와 오프라인 최소 도구 루프
-- 2주차: event 기반 pause/resume, 승인 token, 중복 실행 방지, 단순 기준선 대비 4축 평가
-- 3주차: DelegationBrief·AutonomyPolicy·EvidencePack·ContinuationPack과 강화된 SQLi/XSS/CSP Gate
-- 선택 심화: 단일 worker 우선 원칙, shared/isolated context, central/peer 토폴로지와 2~4개 fan-out 제한
+- 1주차: model–harness–environment 경계, PR Skill, 오프라인 MCP tool contract
+- 2주차: replay-safe 승인 상태 머신, Worktree dry-run, 하네스 다이어트, 4축 평가
+- 3주차: 열린 질문 기반 명세, SQL 식별자·XSS·CSP 회귀, 교차 검증된 release identity
+- 선택 심화: 단일 worker 우선, 2~4개 fan-out, 부분 실패·timeout, Reviewer Evidence fan-in
 
 설계 근거와 권리별 읽기 원칙은 [연구에서 실습으로](docs/RESEARCH_TO_PRACTICE.md)를 참고하십시오.
 
@@ -52,6 +52,7 @@ npm run verify
 │  └─ week-03-multi-agent/          # 선택 심화: DAG·owned path·fan-in
 ├─ .agents/                         # task·handoff 교육 예시
 ├─ .claude/rules/                   # 경로별 안전·테스트 규칙
+├─ .claude/skills/pr-draft/         # 외부 쓰기 없는 PR 본문 초안 절차
 ├─ docs/                            # 과정·수용 기준·운영·검증
 └─ scripts/                         # 범위·보안·Actions 부재 검사
 ```

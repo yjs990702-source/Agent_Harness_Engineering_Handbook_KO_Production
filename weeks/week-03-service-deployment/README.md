@@ -13,6 +13,9 @@ Deep Interview 결과를 서비스 명세로 바꾸고, 하네스·루프를 이
 - 기능 점수와 즉시 중단 Gate를 분리한 Contest 평가를 수행한다.
 - 위임·자율권·증거·인계 산출물을 연결하고 criterion별 Evidence가 빠지면 출고를 중단한다.
 - `https:` URL과 nonce 기반 CSP를 검증하고 위험한 URL scheme을 거부한다.
+- 인터뷰 답변이 불완전하면 추측하지 않고 열린 질문으로 되돌린다.
+- SQL 정렬 식별자와 저장형·반사형·DOM XSS, 공개 오류 응답을 회귀 테스트한다.
+- 출고 상태의 spec·commit·Evidence·승인·rollback identity를 교차 검증한다.
 
 ## 5시간 진행 순서
 
@@ -40,7 +43,7 @@ npm run verify
 
 ## 로컬 기본 경로
 
-- `src/spec.ts`: Deep Interview 입력을 검증 가능한 명세로 변환
+- `src/interview.ts`, `src/spec.ts`: 열린 질문을 보존하고 확정 답변을 명세로 변환
 - `src/service.ts`: 최소 업무요청 기능
 - `src/security.ts`: parameter binding과 text-only UI 계약
 - `api/`: 배포 가능한 health·request HTTP 경계
@@ -82,3 +85,5 @@ npm run verify
 6. Contest 점수표와 Gate 판정
 7. 30일 도메인 이식 계획
 8. [증거 기반 서비스 출고](lessons/09-evidence-driven-delivery.md)의 4종 산출물
+9. [Deep Interview에서 실행 가능한 명세로](lessons/10-deep-interview-to-spec.md)의 열린 질문·명세 초안
+10. [서비스 보안 회귀 팩](lessons/11-security-regression-pack.md)의 공격 fixture 결과

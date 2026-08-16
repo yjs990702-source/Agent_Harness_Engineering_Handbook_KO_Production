@@ -9,6 +9,8 @@
 - `W2-AC-05`: task·handoff 문서가 기준 revision, 결과, 미해결 위험을 전달합니다.
 - `W2-AC-06`: 위험 도구는 call ID에 묶인 승인 전에는 실행되지 않고 event replay에서도 중복 실행되지 않습니다.
 - `W2-AC-07`: 복잡한 후보는 단순 기준선과 동일 과제·자원 조건에서 결과·과정·안전·비용으로 비교됩니다.
+- `W2-AC-08`: Worktree는 확정 base·안전 경로·비충돌 owned path를 가진 dry-run 계획으로 먼저 검토됩니다.
+- `W2-AC-09`: 하네스 항목은 소유자·사용·실패 예방·제거 근거와 전후 지표로 다이어트됩니다.
 
 Verifier는 테스트·변경 경로·Evidence를 코드로 판정합니다. Evaluator는 그 증거를 읽고 목적 충족과 설명 품질을 보조 평가합니다. Worker의 자기 보고만으로 PASS하지 않습니다.
 
@@ -31,6 +33,8 @@ npm run verify:week2
 7. [repair cap 실행 루프](lessons/07-repair-loop.md)
 8. [승인 가능한 pause/resume 루프](lessons/08-approval-resume.md)
 9. [단순 기준선과 4축 평가](lessons/09-evaluation-portfolio.md)
+10. [Worktree 병렬 개발 사전 점검](lessons/10-worktree-preflight.md)
+11. [하네스 다이어트](lessons/11-harness-diet.md)
 
 Hook fixture만 확인하려면 다음을 실행합니다.
 

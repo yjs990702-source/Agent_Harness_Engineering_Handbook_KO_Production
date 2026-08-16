@@ -78,6 +78,12 @@ export function verifyCollaboration(
     const evidenceIdList = result.evidence.map((evidence) => evidence.id);
     const evidenceIds = new Set(evidenceIdList);
     const handoffIds = new Set(result.handoff.evidenceIds);
+    const expectedInputIdList = node.dependsOn.flatMap(
+      (dependency) =>
+        byNode.get(dependency)?.evidence.map((evidence) => evidence.id) ?? [],
+    );
+    const expectedInputIds = new Set(expectedInputIdList);
+    const inputIds = new Set(result.handoff.inputEvidenceIds);
     if (
       result.handoff.from !== node.id ||
       result.handoff.baseRevision !== plan.baseRevision ||
@@ -86,7 +92,11 @@ export function verifyCollaboration(
       handoffIds.size !== result.handoff.evidenceIds.length ||
       handoffIds.size !== evidenceIds.size ||
       [...handoffIds].some((id) => !evidenceIds.has(id)) ||
-      [...evidenceIds].some((id) => !handoffIds.has(id))
+      [...evidenceIds].some((id) => !handoffIds.has(id)) ||
+      inputIds.size !== result.handoff.inputEvidenceIds.length ||
+      inputIds.size !== expectedInputIds.size ||
+      [...inputIds].some((id) => !expectedInputIds.has(id)) ||
+      [...expectedInputIds].some((id) => !inputIds.has(id))
     )
       failures.push({ code: "INVALID_HANDOFF", detail: node.id });
   }

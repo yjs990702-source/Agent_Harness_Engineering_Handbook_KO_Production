@@ -27,7 +27,7 @@
 ## 안전한 코드 원칙
 
 - 사용자·모델·도구 출력은 문자열 데이터로 취급하고 HTML·shell 명령으로 실행하지 않습니다.
-- 실습을 웹·DB 예제로 확장할 경우 SQL 문자열 조립 대신 parameter binding을 사용하고, Frontend는 기본 text escaping을 유지합니다.
+- 실습을 웹·DB 예제로 확장할 경우 SQL 값은 parameter binding, column·direction은 고정 allowlist를 사용하고, Frontend는 기본 text escaping과 `textContent`를 유지합니다.
 - 실제 Production 배포, 외부 쓰기, 비용 발생 작업은 사람의 명시적 승인 없이 실행하지 않습니다.
 - 파일 소유 경로와 허용 범위를 먼저 검증합니다.
 - 명령 Hook은 필요한 로컬 검증 명령만 allowlist로 허용하며 문자열을 직접 실행하지 않습니다.

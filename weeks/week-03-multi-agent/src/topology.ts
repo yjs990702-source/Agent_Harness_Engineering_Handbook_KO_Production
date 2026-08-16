@@ -1,3 +1,5 @@
+import { normalizeRelativePath, pathIsOwned } from "./ownership.js";
+
 export type MultiAgentTopology =
   | "shared-central"
   | "isolated-central"
@@ -16,6 +18,7 @@ export function chooseTopology(
     requiresIndependentEvaluation: boolean;
     contextsConflict: boolean;
     remoteOrganizationBoundary: boolean;
+    baseline?: Readonly<{ singleWorkerScore: number; candidateScore: number }>;
   }>,
 ): TopologyDecision {
   if (
@@ -25,6 +28,16 @@ export function chooseTopology(
     throw new RangeError("independentSubtasks는 0 이상의 정수여야 합니다.");
   }
   const reasons: string[] = [];
+  if (
+    input.baseline &&
+    input.baseline.candidateScore <= input.baseline.singleWorkerScore
+  ) {
+    return {
+      useMultipleAgents: false,
+      topology: null,
+      reasons: ["멀티 에이전트 후보가 단일 worker 기준선을 넘지 못했습니다."],
+    };
+  }
   if (input.independentSubtasks < 2 && !input.requiresIndependentEvaluation) {
     return {
       useMultipleAgents: false,
@@ -64,18 +77,32 @@ export function validateFanOut(
   if (workers.length < 2 || workers.length > 4) {
     failures.push("WORKER_COUNT_OUT_OF_RANGE");
   }
-  const ownerByPath = new Map<string, string>();
+  const assignments: { path: string; owner: string }[] = [];
   for (const worker of workers) {
-    for (const path of worker.ownedPaths) {
-      const normalized = path.replaceAll("\\", "/").replace(/\/+$/, "");
-      const owner = ownerByPath.get(normalized);
-      if (owner && owner !== worker.id) {
-        failures.push(
-          `OWNED_PATH_CONFLICT:${normalized}:${owner}:${worker.id}`,
-        );
-      } else {
-        ownerByPath.set(normalized, worker.id);
+    for (const candidate of worker.ownedPaths) {
+      const normalized = normalizeRelativePath(
+        candidate.replaceAll("\\", "/").replace(/\/+$/, ""),
+      );
+      if (!normalized) {
+        failures.push(`INVALID_OWNED_PATH:${worker.id}:${candidate}`);
+        continue;
       }
+      for (const assignment of assignments) {
+        if (
+          assignment.owner !== worker.id &&
+          (pathIsOwned(normalized, assignment.path) ||
+            pathIsOwned(assignment.path, normalized))
+        ) {
+          const shared =
+            normalized.length <= assignment.path.length
+              ? normalized
+              : assignment.path;
+          failures.push(
+            `OWNED_PATH_CONFLICT:${shared}:${assignment.owner}:${worker.id}`,
+          );
+        }
+      }
+      assignments.push({ path: normalized, owner: worker.id });
     }
   }
   return Object.freeze(failures);

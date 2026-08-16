@@ -3,5 +3,7 @@ export * from "./contracts.js";
 export * from "./evaluator.js";
 export * from "./evaluation-portfolio.js";
 export * from "./hook-policy.js";
+export * from "./harness-inventory.js";
 export * from "./orchestrator.js";
 export * from "./verifier.js";
+export * from "./worktree-plan.js";

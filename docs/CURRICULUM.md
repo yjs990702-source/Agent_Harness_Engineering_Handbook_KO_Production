@@ -17,6 +17,7 @@
 
 - Claude Code 핵심 조작과 작업 요청의 7요소
 - 하네스 구성요소와 MCP 신뢰 경계
+- 합성 ToolDescriptor의 입력 schema·최소 권한·부작용 승인 계약
 - 하네스가 없는 에이전트의 범위 이탈·누락·증거 부족 비교
 - model–harness–environment 경계와 오프라인 최소 도구 루프
 - AGENTS.md 중첩 구조와 CLAUDE.md 브리지
@@ -49,6 +50,7 @@
 - Supabase MCP 최소 권한 연결과 로컬 대체 fixture
 - repair cap·반복 실패 signature·사람 승인 Gate
 - event reducer 기반 pause/resume와 중복 부작용 방지
+- 확정 base SHA와 owned path를 검사하는 Worktree dry-run preflight
 - 단순 기준선 대비 결과·과정·안전·비용 4축 평가
 - 강한 모델을 고위험 리뷰에만 쓰는 Advisor Strategy
 - 낡은 Rule·중복 설정을 제거하는 하네스 다이어트
@@ -71,13 +73,16 @@
 ### 핵심 학습
 
 - Deep Interview를 통한 1페이지 요구사항 명세
+- 불완전한 답변을 추측하지 않고 `openQuestions`로 되돌리는 명세 Gate
 - Prompt→Context→Harness→Agentic 발전 흐름
 - 빈 저장소의 30분 하네스 제로 세팅
 - 명세 ID→테스트→코드→Evidence→PR 추적
 - Secret·환경변수·parameter binding·XSS 방어
+- SQL 식별자 allowlist, 저장형·반사형·DOM XSS, URL·CSP·공개 오류 회귀
 - 로컬 배포 manifest와 선택형 Vercel Preview
 - Commit→PR→Review→Verifier 흐름
 - 위임·자율권·증거·인계 4종 출고 산출물
+- spec·commit·Evidence·approval·rollback을 연결하는 release identity
 - 100점 루브릭과 즉시 중단 Gate가 있는 Contest Day
 - 제로 세팅 정리와 30일 도메인 이식 계획
 
@@ -99,6 +104,8 @@
 
 기본 과정 수료 뒤 `weeks/week-03-multi-agent`에서 단일 worker 유지 조건을 먼저 확인한 뒤 DAG, owned path, 2~4개 병렬 wave, 전체 fan-in Reviewer와 독립 Verifier를 학습합니다. 서비스 배포 과정을 대체하지 않습니다.
 
+Worker 부분 실패·timeout에서는 dependent node를 실행하지 않으며 Reviewer가 받은 Evidence ID 집합을 최종 Verifier가 다시 대조합니다.
+
 ```powershell
 npm run verify:multi-agent
 ```
@@ -111,3 +118,5 @@ npm run verify:multi-agent
 4. Secret·고객 데이터·회사 내부 코드가 없다.
 5. Preview URL 또는 로컬 대체 manifest와 rollback 조건이 있다.
 6. 자신의 도메인에 이식할 것과 제거할 것을 구분한다.
+
+원고 주제와 공개 lesson·source·test의 대응은 [출판 개정판–공개 실습 추적성](BOOK_TO_LAB_TRACEABILITY.md), 제출 형식은 [학습자 Evidence 양식](LEARNER_EVIDENCE_TEMPLATE.md)을 따릅니다.

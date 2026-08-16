@@ -127,6 +127,34 @@ describe("멀티 에이전트 Coordinator", () => {
     expect(outcome.executionError).toContain("계약 불일치");
   });
 
+  it("Worker 부분 실패나 timeout 뒤 dependent node와 Reviewer를 실행하지 않는다", async () => {
+    for (const mode of ["failure", "timeout"] as const) {
+      const called: string[] = [];
+      const agents = successfulAgents((context) => {
+        called.push(context.node.id);
+      });
+      const outcome = await runCollaboration({
+        request: `부분 실패 ${mode}`,
+        planner: new StaticPlanner(),
+        timeoutMs: 10,
+        agents: {
+          ...agents,
+          logic_worker: {
+            async execute(context) {
+              called.push(context.node.id);
+              if (mode === "failure") throw new Error("합성 worker 실패");
+              await new Promise((resolve) => setTimeout(resolve, 30));
+              return successfulResult(context);
+            },
+          },
+        },
+      });
+      expect(outcome.status).toBe("execution_failed");
+      expect(called).not.toContain("tests");
+      expect(called).not.toContain("review");
+    }
+  });
+
   it("Reviewer가 파일을 고치면 verification_failed가 된다", async () => {
     const agents = successfulAgents();
     const outcome = await runCollaboration({

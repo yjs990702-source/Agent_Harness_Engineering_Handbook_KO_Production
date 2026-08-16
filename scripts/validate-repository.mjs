@@ -10,6 +10,7 @@ const requiredLessons = [
   "weeks/week-01-foundations/lessons/05-evidence-baseline.md",
   "weeks/week-01-foundations/lessons/06-single-worker-harness.md",
   "weeks/week-01-foundations/lessons/07-minimal-offline-loop.md",
+  "weeks/week-01-foundations/lessons/08-rule-skill-mcp-contract.md",
   "weeks/week-02-loop-engineering/lessons/01-hook-policy.md",
   "weeks/week-02-loop-engineering/lessons/02-role-contracts.md",
   "weeks/week-02-loop-engineering/lessons/03-owned-path.md",
@@ -19,6 +20,8 @@ const requiredLessons = [
   "weeks/week-02-loop-engineering/lessons/07-repair-loop.md",
   "weeks/week-02-loop-engineering/lessons/08-approval-resume.md",
   "weeks/week-02-loop-engineering/lessons/09-evaluation-portfolio.md",
+  "weeks/week-02-loop-engineering/lessons/10-worktree-preflight.md",
+  "weeks/week-02-loop-engineering/lessons/11-harness-diet.md",
   "weeks/week-03-service-deployment/lessons/01-deep-interview-spec.md",
   "weeks/week-03-service-deployment/lessons/02-zero-setting.md",
   "weeks/week-03-service-deployment/lessons/03-tdd-service.md",
@@ -28,6 +31,8 @@ const requiredLessons = [
   "weeks/week-03-service-deployment/lessons/07-contest-day.md",
   "weeks/week-03-service-deployment/lessons/08-retrospective-transfer.md",
   "weeks/week-03-service-deployment/lessons/09-evidence-driven-delivery.md",
+  "weeks/week-03-service-deployment/lessons/10-deep-interview-to-spec.md",
+  "weeks/week-03-service-deployment/lessons/11-security-regression-pack.md",
   "weeks/week-03-multi-agent/lessons/01-request-spec.md",
   "weeks/week-03-multi-agent/lessons/02-role-handoff-contracts.md",
   "weeks/week-03-multi-agent/lessons/03-dag-validation.md",
@@ -37,6 +42,7 @@ const requiredLessons = [
   "weeks/week-03-multi-agent/lessons/07-independent-verifier.md",
   "weeks/week-03-multi-agent/lessons/08-end-to-end-retrospective.md",
   "weeks/week-03-multi-agent/lessons/09-topology-gate.md",
+  "weeks/week-03-multi-agent/lessons/10-failure-modes-and-fan-in.md",
 ];
 const required = [
   ".agents/handoffs/week-03-example.md",
@@ -45,6 +51,7 @@ const required = [
   ".agents/tasks/week-03-service-lab.md",
   ".claude/rules/security.md",
   ".claude/rules/testing.md",
+  ".claude/skills/pr-draft/SKILL.md",
   ".gitattributes",
   ".gitignore",
   "AGENTS.md",
@@ -56,8 +63,12 @@ const required = [
   "README.md",
   "THIRD_PARTY_NOTICES.md",
   "docs/CURRICULUM.md",
+  "docs/BOOK_TO_LAB_TRACEABILITY.md",
+  "docs/EXPECTED_FAILURES.md",
+  "docs/INSTRUCTOR_DEMO_RUNBOOK.md",
   "docs/INSTRUCTOR_GUIDE.md",
   "docs/LAB_ACCEPTANCE_CRITERIA.md",
+  "docs/LEARNER_EVIDENCE_TEMPLATE.md",
   "docs/RESEARCH_TO_PRACTICE.md",
   "docs/VERIFICATION.md",
   "docs/VERIFICATION_REPORT.md",
@@ -93,6 +104,21 @@ const ignoredDirectories = new Set([
   "node_modules",
 ]);
 const failures = [];
+
+const requiredTraceabilityPaths = [
+  ".claude/skills/pr-draft/SKILL.md",
+  "weeks/week-01-foundations/src/tool-contract.ts",
+  "weeks/week-01-foundations/tests/tool-contract.test.ts",
+  "weeks/week-02-loop-engineering/src/approval-loop.ts",
+  "weeks/week-02-loop-engineering/tests/approval-loop.test.ts",
+  "weeks/week-02-loop-engineering/src/worktree-plan.ts",
+  "weeks/week-02-loop-engineering/src/harness-inventory.ts",
+  "weeks/week-03-service-deployment/src/interview.ts",
+  "weeks/week-03-service-deployment/src/security.ts",
+  "weeks/week-03-service-deployment/src/delivery-artifacts.ts",
+  "weeks/week-03-multi-agent/src/topology.ts",
+  "weeks/week-03-multi-agent/src/coordinator.ts",
+];
 
 function normalize(file) {
   return file.replaceAll("\\", "/");
@@ -146,6 +172,28 @@ for (const lesson of requiredLessons) {
     failures.push(`${lesson}: 실행 가능한 npm 검증 명령 누락`);
 }
 
+const traceabilityText = await fs.readFile(
+  path.join(root, "docs/BOOK_TO_LAB_TRACEABILITY.md"),
+  "utf8",
+);
+for (const tracedPath of requiredTraceabilityPaths) {
+  if (!traceabilityText.includes(`\`${tracedPath}\``)) {
+    failures.push(`추적성 매트릭스 경로 누락: ${tracedPath}`);
+  }
+}
+if (/\.(?:docx|pdf|hwp|pptx|xlsx|zip|7z)\b/i.test(traceabilityText)) {
+  failures.push("추적성 매트릭스에 공개 금지 원본 파일 경로가 있습니다.");
+}
+
+const skillText = await fs.readFile(
+  path.join(root, ".claude/skills/pr-draft/SKILL.md"),
+  "utf8",
+);
+for (const heading of ["## 입력 계약", "## 출력 계약", "## 금지 행동"]) {
+  if (!skillText.includes(heading))
+    failures.push(`PR Skill 계약 누락: ${heading}`);
+}
+
 const workflowDirectory = path.join(root, ".github", "workflows");
 try {
   const entries = await fs.readdir(workflowDirectory);
@@ -172,6 +220,9 @@ for (const file of sourceFiles) {
   const text = await fs.readFile(path.join(root, file), "utf8");
   for (const [label, pattern] of banned) {
     if (pattern.test(text)) failures.push(`${file}: 금지된 ${label}`);
+  }
+  if (/\b(?:describe|it|test)\.skip\s*\(/.test(text)) {
+    failures.push(`${file}: skip된 테스트 금지`);
   }
 }
 

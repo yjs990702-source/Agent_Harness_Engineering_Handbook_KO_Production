@@ -14,11 +14,34 @@ import { verifyCollaboration } from "./verifier.js";
 
 const emptyVerification = { passed: false, failures: [] } as const;
 
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(
+      () => reject(new Error(`Agent 실행 시간 초과: ${timeoutMs}ms`)),
+      timeoutMs,
+    );
+  });
+  try {
+    return await Promise.race([promise, timeout]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
 export async function runCollaboration(input: {
   request: string;
   planner: Planner;
   agents: Readonly<Record<AgentRole, AgentExecutor>>;
+  timeoutMs?: number;
 }): Promise<CollaborationOutcome> {
+  const timeoutMs = input.timeoutMs ?? 5_000;
+  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 60_000) {
+    throw new RangeError("timeoutMs는 1~60000 범위의 정수여야 합니다.");
+  }
   let plan;
   try {
     plan = await input.planner.plan(input.request);
@@ -65,12 +88,15 @@ export async function runCollaboration(input: {
               throw new Error(`dependency 결과가 없습니다: ${dependency}`);
             return result;
           });
-          const result = await input.agents[node.role].execute({
-            request: plan.request,
-            plan,
-            node,
-            dependencyResults,
-          });
+          const result = await withTimeout(
+            input.agents[node.role].execute({
+              request: plan.request,
+              plan,
+              node,
+              dependencyResults,
+            }),
+            timeoutMs,
+          );
           if (result.nodeId !== node.id || result.role !== node.role)
             throw new Error(`Agent 결과 계약 불일치: ${node.id}`);
           return result;

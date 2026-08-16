@@ -46,6 +46,7 @@ export function createDeploymentManifest(
   }
   return Object.freeze({
     service: "request-tracker-lab",
+    specId: spec.id,
     commitSha,
     environment: input.environment,
     requiredVariableNames,

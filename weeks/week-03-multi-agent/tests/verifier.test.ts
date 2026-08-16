@@ -12,9 +12,22 @@ function contextFor(nodeId: string): AgentContext {
 }
 
 function completeResults(): AgentResult[] {
-  return ["ui", "logic", "tests", "review"].map((id) =>
-    successfulResult(contextFor(id)),
-  );
+  const plan = createTeachingPlan("검증 fixture");
+  const results: AgentResult[] = [];
+  for (const id of ["ui", "logic", "tests", "review"]) {
+    const base = contextFor(id);
+    const dependencies = base.node.dependsOn.map((dependency) => {
+      const result = results.find(
+        (candidate) => candidate.nodeId === dependency,
+      );
+      if (!result) throw new Error(`fixture dependency 누락: ${dependency}`);
+      return result;
+    });
+    results.push(
+      successfulResult({ ...base, plan, dependencyResults: dependencies }),
+    );
+  }
+  return results;
 }
 
 describe("독립 Verifier", () => {
@@ -93,6 +106,23 @@ describe("독립 Verifier", () => {
     const results = completeResults().map((result) =>
       result.nodeId === "ui"
         ? { ...result, handoff: { ...result.handoff, evidenceIds: [] } }
+        : result,
+    );
+    expect(
+      verifyCollaboration(plan, results).failures.some(
+        (failure) => failure.code === "INVALID_HANDOFF",
+      ),
+    ).toBe(true);
+  });
+
+  it("Reviewer fan-in 입력 Evidence ID가 완전히 일치해야 한다", () => {
+    const plan = createTeachingPlan("검증 fixture");
+    const results = completeResults().map((result) =>
+      result.nodeId === "review"
+        ? {
+            ...result,
+            handoff: { ...result.handoff, inputEvidenceIds: ["ui-evidence"] },
+          }
         : result,
     );
     expect(
