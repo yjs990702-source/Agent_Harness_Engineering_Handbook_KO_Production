@@ -83,6 +83,12 @@ export async function runWorkRequestScenarios(
   const second = await createPage(browser, origin);
   try {
     await second.page.goto("/");
+    await second.page
+      .getByRole("heading", { name: "업무요청을 명세에서 증거까지" })
+      .waitFor();
+    await second.page
+      .getByRole("heading", { name: "분기 접근 권한 점검" })
+      .waitFor();
     const payload = "<img src=x onerror=globalThis.pwned=true>";
     await second.page.getByLabel("제목").fill(payload);
     await second.page.getByRole("button", { name: "요청 등록" }).click();
