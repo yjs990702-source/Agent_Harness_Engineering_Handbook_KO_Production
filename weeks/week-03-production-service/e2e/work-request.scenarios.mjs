@@ -1,12 +1,18 @@
 import assert from "node:assert/strict";
+import { mkdir } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 
-async function createPage(browser, origin) {
-  const context = await browser.newContext({ baseURL: origin });
+async function createPage(browser, origin, options = {}) {
+  const context = await browser.newContext({ baseURL: origin, ...options });
   const page = await context.newPage();
   return { context, page };
 }
 
-export async function runWorkRequestScenarios(browser, origin) {
+export async function runWorkRequestScenarios(
+  browser,
+  origin,
+  { capture = false } = {},
+) {
   const first = await createPage(browser, origin);
   try {
     await first.page.goto("/");
@@ -35,6 +41,40 @@ export async function runWorkRequestScenarios(browser, origin) {
     await first.page
       .getByRole("heading", { name: "배포 전 보안 점검" })
       .waitFor();
+
+    if (capture) {
+      const assetDirectory = new URL("../docs/assets/", import.meta.url);
+      await mkdir(assetDirectory, { recursive: true });
+      await first.page.screenshot({
+        path: fileURLToPath(
+          new URL("week-03-dashboard-desktop.png", assetDirectory),
+        ),
+        fullPage: true,
+      });
+
+      const mobile = await createPage(browser, origin, {
+        viewport: { width: 390, height: 844 },
+        deviceScaleFactor: 1,
+      });
+      try {
+        await mobile.page.goto("/");
+        await mobile.page
+          .getByRole("heading", { name: "업무요청을 명세에서 증거까지" })
+          .waitFor();
+        await mobile.page
+          .getByRole("heading", { name: "분기 접근 권한 점검" })
+          .waitFor();
+        await mobile.page.screenshot({
+          path: fileURLToPath(
+            new URL("week-03-dashboard-mobile.png", assetDirectory),
+          ),
+          fullPage: true,
+        });
+      } finally {
+        await mobile.context.close();
+      }
+    }
+
     console.log("ok 1 - 짧은 제목을 거부하고 정상 요청을 등록한다");
   } finally {
     await first.context.close();

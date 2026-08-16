@@ -92,7 +92,9 @@ try {
     await import("../e2e/work-request.scenarios.mjs");
   const browser = await chromium.launch({ headless: true });
   try {
-    await runWorkRequestScenarios(browser, origin);
+    await runWorkRequestScenarios(browser, origin, {
+      capture: process.argv.includes("--capture"),
+    });
     result = 0;
   } finally {
     await browser.close();

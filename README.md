@@ -4,15 +4,15 @@
 
 ## 현재 상태
 
-| 범위                            | 상태    | 검증 진입점            |
-| ------------------------------- | ------- | ---------------------- |
-| 공통 저장소 계약                | 완료    | `npm run verify:repo`  |
-| 1주차 · 기초 하네스와 TDD       | 완료    | `npm run verify:week1` |
-| 2주차 · Hook·Verifier·병렬 작업 | 완료    | `npm run verify:week2` |
-| 3주차 · 서비스·UI·보안·배포     | 구성 중 | `npm run verify:week3` |
-| 전체 재현 검증                  | 예정    | `npm run verify`       |
+| 범위                            | 상태 | 검증 진입점            |
+| ------------------------------- | ---- | ---------------------- |
+| 공통 저장소 계약                | 완료 | `npm run verify:repo`  |
+| 1주차 · 기초 하네스와 TDD       | 완료 | `npm run verify:week1` |
+| 2주차 · Hook·Verifier·병렬 작업 | 완료 | `npm run verify:week2` |
+| 3주차 · 서비스·UI·보안·배포     | 완료 | `npm run verify:week3` |
+| 전체 재현 검증                  | 완료 | `npm run verify`       |
 
-완료 상태와 실제 실행 증거는 [개발 상태](docs/STATUS.md)와 [1주차 검증 증거](docs/evidence/WEEK_01_VERIFICATION.md)에 기록합니다. 문서의 `완료` 표시는 같은 변경 집합에서 로컬 검증 명령이 통과한 경우에만 사용합니다.
+완료 상태와 실제 실행 증거는 [개발 상태](docs/STATUS.md), [1주차](docs/evidence/WEEK_01_VERIFICATION.md), [2주차](docs/evidence/WEEK_02_VERIFICATION.md), [3주차](docs/evidence/WEEK_03_VERIFICATION.md) 기록에서 확인합니다. 문서의 `완료` 표시는 같은 변경 집합에서 로컬 검증 명령이 통과한 경우에만 사용합니다.
 
 ## 빠른 시작
 
@@ -24,6 +24,12 @@ npm run verify
 ```
 
 주차별 시작 위치와 학습 순서는 [커리큘럼](docs/CURRICULUM.md), 명령별 기대 결과와 장애 해결은 [검증 가이드](docs/VERIFICATION.md)를 따릅니다.
+
+## 3주차 UI 미리보기
+
+![업무요청 트래커 desktop](weeks/week-03-production-service/docs/assets/week-03-dashboard-desktop.png)
+
+desktop·mobile 원본과 재현 명령은 [UI 캡처 문서](weeks/week-03-production-service/docs/assets/README.md)에 있습니다.
 
 ## 저장소 구조
 

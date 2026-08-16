@@ -40,6 +40,12 @@ npx playwright install chromium
 
 브라우저 로그인 UI와 Vercel/Supabase 조직 설정은 계정이 필요한 외부 단계입니다. 로컬 검증 통과와 Production 배포 완료를 혼동하지 마십시오.
 
+## UI 미리보기
+
+![업무요청 트래커 desktop](docs/assets/week-03-dashboard-desktop.png)
+
+desktop·mobile 캡처 방법과 파일 목록은 [UI 캡처 문서](docs/assets/README.md)를 확인하십시오.
+
 ## 보안 코딩 예
 
 금지:

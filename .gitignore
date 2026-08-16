@@ -1,4 +1,5 @@
 node_modules/
+.cache/
 .next/
 coverage/
 dist/
@@ -8,6 +9,6 @@ test-results/
 .env.*
 !.env.example
 *.log
+*.tsbuildinfo
 .DS_Store
 Thumbs.db
-

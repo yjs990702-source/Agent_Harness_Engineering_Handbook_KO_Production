@@ -8,9 +8,9 @@
 
 ## 2026-08-16 권한 감사
 
-GitHub CLI의 `viewerPermission` 결과는 `READ`입니다. `contact536` 계정은 clone과 조회는 가능하지만 branch push·PR용 branch 게시 권한이 없습니다.
+최초 감사에서 `viewerPermission`은 `READ`였으나, 저장소 소유자가 collaborator를 추가한 뒤 `WRITE`로 재확인했습니다. `agent/weekly-labs`와 `baseline-no-harness`, 1·2주차 start/solution tag push도 성공했습니다.
 
-저장소 소유자는 GitHub의 repository Settings → Collaborators에서 `contact536`를 최소 Write 권한으로 추가해야 합니다. 권한 변경 후 다음으로 재확인합니다.
+게시 전 다음 명령으로 현재 계정과 권한을 다시 확인합니다.
 
 ```powershell
 gh auth status -h github.com

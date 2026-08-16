@@ -17,11 +17,10 @@ const OptionalDueDateSchema = z.preprocess(
 );
 
 export const CreateRequestSchema = z.object({
-  // Week 3 start fixture: 첫 서비스 TDD에서 3자 경계로 수정합니다.
   title: z
     .string()
     .trim()
-    .min(2, "제목은 2자 이상이어야 합니다.")
+    .min(3, "제목은 3자 이상이어야 합니다.")
     .max(100, "제목은 100자 이하여야 합니다."),
   category: RequestCategorySchema.default("general"),
   dueDate: OptionalDueDateSchema,
