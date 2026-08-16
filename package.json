@@ -14,10 +14,11 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
+    "e2e": "npm run test:e2e --workspaces --if-present",
     "verify:week1": "npm run verify --workspace=@handbook/week-01-foundations",
     "verify:week2": "npm run verify --workspace=@handbook/week-02-loop-engineering",
     "verify:week3": "npm run verify --workspace=@handbook/week-03-production-service",
-    "verify": "npm run verify:repo && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
+    "verify": "npm run verify:repo && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run e2e"
   },
   "engines": {
     "node": ">=20.9.0",
