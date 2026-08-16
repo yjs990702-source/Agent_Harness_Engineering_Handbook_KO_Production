@@ -4,13 +4,13 @@
 
 ## 현재 상태
 
-| 범위                            | 상태    | 검증 진입점            |
-| ------------------------------- | ------- | ---------------------- |
-| 공통 저장소 계약                | 완료    | `npm run verify:repo`  |
-| 1주차 · 기초 하네스와 TDD       | 완료    | `npm run verify:week1` |
-| 2주차 · Hook·Verifier·병렬 작업 | 구성 중 | `npm run verify:week2` |
-| 3주차 · 서비스·UI·보안·배포     | 예정    | `npm run verify:week3` |
-| 전체 재현 검증                  | 예정    | `npm run verify`       |
+| 범위                            | 상태 | 검증 진입점            |
+| ------------------------------- | ---- | ---------------------- |
+| 공통 저장소 계약                | 완료 | `npm run verify:repo`  |
+| 1주차 · 기초 하네스와 TDD       | 완료 | `npm run verify:week1` |
+| 2주차 · Hook·Verifier·병렬 작업 | 완료 | `npm run verify:week2` |
+| 3주차 · 서비스·UI·보안·배포     | 예정 | `npm run verify:week3` |
+| 전체 재현 검증                  | 예정 | `npm run verify`       |
 
 완료 상태와 실제 실행 증거는 [개발 상태](docs/STATUS.md)와 [1주차 검증 증거](docs/evidence/WEEK_01_VERIFICATION.md)에 기록합니다. 문서의 `완료` 표시는 같은 변경 집합에서 로컬 검증 명령이 통과한 경우에만 사용합니다.
 

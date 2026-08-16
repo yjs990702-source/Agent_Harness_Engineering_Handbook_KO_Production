@@ -40,8 +40,7 @@ function normalizePath(value: string): string {
 
 function sensitivePathReason(filePath: string): string | null {
   const normalized = normalizePath(filePath);
-  // Week 2 start fixture: .env.production 같은 변형을 아직 놓칩니다.
-  if (normalized === ".env") return "환경변수 파일 변경 금지";
+  if (/(^|\/)\.env(?:\.|$)/.test(normalized)) return "환경변수 파일 변경 금지";
   if (normalized.startsWith(".git/")) return "Git 내부 데이터 변경 금지";
   if (normalized.startsWith(".github/workflows/"))
     return "GitHub Actions workflow 변경 금지";
