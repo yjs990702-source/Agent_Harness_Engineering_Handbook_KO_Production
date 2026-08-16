@@ -1,0 +1,17 @@
+{
+  "service": "request-tracker-lab",
+  "commitSha": "0123456",
+  "environment": "preview",
+  "requiredVariableNames": ["APP_ENV", "PUBLIC_BASE_URL"],
+  "verificationCommand": "npm run verify:week3",
+  "acceptanceCriteria": [
+    "AC-01-health",
+    "AC-02-create-request",
+    "AC-03-reject-invalid-input",
+    "AC-04-security-boundary",
+    "AC-05-deployment-evidence"
+  ],
+  "rollbackCondition": "health 또는 수용 테스트가 실패한다",
+  "secretValuesIncluded": false,
+  "approval": null
+}

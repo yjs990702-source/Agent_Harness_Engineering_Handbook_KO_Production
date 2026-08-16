@@ -1,4 +1,6 @@
-# 3주차 · 멀티 에이전트 협업 하네스
+# 선택 심화 · 멀티 에이전트 협업 하네스
+
+이 폴더는 1~3주차 13시간 기본 과정 뒤에 수행하는 선택 심화입니다. 기본 3주차의 서비스 배포와 Contest Day를 대체하지 않습니다.
 
 ## 목표
 
@@ -20,13 +22,14 @@ Request → Planner → UI Worker ───┐
 - `W3-AC-06`: Reviewer는 UI·Logic·Test 전체 결과를 받은 읽기 전용 역할이며 파일을 변경하면 최종 검증에 실패합니다.
 - `W3-AC-07`: 모든 Agent는 base revision·실제 결과와 완전히 같은 evidence ID 집합·다음 수신자를 handoff에 기록합니다.
 - `W3-AC-08`: Verifier는 안전한 상대 경로, RequestSpec criterion evidence, handoff, review 결과를 독립 판정합니다.
+- `W3-AC-09`: 단일 worker 유지 조건을 먼저 평가하고, 첫 fan-out은 2~4개와 충돌 없는 owned path로 제한합니다.
 
 ## 실행
 
 저장소 루트에서:
 
 ```powershell
-npm run verify:week3
+npm run verify:multi-agent
 ```
 
 ## 강의 순서
@@ -39,6 +42,7 @@ npm run verify:week3
 6. [읽기 전용 Reviewer](lessons/06-read-only-reviewer.md)
 7. [독립 Verifier](lessons/07-independent-verifier.md)
 8. [전체 협업 시나리오와 회고](lessons/08-end-to-end-retrospective.md)
+9. [멀티에이전트 토폴로지 Gate](lessons/09-topology-gate.md)
 
 ## 코드 읽기 순서
 
@@ -48,6 +52,7 @@ npm run verify:week3
 4. `src/coordinator.ts`에서 wave 단위 병렬 실행과 fan-in을 추적합니다.
 5. `src/verifier.ts`가 Agent의 설명을 믿지 않고 무엇을 다시 검사하는지 확인합니다.
 6. `tests`의 실패 사례를 하나 바꾸고 Red→Green을 재현합니다.
+7. `src/topology.ts`에서 shared/isolated context와 central/peer 조정의 선택 근거를 확인합니다.
 
 ## 실습 과제
 

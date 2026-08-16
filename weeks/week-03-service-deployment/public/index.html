@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Request Tracker Lab</title>
+  </head>
+  <body>
+    <main>
+      <h1>업무요청 트래커</h1>
+      <form id="request-form">
+        <label
+          >제목 <input id="title" minlength="3" maxlength="100" required
+        /></label>
+        <button type="submit">등록</button>
+      </form>
+      <p id="status" role="status" aria-live="polite"></p>
+    </main>
+    <script type="module">
+      const form = document.querySelector("#request-form");
+      const title = document.querySelector("#title");
+      const status = document.querySelector("#status");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const response = await fetch("/api/requests", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ tenantId: "lab-tenant", title: title.value }),
+        });
+        const result = await response.json();
+        status.textContent = response.ok
+          ? `등록됨: ${result.title}`
+          : `오류: ${result.message ?? result.error}`;
+      });
+    </script>
+  </body>
+</html>

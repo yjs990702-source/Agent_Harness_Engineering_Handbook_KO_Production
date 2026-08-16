@@ -7,16 +7,26 @@ npm ci
 npm run verify
 ```
 
-`verify`는 저장소 구조, format, 각 주차 lint·typecheck·test·build를 순서대로 실행합니다. GitHub Actions와 외부 서비스는 사용하지 않습니다.
+`verify`는 공개 범위, GitHub Actions 부재, format, 모든 workspace의 lint·typecheck·test·build를 순서대로 실행합니다. 외부 모델·DB·배포 계정은 사용하지 않습니다.
 
-3주차 실패 fixture는 실패를 예외로 숨기지 않고 `EMPTY_PLAN`, `PATH_OUT_OF_SCOPE`, `INVALID_HANDOFF`, `INVALID_EVIDENCE_CRITERION`, `MISSING_CRITERION_EVIDENCE`, `READ_ONLY_WRITE` 같은 코드로 반환합니다.
-
-## 주차별 검증
+## 과정별 검증
 
 ```powershell
 npm run verify:week1
 npm run verify:week2
 npm run verify:week3
+npm run verify:multi-agent
+```
+
+`verify:week1`은 입력·tenant·오프라인 최소 루프의 schema·policy·step budget을 검사합니다. `verify:week2`는 Hook·독립 검증·repair와 승인 pause/resume·4축 기준선 평가를 검사합니다. `verify:week3`는 명세, service·API, SQL parameter binding, text-only UI, URL·CSP, 4종 출고 산출물, 배포 manifest, Production 승인, Contest Gate를 검사합니다. `verify:multi-agent`는 기본 과정 뒤의 DAG·토폴로지 선택 심화입니다.
+
+## 보강 실습 focused test
+
+```powershell
+npm run test --workspace=@handbook/week-01-foundations -- --run tests/minimal-loop.test.ts
+npm run test --workspace=@handbook/week-02-loop-engineering -- --run tests/approval-loop.test.ts tests/evaluation-portfolio.test.ts
+npm run test --workspace=@handbook/week-03-service-deployment -- --run tests/delivery-artifacts.test.ts tests/security.test.ts
+npm run test --workspace=@handbook/extension-multi-agent -- --run tests/topology.test.ts
 ```
 
 ## 기대 결과 기록
@@ -26,14 +36,20 @@ npm run verify:week3
 기준: main commit SHA
 명령: npm run verify:weekN
 결과: test file 수 / test 수 / build 결과
+배포 증거: Preview URL 또는 local deployment manifest
+남은 위험: 계정·권한·실제 Production 미검증 항목
 ```
 
 ## 오류 확인 순서
 
 1. `node --version`과 `npm --version`을 확인합니다.
-2. `npm ci`로 `package-lock.json`과 같은 의존성을 설치합니다.
-3. 실패한 주차의 `npm run verify:weekN`을 먼저 실행합니다.
-4. 첫 번째 실제 오류를 수정한 뒤 같은 명령을 다시 실행합니다.
-5. 마지막에 루트 `npm run verify`로 전체 회귀를 확인합니다.
+2. `npm ci`로 lockfile과 같은 의존성을 설치합니다.
+3. 실패한 과정의 focused test를 실행합니다.
+4. 첫 실제 오류를 수정하고 같은 명령을 반복합니다.
+5. 해당 과정 verify 뒤 루트 `npm run verify`로 회귀를 확인합니다.
 
-`dist`처럼 생성된 폴더만 정리할 수 있으며, 저장소 전체나 다른 사용자의 파일을 재귀 삭제하지 않습니다. 테스트를 skip하거나 assertion을 약화해 통과시키지 않습니다.
+생성된 `dist`만 정리할 수 있으며 저장소 전체나 다른 사용자의 파일을 재귀 삭제하지 않습니다. 테스트 skip, assertion 약화, Secret 추가, 승인 없는 외부 배포로 문제를 우회하지 않습니다.
+
+## 클라우드 선택 경로
+
+실제 Preview는 학습자 소유 샌드박스에서 사람이 승인한 경우에만 실행합니다. Codex 또는 자동화가 배포·외부 쓰기·비용 발생을 임의로 수행하지 않습니다. 계정이 없으면 `deployment-manifest.example.json`과 테스트 로그를 사용합니다.

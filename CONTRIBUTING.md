@@ -18,6 +18,8 @@ npm run verify
 npm audit
 ```
 
+3주차 실제 Preview 배포는 학습자 소유 샌드박스에서만 수행하며, 이 기준 저장소에는 URL·token·실제 환경변수 값을 제출하지 않습니다. Commit·PR 연습은 fork 또는 별도 연습 저장소를 사용하고 공개 기준 자료는 `main`에 정리합니다.
+
 불필요한 GitHub Actions workflow는 추가하지 않습니다. 테스트 skip, assertion 약화, secret·개인정보·운영 URL 추가는 허용하지 않습니다.
 
 ## 라이선스

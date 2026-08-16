@@ -1,4 +1,4 @@
-# 공개 실습 저장소 검증 보고서
+# 공개 교육 실습 저장소 검증 보고서
 
 ## 검증 기준
 
@@ -7,30 +7,45 @@
 - Node.js: 24.12.0
 - npm: 11.6.2
 - 설치: `package-lock.json` 기준 `npm ci`
-- 외부 모델·DB·배포 계정: 사용하지 않음
+- 외부 모델·DB·배포 계정: 기본 검증에는 사용하지 않음
+- 검증 범위: 저장소 원본과 `node_modules` 없는 새 복제본
 
 ## 결과
 
-| 항목           | 결과 | 증거                                                     |
-| -------------- | ---- | -------------------------------------------------------- |
-| 저장소 범위    | PASS | 필수 파일 46개, 강의 21개, source 28개, 범위 밖 파일 0개 |
-| GitHub Actions | PASS | workflow 0개                                             |
-| 공개 라이선스  | PASS | 교육 코드·문서 Apache-2.0, 출판 저작물 별도 관리         |
-| 포맷           | PASS | Prettier 전체 일치                                       |
-| lint·타입      | PASS | 3개 workspace 모두 `tsc --noEmit` 통과                   |
-| 테스트         | PASS | 테스트 파일 9개, 테스트 56개, skip 0개                   |
-| 빌드           | PASS | 3개 workspace 모두 통과                                  |
-| 의존성 감사    | PASS | 취약점 0건                                               |
+| 항목                | 결과 | 증거                                                             |
+| ------------------- | ---- | ---------------------------------------------------------------- |
+| 저장소 공개 범위    | PASS | 필수 파일 74개, 강의 34개, source 54개, 범위 밖 파일 0개         |
+| GitHub Actions 금지 | PASS | workflow 0개                                                     |
+| 공개 라이선스       | PASS | 교육 코드·문서 Apache-2.0, 출판 원고·내부 자료 제외              |
+| 포맷                | PASS | Prettier 전체 일치                                               |
+| lint·타입 검사      | PASS | 4개 workspace 모두 `tsc --noEmit` 통과                           |
+| 테스트              | PASS | 테스트 파일 20개, 테스트 89개, skip 0개                          |
+| 빌드                | PASS | 4개 workspace 모두 통과                                          |
+| 의존성 감사         | PASS | `npm audit` 취약점 0건                                           |
+| 새 환경 재현        | PASS | `node_modules` 없는 복제본에서 `npm ci` 후 `npm run verify` 통과 |
 
-주차별 테스트 수는 1주차 10개, 2주차 16개, 3주차 30개다.
+과정별 테스트 수는 1주차 14개, 2주차 23개, 3주차 서비스 배포 19개이며, 선택 심화 멀티 에이전트는 33개다.
+
+## 과정별 완료 증거
+
+- 1주차: Rule·Skill·중첩 `AGENTS.md`·PR 워크플로우·TDD 기능 구현
+- 2주차: Hook·민감 파일 보호·검증 루프·evaluator·작업 이력과 인계
+- 3주차: 요구사항 명세·시크릿 분리·SQL/XSS 방어·배포 manifest·Contest 채점
+- 선택 심화: sub-agent DAG·병렬 작업·cross-model 계약·handoff 검증
 
 ## 이번 보강에서 확인한 실패 fixture
 
-- Hook: `git clean`, Unix·PowerShell 재귀 삭제, 명령 연결, 강제 push, 중첩 `.git`, `.env*`, workflow, 상위 경로
+- Hook: `git clean`, Unix·PowerShell 삭제, 명령 연결, 강제 push, 중첩 `.git`, `.env*`, workflow, 상위 경로
 - DAG: 빈 계획, 중복 node, 중복·누락 dependency, cycle, owned path 충돌
 - Reviewer: UI·Logic·Test 전체 fan-in, 변경 파일이 있으면 `READ_ONLY_WRITE`
-- Verifier: 비정상 경로, 결과 누락·중복·계획 밖 결과, 실패 Evidence, criterion 오류·누락, handoff ID 불일치, stale base revision
-- 자료 경계: DOCX·PDF·HWP·PPTX·XLSX·압축 출판 파일과 원고·이력서·내부 문서 경로를 저장소 검사에서 거부
+- Verifier: 비정상 경로, 결과 누락·중복·과잉 및 거짓 결과, 실패 Evidence, criterion 오류·누락, handoff ID 불일치, stale base revision
+- 서비스 보안: 매개변수화 SQL 계약, HTML 문자열 결합 금지, 비밀값 누출 방지, 허용된 배포 환경만 수락
+- 최소 루프: 알 수 없는 검증기, 실패 검증, 수리 예산 소진, 증거가 없는 완료 선언 차단
+- 승인 루프: 승인 없는 부작용 실행, stale 승인 토큰, 승인 대상 불일치, 재개 checkpoint 누락 차단
+- 평가 포트폴리오: 필수 축 누락, blocking finding 우회, 가중치 합계 오류 차단
+- 배포 증거: criterion→test→artifact→review→approval→rollback 연결, 위험 URL scheme, 약한 CSP 차단
+- 토폴로지 선택: 독립성이 없는 병렬화와 불필요한 peer/A2A 선택 차단
+- 자료 경계: DOCX·PDF·HWP·PPTX·XLSX·캡처 출판 파일과 저자·이력·회사 내부 문서 경로를 저장소 검사에서 거부
 
 ## 재현 명령
 
@@ -40,4 +55,4 @@ npm run verify
 npm audit
 ```
 
-이 결과는 합성 fixture 기반 교육 계약의 재현성을 뜻한다. 외부 LLM 품질, 실제 데이터베이스와 배포 환경은 검증 범위가 아니다.
+이 결과는 합성 fixture 기반 교육 계약의 재현성을 확인한다. 외부 LLM의 실제 응답 품질, 실제 데이터베이스 권한, Vercel·Supabase 계정 및 네트워크 상태는 배포자의 환경에서 별도로 검증해야 한다.

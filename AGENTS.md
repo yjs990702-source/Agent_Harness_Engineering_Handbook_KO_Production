@@ -2,7 +2,7 @@
 
 ## 목적
 
-이 저장소는 도서 독자가 하네스 엔지니어링과 에이전트 협업을 외부 계정 없이 재현하는 교육용 코드입니다. `weeks/week-01-foundations`, `week-02-loop-engineering`, `week-03-multi-agent`만 실행 코드 범위로 둡니다.
+이 저장소는 도서 독자가 하네스 엔지니어링, 검증 루프, 서비스 배포와 에이전트 협업을 재현하는 교육용 코드입니다. 기본 과정은 `weeks/week-01-foundations`, `week-02-loop-engineering`, `week-03-service-deployment`이며 `week-03-multi-agent`는 기본 13시간 과정 뒤의 선택 심화입니다.
 
 ## 작업 순서
 
@@ -21,13 +21,14 @@
 - push 전 `npm run verify`를 통과시킵니다.
 - 불필요한 GitHub Actions workflow를 만들지 않습니다.
 - `.github/workflows/*.yml`과 Marketplace Action을 추가하지 않습니다.
-- 외부 모델·DB·배포 환경 없이 모든 실습이 동작해야 합니다.
+- 외부 모델·DB·배포 환경 없이 기본 실습과 전체 verify가 동작해야 합니다. Supabase·Vercel은 학습자 소유 샌드박스의 선택 경로입니다.
 - 실제 개인정보·자격 증명·비공개 코드·운영 설정을 넣지 않습니다.
 
 ## 안전한 코드 원칙
 
 - 사용자·모델·도구 출력은 문자열 데이터로 취급하고 HTML·shell 명령으로 실행하지 않습니다.
 - 실습을 웹·DB 예제로 확장할 경우 SQL 문자열 조립 대신 parameter binding을 사용하고, Frontend는 기본 text escaping을 유지합니다.
+- 실제 Production 배포, 외부 쓰기, 비용 발생 작업은 사람의 명시적 승인 없이 실행하지 않습니다.
 - 파일 소유 경로와 허용 범위를 먼저 검증합니다.
 - 명령 Hook은 필요한 로컬 검증 명령만 allowlist로 허용하며 문자열을 직접 실행하지 않습니다.
 - Worker가 자기 결과를 최종 PASS로 판정하지 않습니다.

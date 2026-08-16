@@ -1,63 +1,87 @@
-# Agent Harness Engineering Handbook KO · 실습 자료
+# Agent Harness Engineering Handbook KO · 공개 실습
 
-《Agent Harness Engineering Handbook KO》의 하네스 엔지니어링과 멀티 에이전트 협업을 직접 실행하는 3주 학습 저장소입니다. 모든 예제는 외부 서비스 없이 합성 데이터와 순수 TypeScript로 동작합니다.
+현직자를 위한 3주 하네스 완성 과정의 공개 교육 코드입니다. Rule·Skill 기반 기초 하네스에서 시작해 강제 검증·역할 격리·루프 리팩토링을 거친 뒤, 자신의 명세로 만든 작은 서비스를 로컬에서 검증하고 선택적으로 Preview에 배포합니다.
 
-## 3주 학습 과정
+## 3주 기본 과정
 
-| 주차  | 주제                      | 배우는 핵심                                | 검증 명령              |
-| ----- | ------------------------- | ------------------------------------------ | ---------------------- |
-| 1주차 | Single Worker Harness     | TaskSpec·수용 기준·Evidence·테스트         | `npm run verify:week1` |
-| 2주차 | Planner–Worker–Verifier   | 역할 분리·repair 상한·독립 판정·인계       | `npm run verify:week2` |
-| 3주차 | Multi-Agent Collaboration | DAG·owned path·병렬 wave·Reviewer·Verifier | `npm run verify:week3` |
+| 주차  | 시간 | 주제                              | 핵심 산출물                                | 검증                   |
+| ----- | ---: | --------------------------------- | ------------------------------------------ | ---------------------- |
+| 1주차 |   4H | Rule·Skill 기반 기초 하네스       | AGENTS·Rule·PR Skill·TDD Evidence          | `npm run verify:week1` |
+| 2주차 |   4H | 루프 엔지니어링과 하네스 리팩토링 | Hook·역할 계약·Evaluator·handoff           | `npm run verify:week2` |
+| 3주차 |   5H | 서비스 배포와 Contest Day         | 명세·서비스·보안 Gate·배포 Evidence·점수표 | `npm run verify:week3` |
 
-과정 설명은 [커리큘럼](docs/CURRICULUM.md), 실습 완료 조건은 [수용 기준](docs/LAB_ACCEPTANCE_CRITERIA.md), 실행 오류 해결은 [검증 가이드](docs/VERIFICATION.md)를 따릅니다. 최신 실행 결과는 [검증 보고서](docs/VERIFICATION_REPORT.md)에서 확인할 수 있습니다. 수업을 운영한다면 [강사용 가이드](docs/INSTRUCTOR_GUIDE.md)를 함께 사용하십시오.
+상세 과정은 [커리큘럼](docs/CURRICULUM.md), 완료 조건은 [실습 수용 기준](docs/LAB_ACCEPTANCE_CRITERIA.md), 강의 운영은 [강사용 가이드](docs/INSTRUCTOR_GUIDE.md)를 따릅니다.
 
 ## 실행
 
-필수 환경은 Node.js 20.9 이상과 npm 10 이상입니다.
+Node.js 20.9 이상과 npm 10 이상이 필요합니다.
 
 ```powershell
 npm ci
 npm run verify
 ```
 
-외부 모델 API key와 클라우드 계정은 필요하지 않습니다. 예제 결과는 결정적 fixture와 규칙으로 검증합니다.
+외부 모델 API key, DB, 배포 계정 없이 기본 과정이 모두 동작합니다. 결과는 결정적 fixture와 테스트로 판정합니다.
 
-Hook allowlist, 안전한 상대 경로, 빈 DAG, Reviewer 전체 fan-in, criterion 기반 Evidence, handoff ID 완전 일치를 포함한 실패 fixture도 함께 실행됩니다.
+## 연구 기반 v11 보강
+
+공개 논문·프로토콜·오픈소스·실무 가이드를 대조해 다음 실습을 추가했습니다. 제3자 원문·도식·코드를 복제하지 않고 교육 목적의 작은 TypeScript 구현으로 새로 작성했습니다.
+
+- 1주차: model–harness–environment 경계와 오프라인 최소 도구 루프
+- 2주차: event 기반 pause/resume, 승인 token, 중복 실행 방지, 단순 기준선 대비 4축 평가
+- 3주차: DelegationBrief·AutonomyPolicy·EvidencePack·ContinuationPack과 강화된 SQLi/XSS/CSP Gate
+- 선택 심화: 단일 worker 우선 원칙, shared/isolated context, central/peer 토폴로지와 2~4개 fan-out 제한
+
+설계 근거와 권리별 읽기 원칙은 [연구에서 실습으로](docs/RESEARCH_TO_PRACTICE.md)를 참고하십시오.
+
+## 로컬 기본 경로와 선택 경로
+
+- 기본 경로: 합성 데이터, 로컬 TypeScript, HTTP handler, 배포 manifest로 완결합니다.
+- 선택 경로: 학습자 개인 또는 교육용 Supabase·Vercel 샌드박스에 연결합니다.
+- 대체 증거: 계정이 없으면 Preview URL 대신 로컬 manifest, 테스트 로그, rollback 조건을 제출합니다.
+- 승인 Gate: 실제 Production 배포, 외부 쓰기, 비용 발생 작업은 사람의 명시적 승인 없이 수행하지 않습니다.
 
 ## 폴더 구조
 
 ```text
 .
 ├─ weeks/
-│  ├─ week-01-foundations/       # 한 Worker의 명세·실행·증거
-│  ├─ week-02-loop-engineering/  # Planner–Worker–Verifier 루프
-│  └─ week-03-multi-agent/       # 역할·DAG·소유권·인계·독립 검증
-├─ .agents/                      # Task·handoff 학습 예시
-├─ .claude/rules/                # 경로별 안전·테스트 규칙 예시
-├─ docs/                         # 커리큘럼·수용 기준·수업·검증 가이드
-├─ scripts/                      # 교육 자료 범위와 안전 규칙 검사
-└─ AGENTS.md                     # 실습 공통 개발 규칙
+│  ├─ week-01-foundations/          # Rule·Skill·AGENTS·TDD
+│  ├─ week-02-loop-engineering/     # Hook·role·worktree·evaluator·handoff
+│  ├─ week-03-service-deployment/   # spec·service·security·deploy·contest
+│  └─ week-03-multi-agent/          # 선택 심화: DAG·owned path·fan-in
+├─ .agents/                         # task·handoff 교육 예시
+├─ .claude/rules/                   # 경로별 안전·테스트 규칙
+├─ docs/                            # 과정·수용 기준·운영·검증
+└─ scripts/                         # 범위·보안·Actions 부재 검사
 ```
 
-## 학습 원칙
+기존 Multi-Agent 코드는 삭제하지 않고 [선택 심화](weeks/week-03-multi-agent/README.md)로 분리했습니다. 기본 13시간 과정과 혼동하지 않으며 다음 명령으로 따로 검증합니다.
+
+```powershell
+npm run verify:multi-agent
+```
+
+## 안전 원칙
 
 - 불필요한 GitHub Actions workflow를 만들지 않습니다.
-- 실제 개인정보, 자격 증명, 비공개 코드와 운영 설정을 넣지 않습니다.
-- 테스트를 삭제·skip하거나 assertion을 약화해 통과시키지 않습니다.
-- 사용자·모델 출력을 HTML이나 명령으로 실행하지 않습니다.
+- 실제 개인정보, 자격 증명, 회사 코드, 운영 URL과 설정을 넣지 않습니다.
+- SQL 문자열 연결을 금지하고 parameter binding을 사용합니다.
+- 사용자·모델 출력은 `textContent`로 렌더링하고 raw HTML API를 사용하지 않습니다.
+- 테스트를 skip하거나 assertion을 약화해 Green을 만들지 않습니다.
+- Worker의 자기 보고가 아니라 독립 테스트·Reviewer·Verifier Evidence로 완료를 판단합니다.
+- 위험한 도구 선택과 실제 부작용 실행 사이에서 멈추며, 승인 token은 run·call·만료 시각에 묶습니다.
+- 복잡한 멀티에이전트가 단순 기준선을 결과·과정·안전·비용에서 이길 때만 승격합니다.
 
-## 저자
+## 저장소 운영
+
+공개 기준 자료는 `main`에 통합합니다. Commit→PR→Review 실습은 학습자 fork 또는 별도 연습 저장소에서 수행하며 기준 저장소에 장기 교육 branch를 만들지 않습니다. 변경 전 [기여 가이드](CONTRIBUTING.md)를 읽고 `npm run verify`를 통과시키십시오.
+
+## 저자와 자료 범위
 
 - 김재환 — 저자·기획
 - 윤재성 — 공동저자·실습 코드 공동개발
 
-상세 이력과 출판 계약 자료는 이 교육용 저장소에 포함하지 않습니다.
+이 저장소에는 공개 교육 코드와 교육 문서만 포함합니다. 도서 원고·편집 파일·표지·이력서·계약 자료와 회사 내부 개발 문서는 포함하지 않습니다.
 
-## 자료 범위와 라이선스
-
-이 저장소에는 하네스·멀티 에이전트 공개 실습에 필요한 합성 코드, 테스트와 교육 문서만 포함합니다. 제품 코드, 운영 구성, 도서 원고·편집 파일, 기획·개발 문서, 이력서 원본은 저장하지 않습니다.
-
-저장소에 포함된 교육 코드와 교육 문서는 [Apache License 2.0](LICENSE)으로 공개합니다. 출판 관련 저작물은 공동저자가 별도로 관리하며 이 공개 라이선스의 대상이 아닙니다. 자세한 경계는 [라이선스와 자료 범위](LICENSE_SCOPE.md), 제3자 도구는 [고지 문서](THIRD_PARTY_NOTICES.md)를 확인하십시오.
-
-기여 전에는 [기여 가이드](CONTRIBUTING.md)를 읽고 `npm run verify`를 통과시키십시오.
+교육 코드와 교육 문서는 [Apache License 2.0](LICENSE)을 따릅니다. 출판 저작물은 공동저자가 별도로 관리하며 이 라이선스 대상이 아닙니다. 자세한 경계는 [LICENSE_SCOPE.md](LICENSE_SCOPE.md), 제3자 고지는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 확인하십시오.

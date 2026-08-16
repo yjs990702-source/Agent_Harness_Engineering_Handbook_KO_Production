@@ -2,7 +2,7 @@
 
 ## 학습 목표
 
-AGENTS·CLAUDE·path-scoped Rule이 각각 어떤 문제를 다루는지 확인하고, 업무요청 제목 검증과 tenant 격리를 TDD로 구현합니다.
+AGENTS·CLAUDE·path-scoped Rule이 각각 어떤 문제를 다루는지 확인하고, 업무요청 제목 검증과 tenant 격리를 TDD로 구현합니다. 마지막에는 API key 없는 최소 에이전트 루프에서 모델·하네스·환경의 경계를 직접 확인합니다.
 
 ## 수용 기준
 
@@ -11,6 +11,8 @@ AGENTS·CLAUDE·path-scoped Rule이 각각 어떤 문제를 다루는지 확인�
 - `W1-AC-03`: 사용자는 자신의 tenant 요청만 목록·상세 조회할 수 있습니다.
 - `W1-AC-04`: 다른 tenant의 ID를 알아도 존재 여부를 구분할 수 없습니다.
 - `W1-SEC-01`: `<script>` 같은 입력은 실행하지 않고 plain text 데이터로만 보존합니다.
+- `W1-AC-05`: 모델의 구조화된 도구 제안은 schema와 registry를 통과해야 하며, 최소 루프는 부작용 도구를 실행하지 않습니다.
+- `W1-AC-06`: 무한 반복 대신 1~8 범위의 step budget에서 종료하고 실행 event를 증거로 남깁니다.
 
 ## 실행
 
@@ -28,6 +30,7 @@ npm run verify:week1
 4. [업무요청 서비스](lessons/04-request-service.md)
 5. [완료 선언과 Evidence 분리](lessons/05-evidence-baseline.md)
 6. [Single Worker Harness](lessons/06-single-worker-harness.md)
+7. [오프라인 최소 에이전트 루프](lessons/07-minimal-offline-loop.md)
 
 ## TDD 실습 순서
 
@@ -37,6 +40,7 @@ npm run verify:week1
 4. `src/request.ts`를 최소 수정해 Green으로 만듭니다.
 5. 서비스·tenant 격리 회귀와 주차 전체 verify를 실행합니다.
 6. 실행한 Red/Green 명령과 남은 위험을 학습 노트에 기록합니다.
+7. `tests/minimal-loop.test.ts`로 tool schema, policy block, step budget을 확인합니다.
 
 ## 역할 지도
 
