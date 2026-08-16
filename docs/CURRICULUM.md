@@ -1,5 +1,7 @@
 # 3주 실습 커리큘럼
 
+핵심 과정의 상세 흐름은 [하네스 중심 학습 경로](CURRICULUM_HARNESS_FIRST.md)를 기준으로 합니다.
+
 ## 공통 러닝 케이스
 
 팀원이 합성 업무요청을 등록하고 담당자·상태·기한을 관리하는 작은 서비스를 만듭니다. 기능의 수보다 명세→실패 재현→구현→독립 검증→출고 증거의 연결을 우선합니다.
@@ -26,17 +28,17 @@
 
 실행 폴더: `weeks/week-02-loop-engineering`
 
-## 3주차 · 서비스와 출고
+## 3주차 · 멀티 에이전트 협업
 
 학습 결과:
 
-- Next.js UI와 Route Handler로 업무요청 생성·목록·상세 흐름을 구현합니다.
-- memory adapter로 로컬 실행하고 선택적으로 Supabase/RLS adapter를 연결합니다.
-- SQL Injection, tenant 우회, XSS, CSRF 공격 사례를 테스트합니다.
-- lint·typecheck·unit·component·E2E·build와 Preview/Production 수동 gate를 구분합니다.
+- UI Worker와 Logic Worker의 owned path를 분리하고 같은 wave에서 병렬 실행합니다.
+- DAG dependency·누락·cycle을 실행 전에 검증합니다.
+- Test Worker가 두 구현 결과의 handoff와 evidence를 받아 통합 검증합니다.
+- 읽기 전용 Reviewer와 결정적 Verifier가 변경 경로·evidence·handoff를 독립 판정합니다.
 
-실행 폴더: `weeks/week-03-production-service`
+실행 폴더: `weeks/week-03-multi-agent`
 
-## 프로덕션 확장과 연결
+## 선택형 웹·보안 확장
 
-3주 과정 이후 기존 Project Aegis 기준선의 Run state, TaskSpec/Evidence/Verdict, event hash chain, checkpoint/outbox/lease, hash-bound approval, Tool Gateway, sandbox, golden evaluation, release manifest를 순서대로 확장합니다. 교육 앱에 모든 기능을 한꺼번에 넣지 않고 각 실습의 실패 모드와 증거를 먼저 확보합니다.
+3주 과정 이후 `optional/web-service-extension`에서 Next.js UI, API, Supabase/RLS 선택 adapter, SQL Injection·XSS·CSRF 방어와 브라우저 E2E를 실습할 수 있습니다. 이 부록은 회사의 실제 개발 구조를 재현하지 않으며 외부 계정 없이도 memory adapter로 실행됩니다.

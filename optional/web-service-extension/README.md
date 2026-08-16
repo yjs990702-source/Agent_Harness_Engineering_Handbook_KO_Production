@@ -1,4 +1,6 @@
-# 3주차 · 업무요청 서비스와 출고 증거
+# 선택 부록 · 업무요청 웹 서비스와 보안
+
+이 모듈은 핵심 3주 하네스·멀티 에이전트 과정을 완료한 학습자를 위한 선택형 확장입니다. Next.js·Supabase·브라우저 E2E나 외부 계정이 없어도 핵심 과정은 완료할 수 있습니다.
 
 ## 기능
 
@@ -13,7 +15,7 @@
 ## 로컬 실행
 
 ```powershell
-npm run dev --workspace=@handbook/week-03-production-service
+npm run dev --workspace=@handbook/optional-web-service-extension
 ```
 
 브라우저에서 `http://localhost:3000`을 열면 합성 데이터만 사용하는 demo 모드가 실행됩니다. demo auth와 memory data는 Production에서 거부됩니다.
@@ -21,7 +23,7 @@ npm run dev --workspace=@handbook/week-03-production-service
 ## 전체 검증
 
 ```powershell
-npm run verify:week3
+npm run verify:web
 ```
 
 Playwright Chromium이 없으면 저장소 루트에서 다음을 한 번 실행합니다.

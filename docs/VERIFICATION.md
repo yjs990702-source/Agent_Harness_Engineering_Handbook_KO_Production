@@ -15,9 +15,11 @@ npm run verify
 npm run verify:week1
 npm run verify:week2
 npm run verify:week3
+npm run verify:web
+npm run verify:publication
 ```
 
-아직 구현되지 않은 주차 명령은 workspace가 추가될 때까지 실패할 수 있으며, [상태 문서](STATUS.md)의 완료 항목만 기준으로 사용합니다.
+`verify:publication`은 내부 식별자·개인정보 형태·private key, GitHub Actions workflow, 금지된 XSS sink를 검사하고 모든 핵심·선택 workspace의 format·typecheck·test·build를 실행합니다. `verify:web`은 선택 웹 부록의 Chromium E2E까지 포함합니다.
 
 ## 기대 결과 기록 형식
 
@@ -33,6 +35,6 @@ npm run verify:week3
 
 - 의존성 불일치: `node --version`, `npm --version`, lockfile 변경 여부를 먼저 확인합니다.
 - stale build: 해당 workspace의 `.next` 또는 `dist`만 지운 뒤 다시 실행합니다. 저장소 전체를 재귀 삭제하지 않습니다.
-- 외부 서비스 없음: memory/fake adapter를 사용합니다. Production 완료로 표시하지 않습니다.
+- 외부 서비스 없음: 핵심 1~3주차는 외부 서비스가 필요 없습니다. 선택 웹 부록은 memory/fake adapter를 사용하고 Production 완료로 표시하지 않습니다.
 - Playwright browser 없음: 문서화된 설치 명령으로 동일 버전 browser를 설치한 뒤 E2E를 재실행합니다.
 - secret 의심: 커밋·push를 중단하고 값을 폐기·회전한 뒤 Git history와 로그를 확인합니다.

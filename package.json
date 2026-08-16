@@ -5,10 +5,12 @@
   "description": "Executable weekly labs for Agent Harness Engineering Handbook KO",
   "packageManager": "npm@11.6.2",
   "workspaces": [
-    "weeks/*"
+    "weeks/*",
+    "optional/*"
   ],
   "scripts": {
     "verify:repo": "node scripts/validate-repository.mjs",
+    "verify:publication": "node scripts/validate-repository.mjs && node scripts/validate-publication-boundary.mjs && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
     "format:check": "prettier --check . --ignore-unknown",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
@@ -17,8 +19,9 @@
     "e2e": "npm run test:e2e --workspaces --if-present",
     "verify:week1": "npm run verify --workspace=@handbook/week-01-foundations",
     "verify:week2": "npm run verify --workspace=@handbook/week-02-loop-engineering",
-    "verify:week3": "npm run verify --workspace=@handbook/week-03-production-service",
-    "verify": "npm run verify:repo && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run e2e"
+    "verify:week3": "npm run verify --workspace=@handbook/week-03-multi-agent",
+    "verify:web": "npm run verify --workspace=@handbook/optional-web-service-extension",
+    "verify": "npm run verify:publication && npm run e2e"
   },
   "engines": {
     "node": ">=20.9.0",

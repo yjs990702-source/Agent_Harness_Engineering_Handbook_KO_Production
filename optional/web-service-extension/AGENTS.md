@@ -1,4 +1,6 @@
-# 3주차 서비스 모듈 지침
+# 선택 웹 서비스 모듈 지침
+
+이 모듈은 핵심 3주차가 아니라 SQL Injection·XSS·CSRF와 UI를 다루는 선택 부록입니다.
 
 - Route Handler는 public HTTP endpoint로 보고 인증·tenant 권한·Origin·CSRF·content type·body size·schema를 검증합니다.
 - `LAB_AUTH_MODE=demo`와 memory adapter는 development/test에서만 허용하고 Production에서는 fail closed 합니다.

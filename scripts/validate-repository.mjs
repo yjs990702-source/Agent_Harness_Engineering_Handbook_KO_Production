@@ -9,6 +9,17 @@ const required = [
   "SECURITY.md",
   "LICENSE_DECISION_REQUIRED.md",
   "docs/CURRICULUM.md",
+  "docs/CURRICULUM_HARNESS_FIRST.md",
+  "docs/AUTHORS.md",
+  "docs/PUBLICATION_SCOPE.md",
+  "docs/DEVELOPMENT_PUBLICATION_BOUNDARY.md",
+  "docs/DISCLOSURE_POLICY.md",
+  "docs/CONTENT_CLASSIFICATION.md",
+  "docs/REDACTION_REGISTER.md",
+  "docs/CODE_PROVENANCE.md",
+  "docs/LAB_ACCEPTANCE_CRITERIA.md",
+  "docs/PUBLICATION_REVIEW_CHECKLIST.md",
+  "docs/INSTRUCTOR_GUIDE.md",
   "docs/STATUS.md",
   "docs/VERIFICATION.md",
 ];
@@ -52,9 +63,13 @@ async function walk(directory) {
   return files;
 }
 
-const sourceFiles = (await walk(path.join(root, "weeks"))).filter((file) =>
-  /\.(?:ts|tsx|js|mjs)$/i.test(file),
-);
+const sourceFiles = (
+  await Promise.all(
+    ["weeks", "optional"].map((directory) => walk(path.join(root, directory))),
+  )
+)
+  .flat()
+  .filter((file) => /\.(?:ts|tsx|js|mjs)$/i.test(file));
 const bannedSinks = [
   ["dangerouslySetInnerHTML", /dangerouslySetInnerHTML/],
   ["DOM innerHTML sink", /\.(?:innerHTML|outerHTML)\s*=/],
