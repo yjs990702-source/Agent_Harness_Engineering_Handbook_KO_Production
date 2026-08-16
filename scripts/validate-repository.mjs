@@ -3,6 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const required = [
+  ".gitattributes",
   "README.md",
   "AGENTS.md",
   "CLAUDE.md",
