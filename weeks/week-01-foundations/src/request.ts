@@ -30,8 +30,7 @@ export function normalizeRequestTitle(value: unknown): string {
   }
 
   const title = value.trim();
-  // Week 1 start fixture: 이 경계 결함은 첫 TDD 실습에서 수정합니다.
-  if (title.length < 2) {
+  if (title.length < 3) {
     throw new RequestValidationError(
       "제목은 공백을 제외하고 3자 이상이어야 합니다.",
     );
