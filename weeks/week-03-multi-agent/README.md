@@ -29,6 +29,17 @@ Request → Planner → UI Worker ───┐
 npm run verify:week3
 ```
 
+## 강의 순서
+
+1. [RequestSpec](lessons/01-request-spec.md)
+2. [역할과 handoff 계약](lessons/02-role-handoff-contracts.md)
+3. [DAG 사전 검증](lessons/03-dag-validation.md)
+4. [owned path 충돌 차단](lessons/04-owned-path.md)
+5. [병렬 wave와 fan-in](lessons/05-parallel-waves.md)
+6. [읽기 전용 Reviewer](lessons/06-read-only-reviewer.md)
+7. [독립 Verifier](lessons/07-independent-verifier.md)
+8. [전체 협업 시나리오와 회고](lessons/08-end-to-end-retrospective.md)
+
 ## 코드 읽기 순서
 
 1. `src/contracts.ts`에서 역할과 산출물 계약을 읽습니다.

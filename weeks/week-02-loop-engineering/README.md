@@ -18,6 +18,16 @@ Hook은 입력 문자열을 실행하지 않습니다. `git clean`, PowerShell �
 npm run verify:week2
 ```
 
+## 강의 순서
+
+1. [Hook 입력과 강제 차단](lessons/01-hook-policy.md)
+2. [역할 계약](lessons/02-role-contracts.md)
+3. [TaskSpec의 owned path](lessons/03-owned-path.md)
+4. [Verifier와 Evaluator](lessons/04-verifier-evaluator.md)
+5. [`.agents` handoff](lessons/05-handoff.md)
+6. [읽기 전용 데이터 경계](lessons/06-read-only-boundary.md)
+7. [repair cap 실행 루프](lessons/07-repair-loop.md)
+
 Hook fixture만 확인하려면 다음을 실행합니다.
 
 ```powershell

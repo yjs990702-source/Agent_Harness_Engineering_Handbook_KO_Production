@@ -2,6 +2,7 @@
   "name": "agent-harness-engineering-handbook-ko-labs",
   "version": "1.0.0",
   "private": true,
+  "license": "Apache-2.0",
   "description": "Beginner-friendly harness engineering and agent collaboration labs",
   "packageManager": "npm@11.6.2",
   "workspaces": [

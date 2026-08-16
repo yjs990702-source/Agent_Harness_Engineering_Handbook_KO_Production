@@ -1,5 +1,6 @@
 node_modules/
 .cache/
+.tmp/
 .next/
 coverage/
 dist/
@@ -11,3 +12,12 @@ test-results/
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
+
+# 출판·개인 문서는 공개 실습 저장소에서 관리하지 않음
+*.docx
+*.pdf
+*.hwp
+*.pptx
+*.xlsx
+*.zip
+*.7z

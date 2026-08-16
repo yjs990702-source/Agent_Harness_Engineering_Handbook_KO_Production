@@ -11,15 +11,16 @@
 
 ## 결과
 
-| 항목           | 결과 | 증거                                                                |
-| -------------- | ---- | ------------------------------------------------------------------- |
-| 저장소 범위    | PASS | 필수 파일 22개, TypeScript/JavaScript source 28개, 범위 밖 파일 0개 |
-| GitHub Actions | PASS | workflow 0개                                                        |
-| 포맷           | PASS | Prettier 전체 일치                                                  |
-| lint·타입      | PASS | 3개 workspace 모두 `tsc --noEmit` 통과                              |
-| 테스트         | PASS | 테스트 파일 9개, 테스트 56개, skip 0개                              |
-| 빌드           | PASS | 3개 workspace 모두 통과                                             |
-| 의존성 감사    | PASS | 취약점 0건                                                          |
+| 항목           | 결과 | 증거                                                     |
+| -------------- | ---- | -------------------------------------------------------- |
+| 저장소 범위    | PASS | 필수 파일 46개, 강의 21개, source 28개, 범위 밖 파일 0개 |
+| GitHub Actions | PASS | workflow 0개                                             |
+| 공개 라이선스  | PASS | 교육 코드·문서 Apache-2.0, 출판 저작물 별도 관리         |
+| 포맷           | PASS | Prettier 전체 일치                                       |
+| lint·타입      | PASS | 3개 workspace 모두 `tsc --noEmit` 통과                   |
+| 테스트         | PASS | 테스트 파일 9개, 테스트 56개, skip 0개                   |
+| 빌드           | PASS | 3개 workspace 모두 통과                                  |
+| 의존성 감사    | PASS | 취약점 0건                                               |
 
 주차별 테스트 수는 1주차 10개, 2주차 16개, 3주차 30개다.
 
@@ -29,6 +30,7 @@
 - DAG: 빈 계획, 중복 node, 중복·누락 dependency, cycle, owned path 충돌
 - Reviewer: UI·Logic·Test 전체 fan-in, 변경 파일이 있으면 `READ_ONLY_WRITE`
 - Verifier: 비정상 경로, 결과 누락·중복·계획 밖 결과, 실패 Evidence, criterion 오류·누락, handoff ID 불일치, stale base revision
+- 자료 경계: DOCX·PDF·HWP·PPTX·XLSX·압축 출판 파일과 원고·이력서·내부 문서 경로를 저장소 검사에서 거부
 
 ## 재현 명령
 

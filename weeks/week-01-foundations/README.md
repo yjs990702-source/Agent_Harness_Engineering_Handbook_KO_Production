@@ -20,6 +20,15 @@ AGENTS·CLAUDE·path-scoped Rule이 각각 어떤 문제를 다루는지 확인�
 npm run verify:week1
 ```
 
+## 강의 순서
+
+1. [TaskSpec과 수용 기준](lessons/01-task-spec.md)
+2. [입력 경계와 안전한 텍스트](lessons/02-input-boundary.md)
+3. [tenant 격리 저장소](lessons/03-tenant-isolation.md)
+4. [업무요청 서비스](lessons/04-request-service.md)
+5. [완료 선언과 Evidence 분리](lessons/05-evidence-baseline.md)
+6. [Single Worker Harness](lessons/06-single-worker-harness.md)
+
 ## TDD 실습 순서
 
 1. `tests/request.test.ts`의 제목 경계값을 읽습니다.
