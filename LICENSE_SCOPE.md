@@ -14,4 +14,4 @@ Copyright © 2026 김재환·윤재성 및 각 기여자.
 
 ## 제3자 자료
 
-개발 도구와 의존성의 저작권·라이선스는 각 권리자에게 있습니다. 버전과 확인 방법은 `package-lock.json`과 `THIRD_PARTY_NOTICES.md`를 참고하십시오. 제3자 자료는 이 저장소의 Apache License 2.0으로 재허가되지 않습니다.
+개발 도구와 의존성의 저작권·라이선스는 각 권리자에게 있습니다. 버전과 확인 방법은 `package-lock.json`, `python-labs/pyproject.toml`, `THIRD_PARTY_NOTICES.md`를 참고하십시오. 제3자 자료는 이 저장소의 Apache License 2.0으로 재허가되지 않습니다.

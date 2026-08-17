@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   buildContentSecurityPolicy,
@@ -8,6 +9,19 @@ import {
   validateContentSecurityPolicy,
   validateExternalUrl,
 } from "../src/security.js";
+
+type SecurityFixture = Readonly<{
+  kind: "value" | "sort_column" | "sort_direction";
+  value: string;
+  expectedCode: string;
+}>;
+
+function securityFailureCode(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  if (message.includes("column")) return "SORT_COLUMN_NOT_ALLOWED";
+  if (message.includes("direction")) return "SORT_DIRECTION_NOT_ALLOWED";
+  return "UNMAPPED_FAILURE";
+}
 
 describe("서비스 보안 경계", () => {
   it("SQL 공격 문자열을 query text에 연결하지 않는다", () => {
@@ -87,5 +101,38 @@ describe("서비스 보안 경계", () => {
       '{"code":"REQUEST_FAILED","message":"요청을 처리하지 못했습니다. 입력과 권한을 확인해 주세요."}',
     );
     expect(output).not.toMatch(/SELECT|password|super-secret|internal/i);
+  });
+
+  it("Python과 같은 security fixture failure code를 사용한다", () => {
+    const cases = JSON.parse(
+      readFileSync(
+        new URL(
+          "../../../shared/contract-fixtures/security-attacks.json",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    ) as readonly SecurityFixture[];
+    for (const fixture of cases) {
+      const column = fixture.kind === "sort_column" ? fixture.value : "title";
+      const direction =
+        fixture.kind === "sort_direction" ? fixture.value : "ASC";
+      const title = fixture.kind === "value" ? fixture.value : "safe";
+      try {
+        const query = buildSortedTitleLookupQuery(
+          "tenant-a",
+          title,
+          column,
+          direction,
+        );
+        expect(fixture.expectedCode).toBe("PASS");
+        if (fixture.kind === "value") {
+          expect(query.text).not.toContain(fixture.value);
+          expect(query.values).toContain(fixture.value);
+        }
+      } catch (error) {
+        expect(securityFailureCode(error)).toBe(fixture.expectedCode);
+      }
+    }
   });
 });

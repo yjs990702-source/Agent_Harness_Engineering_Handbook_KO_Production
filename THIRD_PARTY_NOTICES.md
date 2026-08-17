@@ -9,8 +9,11 @@
 | Prettier    | 3.7.4     | format 검사              | MIT        |
 | tsx         | 4.21.0    | TypeScript fixture 실행  | MIT        |
 | @types/node | 24.10.4   | Node.js type 정의        | MIT        |
+| pytest      | 8.4.1     | Python unit test         | MIT        |
+| Ruff        | 0.12.10   | Python lint·format       | MIT        |
+| mypy        | 1.17.1    | Python strict typecheck  | MIT        |
 
-정확한 버전은 `package-lock.json`을 기준으로 합니다. 의존성은 각 패키지의 라이선스를 따르며 이 저장소의 Apache-2.0으로 재허가되지 않습니다. 릴리스 시 직접·전이 의존성의 고지 의무를 다시 확인합니다.
+Node 의존성의 정확한 버전은 `package-lock.json`, Python 직접 개발 의존성은 `python-labs/pyproject.toml`을 기준으로 합니다. 의존성은 각 패키지의 라이선스를 따르며 이 저장소의 Apache-2.0으로 재허가되지 않습니다. 릴리스 시 직접·전이 의존성의 고지 의무를 다시 확인합니다.
 
 ## 연구·읽기 자료
 

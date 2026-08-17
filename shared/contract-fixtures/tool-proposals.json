@@ -1,0 +1,48 @@
+[
+  {
+    "id": "TOOL-001",
+    "proposal": {
+      "tool": "read_note",
+      "permissions": ["read"],
+      "input": { "note_id": "n-1" }
+    },
+    "approvalGranted": false,
+    "expectedCode": "PASS"
+  },
+  {
+    "id": "TOOL-002",
+    "proposal": {
+      "tool": "unknown_tool",
+      "permissions": ["read"],
+      "input": { "note_id": "n-1" }
+    },
+    "approvalGranted": false,
+    "expectedCode": "UNKNOWN_TOOL"
+  },
+  {
+    "id": "TOOL-003",
+    "proposal": {
+      "tool": "read_note",
+      "permissions": ["write"],
+      "input": { "note_id": "n-1" }
+    },
+    "approvalGranted": false,
+    "expectedCode": "PERMISSION_ESCALATION"
+  },
+  {
+    "id": "TOOL-004",
+    "proposal": { "tool": "read_note", "permissions": ["read"], "input": {} },
+    "approvalGranted": false,
+    "expectedCode": "INPUT_SCHEMA_INVALID"
+  },
+  {
+    "id": "TOOL-005",
+    "proposal": {
+      "tool": "publish_note",
+      "permissions": ["deploy"],
+      "input": { "note_id": "n-1" }
+    },
+    "approvalGranted": false,
+    "expectedCode": "APPROVAL_REQUIRED"
+  }
+]

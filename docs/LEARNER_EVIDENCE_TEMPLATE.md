@@ -54,3 +54,16 @@ npm run verify
 - [ ] 내부 파일·원고·Secret·운영 데이터가 없다.
 - [ ] `ready_to_ship`이면 pending이 없고 ship readiness가 PASS다.
 - [ ] 실패와 제한을 숨기지 않았다.
+
+## Python Companion 추가 필드
+
+| 필드           | 기록                                               |
+| -------------- | -------------------------------------------------- |
+| language       | `python`                                           |
+| Python version | 3.11 이상 실제 출력                                |
+| interpreter    | `.venv/Scripts/python.exe` 또는 `.venv/bin/python` |
+| virtualenv     | 새 환경 생성·설치 명령                             |
+| fixture ID     | TOOL·APPROVAL·SEC·EVIDENCE ID                      |
+| verification   | `npm run verify:python` 또는 `npm run verify:all`  |
+
+Python 제출자는 SQL 공격 값이 query text가 아닌 params에 남은 Evidence와 DOM XSS가 TypeScript 프론트엔드 책임이라는 교차 읽기 결과를 함께 기록합니다.

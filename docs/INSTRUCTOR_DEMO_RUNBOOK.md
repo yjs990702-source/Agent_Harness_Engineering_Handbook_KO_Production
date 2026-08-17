@@ -94,3 +94,17 @@ npm run verify
 ```
 
 강사는 [학습자 Evidence 양식](LEARNER_EVIDENCE_TEMPLATE.md)에서 commit, 명령, 결과, 위험, 다음 안전 행동을 확인하고 [예상 실패 지도](EXPECTED_FAILURES.md)로 재현 여부를 판정합니다.
+
+## Python Companion · 선택 3시간
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".\python-labs[dev]"
+.\.venv\Scripts\python.exe -m pytest python-labs/tests/week1 -q
+.\.venv\Scripts\python.exe -m pytest python-labs/tests/week2 -q
+.\.venv\Scripts\python.exe -m pytest python-labs/tests/week3 -q
+npm run verify:python
+npm run verify:all
+```
+
+15분 Preflight 뒤 45분 Week 1, 60분 Week 2, 45분 Week 3을 진행합니다. 남은 15분은 공통 fixture와 TypeScript 결과 비교에 사용합니다. 선택 Multi-Agent 30분은 단일 worker 기준선 통과자만 진행합니다.

@@ -10,7 +10,7 @@
 2. 한 번에 하나의 수용 기준만 변경합니다.
 3. 가장 작은 구현으로 focused test를 통과시킵니다.
 4. 해당 주차 verify를 실행합니다.
-5. 루트 `npm run verify`로 전체 회귀를 확인합니다.
+5. 루트 `npm run verify`로 TypeScript 회귀를 확인하고 Python·공통 fixture 변경은 `npm run verify:all`을 실행합니다.
 6. 코드와 관련 README를 함께 최신화합니다.
 
 테스트를 skip하거나 assertion을 약화해 Green을 만들지 않습니다.
@@ -18,7 +18,7 @@
 ## 저장소 운영
 
 - 학습 코드는 `main` 한 브랜치에 통합합니다.
-- push 전 `npm run verify`를 통과시킵니다.
+- push 전 TypeScript 기본 변경은 `npm run verify`, Python·공통 계약 변경은 `npm run verify:all`을 통과시킵니다.
 - 불필요한 GitHub Actions workflow를 만들지 않습니다.
 - `.github/workflows/*.yml`과 Marketplace Action을 추가하지 않습니다.
 - 외부 모델·DB·배포 환경 없이 기본 실습과 전체 verify가 동작해야 합니다. Supabase·Vercel은 학습자 소유 샌드박스의 선택 경로입니다.

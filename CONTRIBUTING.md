@@ -15,8 +15,11 @@
 ```powershell
 npm ci
 npm run verify
+npm run verify:all
 npm audit
 ```
+
+Python·공통 fixture를 변경하면 Python 3.11+ 가상환경에 `python-labs[dev]`를 설치하고 `verify:all`을 필수로 실행합니다. TypeScript 전용 변경은 기존 `verify`만으로도 기본 회귀를 확인할 수 있습니다.
 
 3주차 실제 Preview 배포는 학습자 소유 샌드박스에서만 수행하며, 이 기준 저장소에는 URL·token·실제 환경변수 값을 제출하지 않습니다. Commit·PR 연습은 fork 또는 별도 연습 저장소를 사용하고 공개 기준 자료는 `main`에 정리합니다.
 

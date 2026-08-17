@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import {
   eventsForProposal,
@@ -29,6 +30,50 @@ function waitingEvents(): readonly RunEvent[] {
     { type: "run_started", runId: "RUN-001", goal: "Preview 배포" },
     ...eventsForProposal(proposal),
   ];
+}
+
+type ApprovalFixture = Readonly<{
+  events: readonly Record<string, unknown>[];
+  expectedCode: string;
+}>;
+
+function toRunEvent(event: Record<string, unknown>): RunEvent {
+  const runId = String(event.run_id);
+  if (event.type === "run_started")
+    return { type: "run_started", runId, goal: String(event.goal) };
+  if (event.type === "run_completed") return { type: "run_completed", runId };
+  if (event.type === "tool_executed")
+    return {
+      type: "tool_executed",
+      runId,
+      callId: String(event.call_id),
+      executedAt: String(event.executed_at),
+      output: "fixture",
+    };
+  if (event.type === "approval_requested")
+    return {
+      type: "approval_requested",
+      runId,
+      callId: String(event.call_id),
+    };
+  return {
+    type: "tool_proposed",
+    runId,
+    proposal: {
+      runId,
+      callId: String(event.call_id),
+      tool: String(event.tool),
+      sideEffect: String(event.side_effect) as "none" | "consequential",
+      input: {},
+    },
+  };
+}
+
+function approvalFailureCode(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  if (message.includes("승인 없는")) return "APPROVAL_REQUIRED";
+  if (message.includes("종료 상태")) return "TERMINAL_EVENT";
+  return "UNMAPPED_FAILURE";
 }
 
 describe("approval event loop", () => {
@@ -168,5 +213,25 @@ describe("approval event loop", () => {
         { type: "approval_granted", runId: "RUN-001", token },
       ]),
     ).toThrow();
+  });
+
+  it("Python과 같은 approval fixture failure code를 사용한다", () => {
+    const cases = JSON.parse(
+      readFileSync(
+        new URL(
+          "../../../shared/contract-fixtures/approval-events.json",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    ) as readonly ApprovalFixture[];
+    for (const fixture of cases) {
+      try {
+        reduceRun(fixture.events.map(toRunEvent));
+        expect(fixture.expectedCode).toBe("PASS");
+      } catch (error) {
+        expect(approvalFailureCode(error)).toBe(fixture.expectedCode);
+      }
+    }
   });
 });

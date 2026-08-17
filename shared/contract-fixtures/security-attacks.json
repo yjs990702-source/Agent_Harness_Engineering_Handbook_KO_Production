@@ -1,0 +1,20 @@
+[
+  {
+    "id": "SEC-001",
+    "kind": "value",
+    "value": "x' OR 1=1 --",
+    "expectedCode": "PASS"
+  },
+  {
+    "id": "SEC-002",
+    "kind": "sort_column",
+    "value": "title; DROP TABLE work_requests",
+    "expectedCode": "SORT_COLUMN_NOT_ALLOWED"
+  },
+  {
+    "id": "SEC-003",
+    "kind": "sort_direction",
+    "value": "DESC; DROP TABLE work_requests",
+    "expectedCode": "SORT_DIRECTION_NOT_ALLOWED"
+  }
+]

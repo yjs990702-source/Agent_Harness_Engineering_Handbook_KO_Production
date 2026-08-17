@@ -6,25 +6,28 @@
 - 운영체제: Windows
 - Node.js: 24.12.0
 - npm: 11.6.2
+- Python: 3.12.1 (지원 기준 3.11+)
+- Python 검증 도구: pytest 8.4.1, Ruff 0.12.10, mypy 1.17.1
 - 설치: `package-lock.json` 기준 `npm ci`
 - 외부 모델·DB·배포 계정: 기본 검증에는 사용하지 않음
 - 검증 범위: 저장소 원본과 `node_modules` 없는 새 복제본
 
 ## 결과
 
-| 항목                | 결과 | 증거                                                             |
-| ------------------- | ---- | ---------------------------------------------------------------- |
-| 저장소 공개 범위    | PASS | 필수 파일 85개, 강의 40개, source 62개, 범위 밖 파일 0개         |
-| GitHub Actions 금지 | PASS | workflow 0개                                                     |
-| 공개 라이선스       | PASS | 교육 코드·문서 Apache-2.0, 출판 원고·내부 자료 제외              |
-| 포맷                | PASS | Prettier 전체 일치                                               |
-| lint·타입 검사      | PASS | 4개 workspace 모두 `tsc --noEmit` 통과                           |
-| 테스트              | PASS | 테스트 파일 24개, 테스트 119개, skip 0개                         |
-| 빌드                | PASS | 4개 workspace 모두 통과                                          |
-| 의존성 감사         | PASS | `npm audit` 취약점 0건                                           |
-| 새 환경 재현        | PASS | `node_modules` 없는 복제본에서 `npm ci` 후 `npm run verify` 통과 |
+| 항목                | 결과 | 증거                                                      |
+| ------------------- | ---- | --------------------------------------------------------- |
+| 저장소 공개 범위    | PASS | 필수 파일 100개, 강의 45개, source 84개, 범위 밖 파일 0개 |
+| GitHub Actions 금지 | PASS | workflow 0개                                              |
+| 공개 라이선스       | PASS | 교육 코드·문서 Apache-2.0, 출판 원고·내부 자료 제외       |
+| 포맷                | PASS | Prettier 전체 일치                                        |
+| lint·타입 검사      | PASS | 4개 workspace 모두 `tsc --noEmit` 통과                    |
+| TypeScript 테스트   | PASS | 테스트 파일 24개, 테스트 122개, skip 0개                  |
+| Python 검증         | PASS | Ruff·mypy strict·compileall, pytest 41개, skip 0개        |
+| 빌드                | PASS | 4개 workspace 모두 통과                                   |
+| 의존성 감사         | PASS | `npm audit` 취약점 0건                                    |
+| 새 환경 재현        | 예정 | clean clone에서 Node·Python을 새로 설치한 뒤 최종 확인    |
 
-과정별 테스트 수는 1주차 18개, 2주차 35개, 3주차 서비스 배포 30개이며, 선택 심화 멀티 에이전트는 36개다.
+TypeScript 과정별 테스트 수는 1주차 19개, 2주차 36개, 3주차 서비스 배포 31개이며, 선택 심화 멀티 에이전트는 36개다. Python Companion은 Week 1·2·3과 선택 심화를 합쳐 41개다.
 
 ## 과정별 완료 증거
 
@@ -32,6 +35,8 @@
 - 2주차: Hook·승인 event replay·Worktree dry-run·하네스 다이어트·evaluator·작업 인계
 - 3주차: 열린 질문 명세·SQL 식별자 allowlist·XSS/URL/CSP·release identity·배포 manifest
 - 선택 심화: 단일 worker 기준선·bounded fan-out·부분 실패/timeout·Reviewer fan-in 검증
+- Python Companion: dataclass Tool Contract·pure approval reducer·pytest TDD·DB-API binding·release Evidence·bounded asyncio fan-out
+- 공통 계약: tool·approval·security·release JSON fixture를 TypeScript와 Python이 같은 failure code로 판정
 
 ## 이번 보강에서 확인한 실패 fixture
 
@@ -54,6 +59,8 @@
 ```powershell
 npm ci
 npm run verify
+npm run verify:python
+npm run verify:all
 npm audit
 ```
 

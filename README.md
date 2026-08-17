@@ -23,6 +23,15 @@ npm run verify
 
 외부 모델 API key, DB, 배포 계정 없이 기본 과정이 모두 동작합니다. 결과는 결정적 fixture와 테스트로 판정합니다.
 
+Python 3.11+ 사용자는 약 3시간의 [Python Companion Track](python-labs/README.md)을 선택할 수 있습니다. 언어 선택은 [언어 트랙 가이드](docs/LANGUAGE_TRACK_SELECTION.md), 시간표는 [Python 커리큘럼](docs/PYTHON_TRACK_CURRICULUM.md)을 확인하십시오.
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".\python-labs[dev]"
+npm run verify:python
+npm run verify:all
+```
+
 ## 연구 기반 v11 보강
 
 공개 논문·프로토콜·오픈소스·실무 가이드를 대조해 다음 실습을 추가했습니다. 제3자 원문·도식·코드를 복제하지 않고 교육 목적의 작은 TypeScript 구현으로 새로 작성했습니다.
@@ -50,6 +59,8 @@ npm run verify
 │  ├─ week-02-loop-engineering/     # Hook·role·worktree·evaluator·handoff
 │  ├─ week-03-service-deployment/   # spec·service·security·deploy·contest
 │  └─ week-03-multi-agent/          # 선택 심화: DAG·owned path·fan-in
+├─ python-labs/                      # 선택: Python 계약·pytest·DB-API
+├─ shared/contract-fixtures/         # TypeScript·Python 공통 공격 입력
 ├─ .agents/                         # task·handoff 교육 예시
 ├─ .claude/rules/                   # 경로별 안전·테스트 규칙
 ├─ .claude/skills/pr-draft/         # 외부 쓰기 없는 PR 본문 초안 절차
@@ -76,7 +87,7 @@ npm run verify:multi-agent
 
 ## 저장소 운영
 
-공개 기준 자료는 `main`에 통합합니다. Commit→PR→Review 실습은 학습자 fork 또는 별도 연습 저장소에서 수행하며 기준 저장소에 장기 교육 branch를 만들지 않습니다. 변경 전 [기여 가이드](CONTRIBUTING.md)를 읽고 `npm run verify`를 통과시키십시오.
+공개 기준 자료는 `main`에 통합합니다. Commit→PR→Review 실습은 학습자 fork 또는 별도 연습 저장소에서 수행하며 기준 저장소에 장기 교육 branch를 만들지 않습니다. 변경 전 [기여 가이드](CONTRIBUTING.md)를 읽고 TypeScript 변경은 `npm run verify`, Python 또는 공통 계약 변경은 `npm run verify:all`을 통과시키십시오.
 
 ## 저자와 자료 범위
 

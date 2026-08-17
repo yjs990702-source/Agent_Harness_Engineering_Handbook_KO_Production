@@ -32,3 +32,16 @@ npm.cmd run verify
 ```
 
 외부 서비스 장애는 기본 과정 실패가 아닙니다. Supabase·Vercel·모델 API 대신 합성 fixture, 로컬 manifest, 테스트 로그를 제출합니다.
+
+## Python 진단
+
+| 증상·failure code         | 의미                                     | 먼저 확인할 것                                    |
+| ------------------------- | ---------------------------------------- | ------------------------------------------------- |
+| `ModuleNotFoundError`     | 다른 interpreter 또는 editable 설치 누락 | `.venv` Python 경로·`pip show agent-harness-labs` |
+| `TIMEZONE_REQUIRED`       | naive datetime 사용                      | `datetime.now(UTC)`와 aware expiry                |
+| `APPROVAL_MISMATCH`       | run·call·tool identity 불일치            | executor 호출 횟수가 0인지                        |
+| `SORT_COLUMN_NOT_ALLOWED` | SQL 식별자 allowlist 밖 입력             | 값을 column으로 연결하지 않았는지                 |
+| `RELEASE_NOT_READY`       | pending 또는 Evidence 누락               | spec·commit·criterion 집합                        |
+| mypy mutation 오류        | frozen state를 직접 변경                 | reducer가 새 state를 반환하는지                   |
+
+`pytest.skip`, 느슨한 xfail, SQL f-string, 예외 삼키기로 실패를 숨기지 않습니다. focused pytest 뒤 `npm run verify:python`, 공통 계약 변경이면 `npm run verify:all`을 실행합니다.

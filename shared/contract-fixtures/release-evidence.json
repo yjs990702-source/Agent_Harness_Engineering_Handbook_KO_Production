@@ -1,0 +1,20 @@
+[
+  {
+    "id": "EVIDENCE-001",
+    "specId": "spec-1",
+    "commitSha": "0123456789abcdef0123456789abcdef01234567",
+    "requiredCriteria": ["AC-01", "AC-02"],
+    "evidenceCriteria": ["AC-01", "AC-02"],
+    "pending": [],
+    "expectedCode": "PASS"
+  },
+  {
+    "id": "EVIDENCE-002",
+    "specId": "spec-1",
+    "commitSha": "0123456789abcdef0123456789abcdef01234567",
+    "requiredCriteria": ["AC-01", "AC-02"],
+    "evidenceCriteria": ["AC-01"],
+    "pending": ["AC-02"],
+    "expectedCode": "RELEASE_NOT_READY"
+  }
+]

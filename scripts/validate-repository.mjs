@@ -43,6 +43,11 @@ const requiredLessons = [
   "weeks/week-03-multi-agent/lessons/08-end-to-end-retrospective.md",
   "weeks/week-03-multi-agent/lessons/09-topology-gate.md",
   "weeks/week-03-multi-agent/lessons/10-failure-modes-and-fan-in.md",
+  "python-labs/lessons/01-python-preflight.md",
+  "python-labs/lessons/02-minimal-loop-and-tool-contract.md",
+  "python-labs/lessons/03-approval-and-evaluator.md",
+  "python-labs/lessons/04-interview-security-release.md",
+  "python-labs/lessons/05-multi-agent-extension.md",
 ];
 const required = [
   ".agents/handoffs/week-03-example.md",
@@ -72,9 +77,19 @@ const required = [
   "docs/RESEARCH_TO_PRACTICE.md",
   "docs/VERIFICATION.md",
   "docs/VERIFICATION_REPORT.md",
+  "docs/LANGUAGE_TRACK_SELECTION.md",
+  "docs/PYTHON_TRACK_CURRICULUM.md",
   "package-lock.json",
   "package.json",
   "scripts/validate-repository.mjs",
+  "scripts/verify-python.mjs",
+  "python-labs/AGENTS.md",
+  "python-labs/README.md",
+  "python-labs/pyproject.toml",
+  "shared/contract-fixtures/tool-proposals.json",
+  "shared/contract-fixtures/approval-events.json",
+  "shared/contract-fixtures/security-attacks.json",
+  "shared/contract-fixtures/release-evidence.json",
   "weeks/week-01-foundations/README.md",
   "weeks/week-02-loop-engineering/README.md",
   "weeks/week-03-multi-agent/README.md",
@@ -94,11 +109,16 @@ const required = [
 ];
 
 const allowedFiles = new Set(required);
-const allowedPrefixes = ["weeks/"];
+const allowedPrefixes = ["weeks/", "python-labs/", "shared/contract-fixtures/"];
 const ignoredDirectories = new Set([
   ".cache",
   ".git",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".ruff_cache",
   ".tmp",
+  ".venv",
+  "__pycache__",
   "coverage",
   "dist",
   "node_modules",
@@ -118,6 +138,11 @@ const requiredTraceabilityPaths = [
   "weeks/week-03-service-deployment/src/delivery-artifacts.ts",
   "weeks/week-03-multi-agent/src/topology.ts",
   "weeks/week-03-multi-agent/src/coordinator.ts",
+  "python-labs/src/agent_harness_labs/week1/tool_contract.py",
+  "python-labs/src/agent_harness_labs/week2/approval_loop.py",
+  "python-labs/src/agent_harness_labs/week3/security.py",
+  "python-labs/src/agent_harness_labs/week3/release_evidence.py",
+  "python-labs/src/agent_harness_labs/extension/multi_agent.py",
 ];
 
 function normalize(file) {
@@ -128,7 +153,11 @@ async function walk(directory) {
   const files = [];
   const entries = await fs.readdir(directory, { withFileTypes: true });
   for (const entry of entries) {
-    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
+    if (
+      entry.isDirectory() &&
+      (ignoredDirectories.has(entry.name) || entry.name.endsWith(".egg-info"))
+    )
+      continue;
     const fullPath = path.join(directory, entry.name);
     if (entry.isDirectory()) files.push(...(await walk(fullPath)));
     else files.push(fullPath);
@@ -164,6 +193,10 @@ for (const file of repositoryFiles) {
     !/\.(?:ts|md|json|html|example)$/i.test(file)
   )
     failures.push(`주차 폴더에서 허용되지 않은 파일 형식: ${file}`);
+  if (file.startsWith("python-labs/") && !/\.(?:py|md|toml)$/i.test(file))
+    failures.push(`Python 실습에서 허용되지 않은 파일 형식: ${file}`);
+  if (file.startsWith("shared/contract-fixtures/") && !/\.json$/i.test(file))
+    failures.push(`공통 계약 fixture에서 허용되지 않은 파일 형식: ${file}`);
 }
 
 for (const lesson of requiredLessons) {
@@ -205,7 +238,9 @@ try {
 }
 
 const sourceFiles = repositoryFiles.filter(
-  (file) => file.startsWith("weeks/") && /\.(?:ts|js|mjs|html)$/i.test(file),
+  (file) =>
+    (file.startsWith("weeks/") && /\.(?:ts|js|mjs|html)$/i.test(file)) ||
+    (file.startsWith("python-labs/") && /\.py$/i.test(file)),
 );
 const banned = [
   [
@@ -213,6 +248,10 @@ const banned = [
     /dangerouslySetInnerHTML|\.(?:innerHTML|outerHTML)\s*=|\binsertAdjacentHTML\s*\(|\bdocument\.write\s*\(/,
   ],
   ["동적 코드 실행", /\beval\s*\(|\bnew\s+Function\s*\(/],
+  ["Python 동적 코드 실행", /\b(?:eval|exec)\s*\(/],
+  ["위험한 shell 실행", /\bos\.system\s*\(|\bshell\s*=\s*True\b/],
+  ["unsafe 역직렬화", /\bpickle\.loads\s*\(|\byaml\.load\s*\(/],
+  ["SQL f-string 실행", /\b(?:execute|executemany)\s*\(\s*f[\"']/],
   ["private key", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
 ];
 
@@ -223,6 +262,12 @@ for (const file of sourceFiles) {
   }
   if (/\b(?:describe|it|test)\.skip\s*\(/.test(text)) {
     failures.push(`${file}: skip된 테스트 금지`);
+  }
+  if (
+    /\bpytest\.(?:skip|xfail)\s*\(/.test(text) ||
+    /xfail\s*\([^)]*strict\s*=\s*False/.test(text)
+  ) {
+    failures.push(`${file}: Python 검증 우회 금지`);
   }
 }
 

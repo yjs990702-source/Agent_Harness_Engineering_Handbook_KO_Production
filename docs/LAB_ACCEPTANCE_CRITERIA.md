@@ -65,3 +65,12 @@
 - 공개 저장소에는 교육 코드·테스트·합성 fixture·강의 문서만 둔다.
 - DOCX·PDF·이력서·계약·내부 개발 문서와 실제 secret을 넣지 않는다.
 - 불필요한 GitHub Actions workflow와 Marketplace Action을 추가하지 않는다.
+
+## Python Companion
+
+- PY-W1-AC-01~04: 미등록·권한 확대·schema 오류·승인 누락은 executor 전에 실패하고 budget 소진은 구조화된 실패가 된다.
+- PY-W2-AC-01~04: reducer replay가 결정적이며 token mismatch·expiry는 실행 0회, blocking safety와 repair cap은 독립 Gate다.
+- PY-W3-AC-01~05: 열린 질문은 명세를 막고 SQL 값은 parameter에만 있으며 식별자 공격·민감 오류·release identity mismatch를 차단한다.
+- 공통 fixture `tool-proposals.json`, `approval-events.json`, `security-attacks.json`, `release-evidence.json`의 failure code를 재현한다.
+- Ruff, mypy strict, pytest, compileall이 모두 통과하고 skip·느슨한 xfail이 없다.
+- Python Multi-Agent는 단일 worker baseline, 2~4개 fan-out, owned path 무충돌, timeout·부분 실패·fan-in ID 완전 일치를 추가로 증명한다.

@@ -5,8 +5,8 @@
 ## 선수 지식과 준비
 
 - Git branch·commit·diff의 기본 개념
-- 터미널에서 Node.js 프로젝트를 실행하고 테스트한 경험
-- TypeScript 또는 유사 언어, HTTP·환경변수의 기초
+- 터미널에서 Node.js 또는 Python 프로젝트를 실행하고 테스트한 경험
+- TypeScript 또는 Python 중 한 언어, HTTP·환경변수의 기초
 - 회사 데이터·AI 사용 정책과 외부 서비스 권한 확인
 
 외부 계정은 선택입니다. 기본 실습은 합성 데이터와 로컬 fixture만으로 완결됩니다.
@@ -110,6 +110,12 @@ Worker 부분 실패·timeout에서는 dependent node를 실행하지 않으며 
 npm run verify:multi-agent
 ```
 
+## 선택 보강 · Python Companion Track (약 3H)
+
+Python 3.11+ 조직은 최소 루프·Tool Contract 45분, approval reducer·Evaluator 60분, Interview·DB-API SQL·release Evidence 45분, Preflight 15분으로 같은 하네스 계약을 재현합니다. 선택 Multi-Agent는 추가 30분입니다. 브라우저 DOM XSS와 Vercel 배포는 TypeScript 3주차를 유지합니다.
+
+세부 시간표는 [Python 커리큘럼](PYTHON_TRACK_CURRICULUM.md), 선택 기준은 [언어 트랙 가이드](LANGUAGE_TRACK_SELECTION.md), 코드는 `python-labs/`에 있습니다. 기본 과정 수료는 `npm run verify`, Python 수료는 `npm run verify:python`, 공개 릴리스는 `npm run verify:all`로 구분합니다.
+
 ## 최종 수료 기준
 
 1. 각 주차 verify와 루트 `npm run verify`가 통과한다.
@@ -118,5 +124,7 @@ npm run verify:multi-agent
 4. Secret·고객 데이터·회사 내부 코드가 없다.
 5. Preview URL 또는 로컬 대체 manifest와 rollback 조건이 있다.
 6. 자신의 도메인에 이식할 것과 제거할 것을 구분한다.
+
+Python Companion 수료자는 별도로 `npm run verify:python`과 PY-W1~W3 Evidence를 제출합니다. Python 트랙은 기본 13시간 수료의 필수 조건이 아닙니다.
 
 원고 주제와 공개 lesson·source·test의 대응은 [출판 개정판–공개 실습 추적성](BOOK_TO_LAB_TRACEABILITY.md), 제출 형식은 [학습자 Evidence 양식](LEARNER_EVIDENCE_TEMPLATE.md)을 따릅니다.

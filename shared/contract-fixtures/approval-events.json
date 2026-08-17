@@ -1,0 +1,46 @@
+[
+  {
+    "id": "APPROVAL-001",
+    "events": [
+      { "type": "run_started", "run_id": "run-1", "goal": "publish" },
+      {
+        "type": "tool_proposed",
+        "run_id": "run-1",
+        "call_id": "call-1",
+        "tool": "publish_note",
+        "side_effect": "consequential"
+      },
+      { "type": "approval_requested", "run_id": "run-1", "call_id": "call-1" }
+    ],
+    "expectedCode": "PASS"
+  },
+  {
+    "id": "APPROVAL-002",
+    "events": [
+      { "type": "run_started", "run_id": "run-1", "goal": "publish" },
+      {
+        "type": "tool_proposed",
+        "run_id": "run-1",
+        "call_id": "call-1",
+        "tool": "publish_note",
+        "side_effect": "consequential"
+      },
+      {
+        "type": "tool_executed",
+        "run_id": "run-1",
+        "call_id": "call-1",
+        "executed_at": "2030-01-01T00:00:00+00:00"
+      }
+    ],
+    "expectedCode": "APPROVAL_REQUIRED"
+  },
+  {
+    "id": "APPROVAL-003",
+    "events": [
+      { "type": "run_started", "run_id": "run-1", "goal": "publish" },
+      { "type": "run_completed", "run_id": "run-1" },
+      { "type": "run_completed", "run_id": "run-1" }
+    ],
+    "expectedCode": "TERMINAL_EVENT"
+  }
+]

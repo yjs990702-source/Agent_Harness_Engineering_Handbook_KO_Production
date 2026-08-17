@@ -74,3 +74,12 @@ Secret 노출, 실제 운영 데이터 사용, 파괴적 변경, 승인 없는 P
 선택 멀티에이전트에서 역할 수를 늘리는 것을 성과로 채점하지 않습니다. 단일 worker 유지 근거, 독립 작업 수, 컨텍스트 격리 필요성, owned path, fan-in 비용을 먼저 제출하게 합니다.
 
 학습자 제출은 [Evidence 양식](LEARNER_EVIDENCE_TEMPLATE.md)으로 통일하며, 실제 실행하지 않은 명령과 통과한 명령을 구분해 기록하게 합니다.
+
+## Python Companion 운영
+
+- 13시간을 늘리지 않으면 최소 루프, approval·Evaluator, Interview·SQL 블록만 Python으로 교체합니다.
+- AGENTS·Rule·Skill, Hook·Worktree, DOM XSS·Vercel 설명은 기존 TypeScript 자료를 유지합니다.
+- 수업 전 Python 3.11+, 격리 venv, `python-labs[dev]` 설치와 `npm run verify:python`을 확인합니다.
+- `ModuleNotFoundError`가 나면 패키지를 다시 설치하기 전에 현재 interpreter 경로와 venv 활성 여부를 먼저 비교합니다.
+- Python 결과를 브라우저 XSS 방어 Evidence로 인정하지 않습니다. `textContent`, URL, CSP 테스트를 별도로 확인합니다.
+- 수료 Evidence에 language, Python version, interpreter, fixture ID를 추가합니다.

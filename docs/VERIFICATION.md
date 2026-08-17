@@ -56,3 +56,14 @@ npm run test --workspace=@handbook/extension-multi-agent -- --run tests/topology
 ## 클라우드 선택 경로
 
 실제 Preview는 학습자 소유 샌드박스에서 사람이 승인한 경우에만 실행합니다. Codex 또는 자동화가 배포·외부 쓰기·비용 발생을 임의로 수행하지 않습니다. 계정이 없으면 `deployment-manifest.example.json`과 테스트 로그를 사용합니다.
+
+## Python Companion 검증
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".\python-labs[dev]"
+npm run verify:python
+npm run verify:all
+```
+
+`verify:python`은 Ruff → mypy strict → pytest → compileall 순서입니다. `verify:all`은 기존 TypeScript 3주 과정과 Python 공통 계약을 함께 회귀 검증합니다. Python이 없는 기본 수강자는 `npm run verify`를 계속 사용할 수 있지만 공개 릴리스 담당자는 `verify:all`을 통과해야 합니다.

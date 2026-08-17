@@ -19,7 +19,9 @@
     "verify:week2": "npm run verify --workspace=@handbook/week-02-loop-engineering",
     "verify:week3": "npm run verify --workspace=@handbook/week-03-service-deployment",
     "verify:multi-agent": "npm run verify --workspace=@handbook/extension-multi-agent",
-    "verify": "npm run verify:repo && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
+    "verify:python": "node scripts/verify-python.mjs",
+    "verify": "npm run verify:repo && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
+    "verify:all": "npm run verify && npm run verify:python"
   },
   "engines": {
     "node": ">=20.9.0",
