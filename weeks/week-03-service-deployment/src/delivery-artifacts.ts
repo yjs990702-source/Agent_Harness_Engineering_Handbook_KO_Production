@@ -64,6 +64,7 @@ function nonEmpty(value: string, field: string): string {
 }
 
 function safeRelativePath(value: string): string | null {
+  // 절대 경로와 상위 이동을 제거해 Evidence가 저장소 밖 파일을 가리키지 못하게 합니다.
   let normalized = value.trim().replaceAll("\\", "/").replace(/\/+$/, "");
   if (normalized.startsWith("./")) normalized = normalized.slice(2);
   if (
@@ -81,6 +82,7 @@ function normalizeUnique(
   field: string,
   pathMode = false,
 ): readonly string[] {
+  // 비교 전에 표기를 정규화해야 대소문자나 구분자 차이로 중복 검사를 우회하지 못합니다.
   const normalized = values.map((value) => {
     const result = pathMode
       ? safeRelativePath(value)
@@ -110,6 +112,7 @@ export function createDelegationBrief(
   spec: ServiceSpec,
   input: Omit<DelegationBrief, "acceptanceCriteria" | "returnSchema">,
 ): DelegationBrief {
+  // worker는 목표뿐 아니라 비목표·소유 경로·수용 기준·반환 schema를 함께 받습니다.
   const ownedPaths = normalizeUnique(input.ownedPaths, "ownedPaths", true);
   if (ownedPaths.length < 1)
     throw new Error("ownedPaths가 하나 이상 필요합니다.");
@@ -152,6 +155,7 @@ export function buildEvidencePack(
   spec: ServiceSpec,
   input: Omit<EvidencePack, "specId">,
 ): EvidencePack {
+  // Evidence는 현재 spec과 commit의 수용 기준에 대응하는 포인터여야 합니다.
   if (!/^[0-9a-f]{7,40}$/i.test(input.commitSha))
     throw new TypeError("commitSha 형식이 유효하지 않습니다.");
   const changedFiles = normalizeUnique(
@@ -192,6 +196,7 @@ export function assessShipReadiness(
   spec: ServiceSpec,
   pack: EvidencePack,
 ): Readonly<{ ready: boolean; failures: readonly string[] }> {
+  // 평균 점수로 상쇄하지 않고 빠진 기준과 보안 Evidence를 각각 오류 코드로 남깁니다.
   const failures: string[] = [];
   if (pack.specId !== spec.id) failures.push("SPEC_ID_MISMATCH");
   for (const criterionId of spec.acceptanceCriteria) {
@@ -245,6 +250,7 @@ export function createReleaseIdentity(
   manifest: DeploymentManifest,
   approvalReference: string,
 ): ReleaseIdentity {
+  // pack·handoff·manifest가 같은 commit을 가리키는지 마지막 Gate에서 교차 확인합니다.
   if (!assessShipReadiness(spec, pack).ready)
     throw new Error("EvidencePack이 출고 준비 상태가 아닙니다.");
   if (

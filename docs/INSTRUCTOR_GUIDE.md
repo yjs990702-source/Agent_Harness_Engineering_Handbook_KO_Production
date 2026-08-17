@@ -12,6 +12,16 @@
 4. 실제 고객 데이터·Secret·운영 DB·승인 없는 Production 배포를 금지합니다.
 5. 기준 저장소는 `main`, PR 실습은 학습자 fork 또는 별도 연습 저장소로 분리합니다.
 6. [시연 Runbook](INSTRUCTOR_DEMO_RUNBOOK.md)의 시작 Gate와 [예상 실패 지도](EXPECTED_FAILURES.md)를 준비합니다.
+7. 프로젝터에서 [시각 Quick Guide](VISUAL_QUICK_GUIDE.md)의 SVG 네 장이 확대해도 선명하고 명암이 구분되는지 확인합니다.
+
+## 10분 온보딩 시연
+
+1. `npm run doctor`를 실행하고 PASS·WARN·FAIL의 차이를 말합니다.
+2. `npm run demo:python -- minimal-loop`에서 이벤트 세 개를 손으로 가리킵니다.
+3. `unknown-tool`을 실행해 “실패를 막은 성공”이라는 의미를 설명합니다.
+4. 학습자에게 [실습 카드](lab-cards/README.md) 하나를 고르게 하고 개인 연습지를 생성하게 합니다.
+
+설명은 그림 1장, 명령 1개, 관찰 질문 1개 단위로 끊습니다. 코드 주석은 정답 대신 신뢰 경계와 순서를 설명하므로, 학습자가 먼저 예측한 뒤 읽게 합니다.
 
 ## 권장 시간
 

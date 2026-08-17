@@ -2,6 +2,16 @@
 
 하네스의 언어 중립 계약을 Python 3.11+로 재현하는 약 3시간의 선택 실습이다. TypeScript 13시간 기본 과정의 브라우저 UI·Vercel 실습을 대체하지 않는다. 외부 모델·DB·클라우드 계정 없이 표준 라이브러리와 결정적 fixture로 실행한다.
 
+코드 작성 전에 저장소 루트에서 다음 데모를 실행하면 제안→검증→실행→완료 순서를 먼저 볼 수 있다.
+
+```powershell
+npm run doctor
+npm run demo:python -- minimal-loop
+npm run demo:python -- all
+```
+
+출력 해설은 `docs/EXPECTED_OUTPUTS.md`, 작은 과제는 `docs/lab-cards/README.md`를 참고한다.
+
 ## 빠른 시작
 
 Windows PowerShell:

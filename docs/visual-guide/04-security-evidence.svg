@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-labelledby="title desc">
+  <title id="title">보안과 Evidence의 이중 Gate</title><desc id="desc">합성 입력이 SQL과 XSS 보안 Gate를 통과하고 테스트, 리뷰어, 검증자 Evidence가 같은 identity를 확인한 뒤 릴리스 후보가 되는 흐름이다.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#233143"/></marker><style>.t{font:700 34px Arial;fill:#172333}.h{font:700 23px Arial;fill:#172333}.b{font:400 17px Arial;fill:#344256}.mono{font:600 15px Consolas;fill:#172333}.box{stroke:#233143;stroke-width:2}.ar{stroke:#233143;stroke-width:3;fill:none;marker-end:url(#a)}.gate{stroke:#9d3f37;stroke-width:7}</style></defs>
+  <rect width="1200" height="660" fill="#f7f5ef"/><text x="55" y="65" class="t">안전한 입력과 독립 Evidence가 함께 있어야 합니다</text>
+  <rect class="box" x="55" y="155" width="185" height="145" rx="16" fill="#d8eaf2"/><text x="101" y="205" class="h">합성 입력</text><text x="85" y="243" class="b">정상 + 공격 fixture</text><text x="90" y="273" class="mono">spec S-17</text>
+  <path class="ar" d="M240 227 H330"/><line class="gate" x1="325" y1="130" x2="325" y2="325"/><text x="270" y="355" class="h">보안 Gate</text>
+  <rect class="box" x="370" y="120" width="295" height="215" rx="18" fill="#f2d7d5"/><text x="428" y="165" class="h">입력·출력 경계</text><text x="405" y="207" class="b">SQL 값: parameter binding</text><text x="405" y="240" class="b">SQL 식별자: allowlist</text><text x="405" y="273" class="b">브라우저 출력: textContent</text><text x="405" y="306" class="b">공개 오류: 내부 정보 제거</text>
+  <path class="ar" d="M665 227 H755"/><line class="gate" x1="750" y1="130" x2="750" y2="515"/><text x="686" y="548" class="h">Evidence Gate</text>
+  <rect class="box" x="795" y="110" width="330" height="90" rx="14" fill="#fff"/><text x="830" y="148" class="h">독립 테스트</text><text x="830" y="178" class="b">정상·공격·회귀</text>
+  <rect class="box" x="795" y="230" width="330" height="90" rx="14" fill="#fff"/><text x="830" y="268" class="h">Reviewer</text><text x="830" y="298" class="b">요구사항·위험 검토</text>
+  <rect class="box" x="795" y="350" width="330" height="90" rx="14" fill="#fff"/><text x="830" y="388" class="h">Verifier</text><text x="830" y="418" class="b">같은 spec·commit 확인</text>
+  <path class="ar" d="M960 440 V520"/>
+  <rect class="box" x="795" y="525" width="330" height="80" rx="14" fill="#dce8da"/><text x="865" y="574" class="h">릴리스 후보</text>
+  <text x="55" y="620" class="b">한 Gate라도 실패하면 release-not-ready이며, 실제 배포는 별도의 사람 승인 뒤에만 수행합니다.</text>
+</svg>

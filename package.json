@@ -9,6 +9,9 @@
     "weeks/*"
   ],
   "scripts": {
+    "doctor": "node scripts/doctor.mjs",
+    "demo:python": "node scripts/run-python-demo.mjs",
+    "lab:new": "node scripts/create-practice.mjs",
     "verify:repo": "node scripts/validate-repository.mjs",
     "format:check": "prettier --check . --ignore-unknown",
     "lint": "npm run lint --workspaces --if-present",

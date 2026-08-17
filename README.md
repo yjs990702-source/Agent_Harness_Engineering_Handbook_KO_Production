@@ -2,6 +2,18 @@
 
 현직자를 위한 3주 하네스 완성 과정의 공개 교육 코드입니다. Rule·Skill 기반 기초 하네스에서 시작해 강제 검증·역할 격리·루프 리팩토링을 거친 뒤, 자신의 명세로 만든 작은 서비스를 로컬에서 검증하고 선택적으로 Preview에 배포합니다.
 
+## 처음 방문했다면
+
+복잡한 폴더부터 읽지 말고 [여기서 시작하세요](START_HERE.md). 아래 세 명령으로 환경, 최소 루프, 오류 코드를 먼저 확인할 수 있습니다.
+
+```powershell
+npm ci
+npm run doctor
+npm run demo:python -- minimal-loop
+```
+
+[30분 Quickstart](docs/QUICKSTART_30_MIN.md), [그림 중심 가이드](docs/VISUAL_QUICK_GUIDE.md), [실습 카드](docs/lab-cards/README.md), [명령 치트시트](docs/COMMAND_CHEATSHEET.md)를 원하는 순서로 사용할 수 있습니다.
+
 ## 3주 기본 과정
 
 | 주차  | 시간 | 주제                              | 핵심 산출물                                | 검증                   |
@@ -30,6 +42,12 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e ".\python-labs[dev]"
 npm run verify:python
 npm run verify:all
+```
+
+코드를 수정하기 전에 개인 연습지를 만들면 관찰과 Evidence를 한곳에 남길 수 있습니다. `.practice/`는 공개 커밋에서 제외됩니다.
+
+```powershell
+npm run lab:new -- approval-reducer
 ```
 
 ## 연구 기반 v11 보강
@@ -61,11 +79,12 @@ npm run verify:all
 │  └─ week-03-multi-agent/          # 선택 심화: DAG·owned path·fan-in
 ├─ python-labs/                      # 선택: Python 계약·pytest·DB-API
 ├─ shared/contract-fixtures/         # TypeScript·Python 공통 공격 입력
+├─ START_HERE.md                     # 초심자 단일 진입점
 ├─ .agents/                         # task·handoff 교육 예시
 ├─ .claude/rules/                   # 경로별 안전·테스트 규칙
 ├─ .claude/skills/pr-draft/         # 외부 쓰기 없는 PR 본문 초안 절차
-├─ docs/                            # 과정·수용 기준·운영·검증
-└─ scripts/                         # 범위·보안·Actions 부재 검사
+├─ docs/                            # 과정·실습 카드·그림·운영·검증
+└─ scripts/                         # 진단·데모·연습지·공개 범위 검사
 ```
 
 기존 Multi-Agent 코드는 삭제하지 않고 [선택 심화](weeks/week-03-multi-agent/README.md)로 분리했습니다. 기본 13시간 과정과 혼동하지 않으며 다음 명령으로 따로 검증합니다.

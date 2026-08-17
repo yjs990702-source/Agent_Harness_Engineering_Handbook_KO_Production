@@ -4,6 +4,8 @@
 
 Python 3.11 이상을 사용하는 현직 개발자가 외부 모델 SDK 없이 하네스의 실행 계약을 직접 테스트한다. 13시간 TypeScript 기본 과정의 선택 보강이며 UI·Vercel 배포는 기존 3주차 자료를 사용한다.
 
+처음 10분은 `npm run doctor`와 `npm run demo:python -- minimal-loop`로 코드 수정 없는 성공 경험을 만든다. 이어서 `unknown-tool`, `approval-expired`, `sql-attack`, `release-not-ready` 시나리오를 실행해 실패 코드를 먼저 읽고 해당 모듈의 주석을 따라간다.
+
 ## 시간표
 
 | 구간          | 시간 | 학습 활동                          | 완료 Evidence                 |
@@ -13,6 +15,8 @@ Python 3.11 이상을 사용하는 현직 개발자가 외부 모델 SDK 없이 
 | Week 2 Bridge | 60분 | approval reducer·Evaluator·repair  | replay·expiry·blocking safety |
 | Week 3 Bridge | 45분 | Interview·DB-API·release evidence  | open question·SQL·identity    |
 | 선택 심화     | 30분 | bounded fan-out·owned path·timeout | fan-in Evidence 집합          |
+
+시간표 앞의 10분 온보딩은 개강 전 과제로 대체할 수 있다. 출력 예시는 `EXPECTED_OUTPUTS.md`, 개인 기록지는 `npm run lab:new -- <카드 이름>`으로 생성한다.
 
 ## 강의 운영
 

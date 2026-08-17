@@ -4,6 +4,7 @@ export type SortColumn = "created_at" | "title" | "status";
 export type SortDirection = "ASC" | "DESC";
 
 function boundedText(value: unknown, field: string, maximum: number): string {
+  // DB와 DOM 경계에 들어가기 전에 타입·공백·최대 길이를 같은 규칙으로 검사합니다.
   if (typeof value !== "string")
     throw new TypeError(`${field}는 문자열이어야 합니다.`);
   const normalized = value.trim();
@@ -17,6 +18,7 @@ export function buildTitleLookupQuery(
   tenantId: unknown,
   title: unknown,
 ): ParameterizedQuery {
+  // 사용자 값은 SQL 문자열에 연결하지 않고 driver가 처리할 values로 분리합니다.
   return Object.freeze({
     text: "SELECT id, title, status FROM work_requests WHERE tenant_id = $1 AND title = $2",
     values: Object.freeze([
@@ -32,6 +34,7 @@ export function buildSortedTitleLookupQuery(
   sortColumn: unknown,
   sortDirection: unknown,
 ): ParameterizedQuery {
+  // 열과 방향은 parameter binding 대상이 아니므로 닫힌 allowlist로 검사합니다.
   const columns = new Set<SortColumn>(["created_at", "title", "status"]);
   const directions = new Set<SortDirection>(["ASC", "DESC"]);
   if (
@@ -55,10 +58,12 @@ export function buildSortedTitleLookupQuery(
 export function createSafeTextView(
   value: unknown,
 ): Readonly<{ textContent: string }> {
+  // 사용자·모델 문자열을 HTML로 해석하지 않는 렌더링 계약만 외부에 노출합니다.
   return Object.freeze({ textContent: boundedText(value, "text", 100) });
 }
 
 export function validateExternalUrl(value: unknown): string {
+  // URL parser로 정규화한 뒤 암호화된 외부 링크만 허용합니다.
   const raw = boundedText(value, "url", 2_048);
   if (raw.startsWith("//"))
     throw new Error("protocol-relative URL은 허용하지 않습니다.");
@@ -78,6 +83,7 @@ export function validateExternalUrl(value: unknown): string {
 export function validateContentSecurityPolicy(
   policy: string,
 ): readonly string[] {
+  // CSP를 문자열 생성과 별개로 검증해 설정 회귀를 테스트할 수 있게 합니다.
   const failures: string[] = [];
   const normalized = policy.toLowerCase();
   if (normalized.includes("'unsafe-inline'")) failures.push("UNSAFE_INLINE");
@@ -115,6 +121,7 @@ export function buildContentSecurityPolicy(nonce: string): string {
 export function toPublicError(
   _error: unknown,
 ): Readonly<{ code: "REQUEST_FAILED"; message: string }> {
+  // 내부 예외 메시지, SQL, 경로, stack을 공개 응답에 복사하지 않습니다.
   return Object.freeze({
     code: "REQUEST_FAILED",
     message: "요청을 처리하지 못했습니다. 입력과 권한을 확인해 주세요.",

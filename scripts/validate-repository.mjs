@@ -66,10 +66,12 @@ const required = [
   "LICENSE_SCOPE.md",
   "NOTICE",
   "README.md",
+  "START_HERE.md",
   "THIRD_PARTY_NOTICES.md",
   "docs/CURRICULUM.md",
   "docs/BOOK_TO_LAB_TRACEABILITY.md",
   "docs/EXPECTED_FAILURES.md",
+  "docs/EXPECTED_OUTPUTS.md",
   "docs/INSTRUCTOR_DEMO_RUNBOOK.md",
   "docs/INSTRUCTOR_GUIDE.md",
   "docs/LAB_ACCEPTANCE_CRITERIA.md",
@@ -79,13 +81,30 @@ const required = [
   "docs/VERIFICATION_REPORT.md",
   "docs/LANGUAGE_TRACK_SELECTION.md",
   "docs/PYTHON_TRACK_CURRICULUM.md",
+  "docs/QUICKSTART_30_MIN.md",
+  "docs/COMMAND_CHEATSHEET.md",
+  "docs/SAMPLE_SUBMISSION.md",
+  "docs/KNOWLEDGE_CHECKS.md",
+  "docs/MINI_PROJECT.md",
+  "docs/VISUAL_QUICK_GUIDE.md",
+  "docs/lab-cards/README.md",
+  "docs/templates/LAB_CARD_TEMPLATE.md",
+  "docs/visual-guide/01-quickstart-path.svg",
+  "docs/visual-guide/02-harness-boundary.svg",
+  "docs/visual-guide/03-approval-state.svg",
+  "docs/visual-guide/04-security-evidence.svg",
   "package-lock.json",
   "package.json",
   "scripts/validate-repository.mjs",
   "scripts/verify-python.mjs",
+  "scripts/doctor.mjs",
+  "scripts/run-python-demo.mjs",
+  "scripts/create-practice.mjs",
   "python-labs/AGENTS.md",
   "python-labs/README.md",
   "python-labs/pyproject.toml",
+  "python-labs/src/agent_harness_labs/demo.py",
+  "python-labs/tests/test_demo.py",
   "shared/contract-fixtures/tool-proposals.json",
   "shared/contract-fixtures/approval-events.json",
   "shared/contract-fixtures/security-attacks.json",
@@ -114,6 +133,7 @@ const ignoredDirectories = new Set([
   ".cache",
   ".git",
   ".mypy_cache",
+  ".practice",
   ".pytest_cache",
   ".ruff_cache",
   ".tmp",
@@ -197,6 +217,8 @@ for (const file of repositoryFiles) {
     failures.push(`Python 실습에서 허용되지 않은 파일 형식: ${file}`);
   if (file.startsWith("shared/contract-fixtures/") && !/\.json$/i.test(file))
     failures.push(`공통 계약 fixture에서 허용되지 않은 파일 형식: ${file}`);
+  if (file.startsWith("docs/visual-guide/") && !/\.svg$/i.test(file))
+    failures.push(`시각 가이드에서 허용되지 않은 파일 형식: ${file}`);
 }
 
 for (const lesson of requiredLessons) {

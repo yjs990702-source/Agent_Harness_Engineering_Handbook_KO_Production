@@ -25,6 +25,7 @@
 | Python      | 승인 replay·Evaluator          | `python-labs/lessons/03-approval-and-evaluator.md`                        | `python-labs/src/agent_harness_labs/week2/approval_loop.py`                                                            | `python-labs/tests/week2/test_approval_loop.py`                     | `npm run verify:python`      | 선택 |
 | Python      | SQL·release Evidence           | `python-labs/lessons/04-interview-security-release.md`                    | `python-labs/src/agent_harness_labs/week3/security.py`, `python-labs/src/agent_harness_labs/week3/release_evidence.py` | `python-labs/tests/week3/test_security.py`                          | `npm run verify:python`      | 선택 |
 | Python 심화 | bounded fan-out·fan-in         | `python-labs/lessons/05-multi-agent-extension.md`                         | `python-labs/src/agent_harness_labs/extension/multi_agent.py`                                                          | `python-labs/tests/extension/test_multi_agent.py`                   | `npm run verify:python`      | 선택 |
+| 온보딩      | 최소 루프·거부 경로 시각화     | `docs/QUICKSTART_30_MIN.md`, `docs/VISUAL_QUICK_GUIDE.md`                 | `python-labs/src/agent_harness_labs/demo.py`                                                                           | `python-labs/tests/test_demo.py`                                    | `npm run demo:python -- all` | 권장 |
 
 ## 추적 규칙
 

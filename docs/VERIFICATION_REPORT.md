@@ -16,18 +16,26 @@
 
 | 항목                | 결과 | 증거                                                              |
 | ------------------- | ---- | ----------------------------------------------------------------- |
-| 저장소 공개 범위    | PASS | 필수 파일 100개, 강의 45개, source 84개, 범위 밖 파일 0개         |
+| 저장소 공개 범위    | PASS | 필수 파일 119개, 강의 45개, source 86개, 범위 밖 파일 0개         |
 | GitHub Actions 금지 | PASS | workflow 0개                                                      |
 | 공개 라이선스       | PASS | 교육 코드·문서 Apache-2.0, 출판 원고·내부 자료 제외               |
 | 포맷                | PASS | Prettier 전체 일치                                                |
 | lint·타입 검사      | PASS | 4개 workspace 모두 `tsc --noEmit` 통과                            |
 | TypeScript 테스트   | PASS | 테스트 파일 24개, 테스트 122개, skip 0개                          |
-| Python 검증         | PASS | Ruff·mypy strict·compileall, pytest 41개, skip 0개                |
+| Python 검증         | PASS | Ruff·mypy strict·compileall, pytest 46개, skip 0개                |
 | 빌드                | PASS | 4개 workspace 모두 통과                                           |
 | 의존성 감사         | PASS | `npm audit` 취약점 0건                                            |
 | 새 환경 재현        | PASS | clean clone에서 `npm ci`, 새 venv 설치, `npm run verify:all` 통과 |
 
-TypeScript 과정별 테스트 수는 1주차 19개, 2주차 36개, 3주차 서비스 배포 31개이며, 선택 심화 멀티 에이전트는 36개다. Python Companion은 Week 1·2·3과 선택 심화를 합쳐 41개다.
+TypeScript 과정별 테스트 수는 1주차 19개, 2주차 36개, 3주차 서비스 배포 31개이며, 선택 심화 멀티 에이전트는 36개다. Python Companion은 Week 1·2·3, 결정적 CLI 데모와 선택 심화를 합쳐 46개다.
+
+## 쉬운 학습 경로 보강
+
+- `START_HERE.md`에서 환경 진단→최소 루프→안전 거부→Evidence의 단일 시작 경로를 제공한다.
+- `doctor`, `demo:python`, `lab:new` 명령을 실제 실행해 정상 출력과 덮어쓰기 방지 동작을 확인했다.
+- 30분 Quickstart, 명령 치트시트, 예상 출력, 샘플 제출물, 10개 실습 카드, 자가 퀴즈, 미니 프로젝트를 추가했다.
+- 핵심 Python 8개 모듈과 대표 TypeScript 6개 모듈에 경계·상태·보안 중심 주석과 docstring을 보강했다.
+- Diagram Design 원칙을 적용한 SVG 4개는 title·desc, 번호·라벨, 고대비 윤곽선을 가지며 1200px 원본 렌더를 육안 확인했다.
 
 ## 과정별 완료 증거
 
@@ -58,6 +66,8 @@ TypeScript 과정별 테스트 수는 1주차 19개, 2주차 36개, 3주차 서�
 
 ```powershell
 npm ci
+npm run doctor
+npm run demo:python -- all
 npm run verify
 npm run verify:python
 npm run verify:all

@@ -4,6 +4,7 @@
 
 ```powershell
 npm ci
+npm run doctor
 npm run verify
 ```
 
@@ -52,6 +53,18 @@ npm run test --workspace=@handbook/extension-multi-agent -- --run tests/topology
 생성된 `dist`만 정리할 수 있으며 저장소 전체나 다른 사용자의 파일을 재귀 삭제하지 않습니다. 테스트 skip, assertion 약화, Secret 추가, 승인 없는 외부 배포로 문제를 우회하지 않습니다.
 
 강의 순서별 시연은 [강사용 Runbook](INSTRUCTOR_DEMO_RUNBOOK.md), 실패 code의 의미는 [예상 실패 지도](EXPECTED_FAILURES.md), 수용 기준 제출은 [학습자 Evidence 양식](LEARNER_EVIDENCE_TEMPLATE.md)을 사용합니다.
+
+## 학습용 시나리오 검증
+
+```powershell
+npm run demo:python -- minimal-loop
+npm run demo:python -- unknown-tool
+npm run demo:python -- approval-expired
+npm run demo:python -- sql-attack
+npm run demo:python -- release-not-ready
+```
+
+각 명령의 `RESULT PASS`는 정상 결과 또는 기대한 안전 거부를 의미합니다. 전체 시나리오는 `npm run demo:python -- all`, 예상 문자열은 [예상 출력](EXPECTED_OUTPUTS.md)에서 확인합니다.
 
 ## 클라우드 선택 경로
 

@@ -11,6 +11,12 @@
 
 외부 계정은 선택입니다. 기본 실습은 합성 데이터와 로컬 fixture만으로 완결됩니다.
 
+## 수업 전 30분 온보딩
+
+정규 과정 전에 [30분 Quickstart](QUICKSTART_30_MIN.md)를 수행합니다. `npm run doctor`로 환경을 확인하고, Python 결정적 데모에서 최소 루프·미등록 도구·SQL 공격 거부를 관찰한 뒤 개인 실습지를 만듭니다. 정규 수업 시간을 늘릴 수 없다면 개강 전 과제로 제공합니다.
+
+이미지 중심 복습은 [시각 Quick Guide](VISUAL_QUICK_GUIDE.md), 10~20분 단위 진행은 [실습 카드](lab-cards/README.md)를 사용합니다. 강사는 긴 설명 전에 그림의 화살표를 따라 “어디에서 멈추는가”를 질문합니다.
+
 ## 1 WEEK · Rule·Skill 기반 기초 하네스 구축 (4H)
 
 ### 핵심 학습
@@ -126,5 +132,7 @@ Python 3.11+ 조직은 최소 루프·Tool Contract 45분, approval reducer·Eva
 6. 자신의 도메인에 이식할 것과 제거할 것을 구분한다.
 
 Python Companion 수료자는 별도로 `npm run verify:python`과 PY-W1~W3 Evidence를 제출합니다. Python 트랙은 기본 13시간 수료의 필수 조건이 아닙니다.
+
+빠른 이해 점검은 [자가 퀴즈](KNOWLEDGE_CHECKS.md), 종합 적용은 [60~90분 미니 프로젝트](MINI_PROJECT.md)를 선택 평가로 사용할 수 있습니다.
 
 원고 주제와 공개 lesson·source·test의 대응은 [출판 개정판–공개 실습 추적성](BOOK_TO_LAB_TRACEABILITY.md), 제출 형식은 [학습자 Evidence 양식](LEARNER_EVIDENCE_TEMPLATE.md)을 따릅니다.

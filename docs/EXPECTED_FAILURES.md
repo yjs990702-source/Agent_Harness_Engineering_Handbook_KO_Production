@@ -15,6 +15,7 @@
 | 출고 계약       | Evidence 중복·누락·identity 불일치       | 완료 선언과 spec·commit·review·승인·rollback이 분리됨 | `weeks/week-03-service-deployment/src/delivery-artifacts.ts` | `npm run verify:week3`       |
 | Multi-Agent     | ownership·timeout·fan-in 오류            | 병렬 후보가 안전하게 합쳐지지 않음                    | `weeks/week-03-multi-agent/src/coordinator.ts`               | `npm run verify:multi-agent` |
 | 공개 범위       | 필수 파일 누락·범위 밖 파일·workflow     | 공개 저장소 경계 위반                                 | `scripts/validate-repository.mjs`                            | `npm run verify:repo`        |
+| 데모 선택       | `SCENARIO_UNKNOWN`                       | 지원하지 않는 학습 시나리오 이름                      | `python-labs/src/agent_harness_labs/demo.py`                 | `npm run demo:python -- all` |
 
 ## 진단 순서
 
@@ -45,3 +46,5 @@ npm.cmd run verify
 | mypy mutation 오류        | frozen state를 직접 변경                 | reducer가 새 state를 반환하는지                   |
 
 `pytest.skip`, 느슨한 xfail, SQL f-string, 예외 삼키기로 실패를 숨기지 않습니다. focused pytest 뒤 `npm run verify:python`, 공통 계약 변경이면 `npm run verify:all`을 실행합니다.
+
+설치 여부가 불확실하면 먼저 `npm run doctor`를 실행합니다. 진단기의 WARN은 선택 트랙 안내이고 FAIL은 기본 실습을 막는 문제입니다. 자격 증명 값은 진단 대상이 아니며 출력에도 포함하지 않습니다.

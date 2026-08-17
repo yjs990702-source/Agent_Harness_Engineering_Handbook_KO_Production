@@ -42,6 +42,7 @@ export type MinimalLoopOutcome = Readonly<{
 }>;
 
 function parseDecision(value: unknown): ModelDecision {
+  // 모델 SDK의 타입 선언을 신뢰하지 않고 실제 런타임 값을 경계에서 좁힙니다.
   if (typeof value !== "object" || value === null) {
     throw new TypeError("모델 결정은 객체여야 합니다.");
   }
@@ -62,6 +63,7 @@ function parseDecision(value: unknown): ModelDecision {
 function indexTools(
   tools: readonly ToolDefinition[],
 ): ReadonlyMap<string, ToolDefinition> {
+  // 도구 이름을 먼저 인덱싱하면 모델이 임의의 구현을 직접 지정할 수 없습니다.
   const registry = new Map<string, ToolDefinition>();
   for (const tool of tools) {
     if (registry.has(tool.name)) {
@@ -80,6 +82,7 @@ export async function runMinimalLoop(
     maxSteps?: number;
   }>,
 ): Promise<MinimalLoopOutcome> {
+  // step budget은 잘못된 프롬프트나 반복 응답이 무한 실행으로 이어지는 것을 막습니다.
   const maxSteps = input.maxSteps ?? 4;
   if (!Number.isInteger(maxSteps) || maxSteps < 1 || maxSteps > 8) {
     throw new RangeError("maxSteps는 1~8의 정수여야 합니다.");
@@ -90,6 +93,7 @@ export async function runMinimalLoop(
   const events: MinimalLoopEvent[] = [];
 
   for (let step = 1; step <= maxSteps; step += 1) {
+    // 모델에는 목표와 과거 관찰만 전달합니다. executor나 registry 객체는 노출하지 않습니다.
     const decision = parseDecision(
       await input.model.decide({
         goal: input.goal,
@@ -99,6 +103,7 @@ export async function runMinimalLoop(
     events.push({ type: "model_decision", step, decision });
 
     if (decision.type === "final") {
+      // 최종 답도 event와 함께 반환해야 과정과 결과를 나중에 함께 평가할 수 있습니다.
       return {
         status: "completed",
         answer: decision.answer,
@@ -111,6 +116,7 @@ export async function runMinimalLoop(
       throw new Error(`등록되지 않은 도구: ${decision.name}`);
     }
     if (tool.sideEffect === "consequential") {
+      // 1주차는 승인 구현 전이므로 부작용 도구를 “잘 실행”하지 않고 안전하게 멈춥니다.
       events.push({
         type: "policy_block",
         step,
@@ -124,6 +130,7 @@ export async function runMinimalLoop(
       };
     }
 
+    // 신뢰하지 않는 원본 입력이 아니라 validator가 반환한 좁혀진 값만 실행합니다.
     const validatedInput = tool.validateInput(decision.input);
     const observation = await tool.execute(validatedInput);
     observations.push(observation);
@@ -143,6 +150,7 @@ export async function runMinimalLoop(
 }
 
 export class ScriptedModel implements OfflineModel {
+  // 외부 API 대신 정해진 결정을 순서대로 반환해 테스트를 결정적으로 만듭니다.
   readonly #decisions: readonly unknown[];
   #index = 0;
 

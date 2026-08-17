@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">모델과 환경 사이의 하네스 경계</title>
+  <desc id="desc">모델 제안이 도구 계약과 승인 Gate를 거친 뒤 executor와 환경으로 전달되고 모든 단계가 관찰 로그에 기록되는 구조다.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#233143"/></marker><style>.t{font:700 34px Arial;fill:#172333}.h{font:700 24px Arial;fill:#172333}.b{font:400 18px Arial;fill:#344256}.s{font:600 15px Consolas;fill:#172333}.box{stroke:#233143;stroke-width:2}.ar{stroke:#233143;stroke-width:3;fill:none;marker-end:url(#a)}.dash{stroke:#176b87;stroke-width:2;stroke-dasharray:8 8;fill:none}</style></defs>
+  <rect width="1200" height="620" fill="#f7f5ef"/><text x="55" y="65" class="t">모델의 제안은 실행 명령이 아닙니다</text>
+  <rect class="box" x="55" y="160" width="190" height="155" rx="16" fill="#d8eaf2"/><text x="91" y="210" class="h">모델 역할</text><text x="85" y="248" class="b">의도와 입력 제안</text><text x="80" y="280" class="s">ToolProposal</text>
+  <rect class="box" x="335" y="120" width="480" height="240" rx="22" fill="#e8dfc8"/><text x="500" y="165" class="h">HARNESS</text>
+  <rect class="box" x="370" y="200" width="180" height="105" rx="12" fill="#fff"/><text x="405" y="238" class="h">도구 계약</text><text x="390" y="270" class="b">이름·권한·입력</text>
+  <rect class="box" x="600" y="200" width="180" height="105" rx="12" fill="#fff"/><text x="645" y="238" class="h">승인 Gate</text><text x="620" y="270" class="b">identity·expiry</text>
+  <rect class="box" x="905" y="160" width="230" height="155" rx="16" fill="#dce8da"/><text x="963" y="210" class="h">Executor</text><text x="960" y="248" class="b">환경 접촉</text><text x="950" y="280" class="s">ValidatedCall</text>
+  <path class="ar" d="M245 237 H330"/><path class="ar" d="M550 252 H595"/><path class="ar" d="M815 237 H900"/>
+  <rect class="box" x="55" y="440" width="1080" height="105" rx="16" fill="#fff"/><text x="85" y="482" class="h">관찰·Evidence</text><text x="85" y="518" class="b">제안, 검증 결과, 승인, 실행 결과, 오류 코드를 같은 run identity로 기록합니다.</text>
+  <path class="dash" d="M150 320 V438 M575 365 V438 M1020 320 V438"/>
+  <text x="55" y="595" class="b">거부 경로도 정상 결과입니다: UNKNOWN_TOOL · PERMISSION_ESCALATION · APPROVAL_REQUIRED</text>
+</svg>

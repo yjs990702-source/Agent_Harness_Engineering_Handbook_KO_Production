@@ -5,6 +5,7 @@ node_modules/
 coverage/
 dist/
 .venv/
+.practice/
 __pycache__/
 *.egg-info/
 .pytest_cache/

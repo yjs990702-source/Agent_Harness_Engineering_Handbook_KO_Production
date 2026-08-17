@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">30분 하네스 학습 시작 경로</title>
+  <desc id="desc">환경 진단, 최소 루프, 안전 거부, 검증과 Evidence의 네 단계를 왼쪽에서 오른쪽으로 보여 준다.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#233143"/></marker>
+    <style>
+      .title{font:700 34px Arial,sans-serif;fill:#172333}.sub{font:400 18px Arial,sans-serif;fill:#3d4c5e}.n{font:700 20px Arial,sans-serif;fill:#fff}.h{font:700 23px Arial,sans-serif;fill:#172333}.b{font:400 17px Arial,sans-serif;fill:#344256}.cmd{font:600 15px Consolas,monospace;fill:#172333}.card{stroke:#233143;stroke-width:2}.arrow{stroke:#233143;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1200" height="520" fill="#f7f5ef"/>
+  <text x="60" y="65" class="title">30분 안에 만드는 첫 번째 성공 경로</text>
+  <text x="60" y="98" class="sub">각 단계는 작은 명령 하나, 관찰 질문 하나, Evidence 하나로 끝냅니다.</text>
+  <path class="arrow" d="M300 286 H345"/><path class="arrow" d="M575 286 H620"/><path class="arrow" d="M850 286 H895"/>
+  <g transform="translate(55 145)">
+    <rect class="card" width="245" height="270" rx="18" fill="#d8eaf2"/><circle cx="35" cy="35" r="20" fill="#176b87"/><text x="29" y="42" class="n">1</text>
+    <text x="25" y="90" class="h">환경 진단</text><text x="25" y="124" class="b">도구와 파일을 확인</text>
+    <rect x="20" y="158" width="205" height="48" rx="8" fill="#fff" stroke="#176b87"/><text x="32" y="187" class="cmd">npm run doctor</text>
+    <text x="25" y="235" class="b">PASS / WARN / FAIL</text>
+  </g>
+  <g transform="translate(330 145)">
+    <rect class="card" width="245" height="270" rx="18" fill="#e8dfc8"/><circle cx="35" cy="35" r="20" fill="#8b6428"/><text x="29" y="42" class="n">2</text>
+    <text x="25" y="90" class="h">최소 루프</text><text x="25" y="124" class="b">제안과 실행을 분리</text>
+    <rect x="20" y="153" width="205" height="58" rx="8" fill="#fff" stroke="#8b6428"/><text x="32" y="178" class="cmd">demo:python --</text><text x="32" y="199" class="cmd">minimal-loop</text>
+    <text x="25" y="235" class="b">검증 → 실행 → 완료</text>
+  </g>
+  <g transform="translate(605 145)">
+    <rect class="card" width="245" height="270" rx="18" fill="#f2d7d5"/><circle cx="35" cy="35" r="20" fill="#9d3f37"/><text x="29" y="42" class="n">3</text>
+    <text x="25" y="90" class="h">안전 거부</text><text x="25" y="124" class="b">실패 코드의 의미 확인</text>
+    <rect x="20" y="153" width="205" height="58" rx="8" fill="#fff" stroke="#9d3f37"/><text x="32" y="178" class="cmd">unknown-tool</text><text x="32" y="199" class="cmd">sql-attack</text>
+    <text x="25" y="235" class="b">부작용 이전에 BLOCKED</text>
+  </g>
+  <g transform="translate(880 145)">
+    <rect class="card" width="245" height="270" rx="18" fill="#dce8da"/><circle cx="35" cy="35" r="20" fill="#397244"/><text x="29" y="42" class="n">4</text>
+    <text x="25" y="90" class="h">검증·Evidence</text><text x="25" y="124" class="b">완료를 독립적으로 증명</text>
+    <rect x="20" y="153" width="205" height="58" rx="8" fill="#fff" stroke="#397244"/><text x="32" y="178" class="cmd">verify:python</text><text x="32" y="199" class="cmd">lab:new</text>
+    <text x="25" y="235" class="b">명령 + 결과 + 남은 위험</text>
+  </g>
+  <text x="60" y="475" class="sub">원칙: 실패한 정거장으로 돌아가 가장 작은 검증부터 다시 실행합니다.</text>
+</svg>

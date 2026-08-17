@@ -18,3 +18,9 @@ Node 의존성의 정확한 버전은 `package-lock.json`, Python 직접 개발 
 ## 연구·읽기 자료
 
 `docs/RESEARCH_TO_PRACTICE.md`의 논문·공개 프로젝트·서적은 설계 근거와 추가 읽기 링크입니다. 해당 원본·도식·소스 코드는 이 저장소 배포물에 포함되지 않으며, 각 권리자의 라이선스와 저작권을 따릅니다. 이 저장소의 구현과 문서는 원리를 교육할 목적으로 독립 작성했습니다.
+
+## Diagram Design 참고
+
+`docs/visual-guide`의 독립 작성 SVG는 명확한 윤곽선, 제한된 색상, 라벨 우선, 정적 기본값이라는 시각 원칙을 설계할 때 [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design)을 참고했습니다. 원 프로젝트의 코드·아이콘·예제 이미지를 복제하지 않았습니다.
+
+Diagram Design은 MIT License이며 Copyright (c) 2025 Cathryn Lavery입니다. 원 프로젝트의 라이선스와 저작권은 해당 권리자에게 있습니다.
