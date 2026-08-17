@@ -14,18 +14,18 @@
 
 ## 결과
 
-| 항목                | 결과 | 증거                                                      |
-| ------------------- | ---- | --------------------------------------------------------- |
-| 저장소 공개 범위    | PASS | 필수 파일 100개, 강의 45개, source 84개, 범위 밖 파일 0개 |
-| GitHub Actions 금지 | PASS | workflow 0개                                              |
-| 공개 라이선스       | PASS | 교육 코드·문서 Apache-2.0, 출판 원고·내부 자료 제외       |
-| 포맷                | PASS | Prettier 전체 일치                                        |
-| lint·타입 검사      | PASS | 4개 workspace 모두 `tsc --noEmit` 통과                    |
-| TypeScript 테스트   | PASS | 테스트 파일 24개, 테스트 122개, skip 0개                  |
-| Python 검증         | PASS | Ruff·mypy strict·compileall, pytest 41개, skip 0개        |
-| 빌드                | PASS | 4개 workspace 모두 통과                                   |
-| 의존성 감사         | PASS | `npm audit` 취약점 0건                                    |
-| 새 환경 재현        | 예정 | clean clone에서 Node·Python을 새로 설치한 뒤 최종 확인    |
+| 항목                | 결과 | 증거                                                              |
+| ------------------- | ---- | ----------------------------------------------------------------- |
+| 저장소 공개 범위    | PASS | 필수 파일 100개, 강의 45개, source 84개, 범위 밖 파일 0개         |
+| GitHub Actions 금지 | PASS | workflow 0개                                                      |
+| 공개 라이선스       | PASS | 교육 코드·문서 Apache-2.0, 출판 원고·내부 자료 제외               |
+| 포맷                | PASS | Prettier 전체 일치                                                |
+| lint·타입 검사      | PASS | 4개 workspace 모두 `tsc --noEmit` 통과                            |
+| TypeScript 테스트   | PASS | 테스트 파일 24개, 테스트 122개, skip 0개                          |
+| Python 검증         | PASS | Ruff·mypy strict·compileall, pytest 41개, skip 0개                |
+| 빌드                | PASS | 4개 workspace 모두 통과                                           |
+| 의존성 감사         | PASS | `npm audit` 취약점 0건                                            |
+| 새 환경 재현        | PASS | clean clone에서 `npm ci`, 새 venv 설치, `npm run verify:all` 통과 |
 
 TypeScript 과정별 테스트 수는 1주차 19개, 2주차 36개, 3주차 서비스 배포 31개이며, 선택 심화 멀티 에이전트는 36개다. Python Companion은 Week 1·2·3과 선택 심화를 합쳐 41개다.
 
